@@ -1,7 +1,7 @@
 import NotFound from '@screens/not-found/NotFound'
 import { Navigate, Route, Routes } from 'react-router'
 
-import { Layout } from '@/components/layout/Layout'
+import { Layout } from '@/components/Layout'
 
 import { appRoutes } from './routes.config'
 
