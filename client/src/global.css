@@ -3,9 +3,9 @@
 @import 'tailwindcss';
 
 @theme {
-	--color-primary: #2d1c7f;
-	--color-primary-light: #3d2c9f;
-	--color-bg-main: #c8b3f6;
+	--color-primary: #1d032e;
+	--color-primary-light: #4a116b;
+	--color-bg-main: #8b8b8b;
 	--color-text-dark: #1a1a2e;
 	--color-text-muted: #6b6b80;
 	--color-white: #ffffff;
@@ -20,4 +20,19 @@ body{
 }
 .ant-btn {
   font-family: var(--font-body) !important;
+}
+
+.site-footer .ant-btn.ant-btn-link {
+	padding: 0 !important;
+	color: rgba(255,255,255,0.6) !important;
+	text-decoration: none !important;
+	display: inline-block !important;
+	font-size: 16px !important;
+}
+.site-footer .ant-btn.ant-btn-link:hover {
+	color: rgba(255,255,255,1) !important;
+}
+.site-footer .ant-btn[type="text"],
+.site-footer .ant-btn[type="link"] {
+	background: transparent !important;
 }
