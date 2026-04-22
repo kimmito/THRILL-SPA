@@ -9,7 +9,7 @@ export const useRouteTitle = (routes: IRoute[]) => {
 	useEffect(() => {
 		const currentRoute = routes.find(route => route.path === location.pathname)
 		document.title = currentRoute
-			? `Euphoria SPA | ${currentRoute.title}`
-			: 'Euphoria SPA'
+			? `Салон красоты THRILL | ${currentRoute.title}`
+			: 'Салон красоты THRILL'
 	}, [location.pathname, routes])
 }
