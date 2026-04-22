@@ -1,6 +1,8 @@
 
 import {createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit"
+import { services } from '@/data/services'
+import { offers } from '@/data/offers'
 
 type PriceTabsState = {
   category: string
@@ -18,7 +20,12 @@ const priceTabsSlice = createSlice({
   reducers: {
     setCategory(state, action: PayloadAction<string>) {
       state.category = action.payload
-      state.service = ''
+      if (action.payload === 'offers') {
+        state.service = offers.length ? offers[0].id : ''
+      } else {
+        const first = services.find(s => s.categoryId === action.payload)
+        state.service = first ? first.id : ''
+      }
     },
     setService(state, action: PayloadAction<string>) {
       state.service = action.payload
