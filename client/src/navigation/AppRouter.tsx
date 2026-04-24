@@ -1,9 +1,9 @@
-import NotFound from '@screens/not-found/NotFound'
 import { Navigate, Route, Routes } from 'react-router'
 
 import { Layout } from '@/components/Layout'
 
 import { appRoutes } from './routes.config'
+import NotFound from '@/pages/not-found/NotFound'
 
 export const AppRouter = () => {
 	return (

@@ -1,6 +1,8 @@
-import Home from '@screens/home/Home'
-import Profile from '@screens/profile/Profile'
 import type { ComponentType } from 'react'
+
+import Home from '@/pages/home/Home'
+import Profile from '@/pages/profile/Profile'
+import Shop from '@/pages/shop/Shop'
 
 export interface IRoute {
 	path: string
@@ -18,5 +20,10 @@ export const appRoutes: IRoute[] = [
 		path: '/profile',
 		title: 'Профиль',
 		component: Profile
+	},
+	{
+		path: '/shop',
+		title: 'Магазин',
+		component: Shop
 	}
 ]
