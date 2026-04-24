@@ -1,38 +1,63 @@
 @import url('https://fonts.googleapis.com/css2?family=Sekuya&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arsenal+SC:wght@400;700&family=Sekuya&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Arsenal+SC:wght@400;700&display=swap');
+
+@layer theme, base, antd, components, utilities;
 @import 'tailwindcss';
 
 @theme {
-	--color-primary: #1d032e;
-	--color-primary-light: #4a116b;
-	--color-bg-main: #8b8b8b;
-	--color-text-dark: #1a1a2e;
-	--color-text-muted: #6b6b80;
-	--color-white: #ffffff;
+	--color-base: #191526;
+	--color-line: #786a99;
+	--color-copy: #cccccc;
+	--color-panel: #5f5f5f;
+	--color-accent: #ffe476;
+	--color-button: #3b3658;
+	--color-button-hover: #3b3658;
+	--color-button-hover-text: #414141;
+	--color-icon: #5e4f80;
+
 	--font-title: 'Sekuya', sans-serif;
 	--font-body: 'Arsenal SC', sans-serif;
+
+	--radius-card: 1rem;
 }
 
-body{
-	background-color: var(--color-bg-main);
-	font-family: var(--font-body);
-	color: var(--color-text-dark);
-}
-.ant-btn {
-  font-family: var(--font-body) !important;
+@layer base {
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
+	body {
+		min-height: 100vh;
+		background-color: var(--color-base);
+		color: var(--color-copy);
+		font-family: var(--font-body);
+		border-color: var(--color-line);
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	button,
+	input,
+	textarea,
+	select {
+		font-family: var(--font-body);
+	}
 }
 
-.site-footer .ant-btn.ant-btn-link {
-	padding: 0 !important;
-	color: rgba(255,255,255,0.6) !important;
-	text-decoration: none !important;
-	display: inline-block !important;
-	font-size: 16px !important;
-}
-.site-footer .ant-btn.ant-btn-link:hover {
-	color: rgba(255,255,255,1) !important;
-}
-.site-footer .ant-btn[type="text"],
-.site-footer .ant-btn[type="link"] {
-	background: transparent !important;
+@layer components {
+	.ant-btn {
+		border-radius: 0;
+		border-color: var(--color-line);
+		font-family: var(--font-body);
+		font-weight: 400;
+	}
 }
