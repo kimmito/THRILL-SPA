@@ -3,37 +3,30 @@ import { useContext } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
 import { FaTelegramPlane, FaVk } from 'react-icons/fa'
 import { IoIosMail } from 'react-icons/io'
-import { useDispatch } from 'react-redux'
 
 import { AppButton } from '@/components/AppButton'
+
 import { ServicesRefContext } from '@/contexts/servicesRefContext'
-import { services } from '@/data/services'
-import { setCategory, setService } from '@/features/priceTabs/priceTabsSlice'
+import { categories } from '@/data/categories'
 
 const staticFooterItems = [
-	{ key: 's0', label: services[0].name, serviceIndex: 0, span: 6 },
+	{ key: 's0', label: categories[0].name, serviceIndex: 0, span: 6 },
 	{ key: 'works', label: 'Наши работы', span: 6 },
 	{ key: 'price', label: 'Прайс', span: 6 },
 	{ key: 'contacts', label: 'Контакты', span: 6 },
 
-	{ key: 's1', label: services[1].name, serviceIndex: 1, span: 6 },
+	{ key: 's1', label: categories[1].name, serviceIndex: 1, span: 6 },
 	{ key: 'gallery', label: 'Фотогалерея', span: 6 },
 	{ key: 'empty-12', label: null, span: 12 },
 
-	{ key: 's2', label: services[2].name, serviceIndex: 2, span: 6 },
+	{ key: 's2', label: categories[2].name, serviceIndex: 2, span: 6 },
 	{ key: 'empty-18', label: null, span: 18 },
 
-	{ key: 's3', label: services[3].name, serviceIndex: 3, span: 6 }
+	{ key: 's3', label: categories[3].name, serviceIndex: 3, span: 6 }
 ]
 
 const Footer = () => {
 	const ref = useContext(ServicesRefContext)
-	const dispatch = useDispatch()
-	const handleServiceClick = (serviceId: string, categoryId: string) => {
-		dispatch(setCategory(categoryId))
-		dispatch(setService(serviceId))
-		ref?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-	}
 
 	const footerItems = staticFooterItems
 	const social = [
@@ -74,10 +67,10 @@ const Footer = () => {
 									onClick={
 										item.serviceIndex !== undefined
 											? () =>
-													handleServiceClick(
-														services[item.serviceIndex].id,
-														services[item.serviceIndex].categoryId
-													)
+													ref?.current?.scrollIntoView({
+														behavior: 'smooth',
+														block: 'start'
+													})
 											: undefined
 									}
 								>
