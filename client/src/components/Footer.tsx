@@ -1,34 +1,43 @@
 import { Col, Row } from 'antd'
-import { useContext } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
 import { FaTelegramPlane, FaVk } from 'react-icons/fa'
 import { IoIosMail } from 'react-icons/io'
+import { useLocation, useNavigate } from 'react-router'
 
 import { AppButton } from '@/components/AppButton'
 
-import { ServicesRefContext } from '@/contexts/servicesRefContext'
 import { categories } from '@/data/categories'
 
 const staticFooterItems = [
-	{ key: 's0', label: categories[0].name, serviceIndex: 0, span: 6 },
+	{ key: 's0', label: categories[0].name, categoryId: categories[0].id, span: 6 },
 	{ key: 'works', label: 'Наши работы', span: 6 },
-	{ key: 'price', label: 'Прайс', span: 6 },
+	{ key: 'price', label: 'Прайс', hash: 'services-price', span: 6 },
 	{ key: 'contacts', label: 'Контакты', span: 6 },
 
-	{ key: 's1', label: categories[1].name, serviceIndex: 1, span: 6 },
+	{ key: 's1', label: categories[1].name, categoryId: categories[1].id, span: 6 },
 	{ key: 'gallery', label: 'Фотогалерея', span: 6 },
 	{ key: 'empty-12', label: null, span: 12 },
 
-	{ key: 's2', label: categories[2].name, serviceIndex: 2, span: 6 },
+	{ key: 's2', label: categories[2].name, categoryId: categories[2].id, span: 6 },
 	{ key: 'empty-18', label: null, span: 18 },
 
-	{ key: 's3', label: categories[3].name, serviceIndex: 3, span: 6 }
+	{ key: 's3', label: categories[3].name, categoryId: categories[3].id, span: 6 }
 ]
 
 const Footer = () => {
-	const ref = useContext(ServicesRefContext)
+	const navigate = useNavigate()
+	const location = useLocation()
 
 	const footerItems = staticFooterItems
+	const scrollToServices = (hash: string) => {
+		if (location.pathname !== '/') {
+			navigate({ pathname: '/', hash })
+			return
+		}
+
+		window.history.pushState(null, '', `#${hash}`)
+		window.dispatchEvent(new HashChangeEvent('hashchange'))
+	}
 	const social = [
 		{
 			key: 'ig',
@@ -65,12 +74,10 @@ const Footer = () => {
 									appVariant='link'
 									className='inline-block text-[16px]'
 									onClick={
-										item.serviceIndex !== undefined
-											? () =>
-													ref?.current?.scrollIntoView({
-														behavior: 'smooth',
-														block: 'start'
-													})
+										item.categoryId
+											? () => scrollToServices(`services-price-${item.categoryId}`)
+											: item.hash
+												? () => scrollToServices(item.hash)
 											: undefined
 									}
 								>

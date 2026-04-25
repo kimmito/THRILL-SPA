@@ -20,7 +20,7 @@ export const HeroSection = () => {
 	]
 	const navigate = useNavigate()
 	return (
-		<section className='flex h-[92vh] max-w-350 mx-auto px-4 mt-10 items-center justify-between gap-20'>
+		<section className='flex h-[92vh] max-w-375 mx-auto px-4 mt-10 items-center justify-between gap-20'>
 			<div className='flex w-1/3 mx-20 text-center items-center justify-center flex-col '>
 				<nav className='w-full mb-8'>
 					<ul className='flex justify-center gap-10 mb-10 w-full'>

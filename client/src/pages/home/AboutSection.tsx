@@ -2,7 +2,7 @@ const AboutSection = () => {
 	return (
 		<section className='flex flex-row mt-10 items-center justify-center'>
 			<div className="flex flex-1 bg-[url('/src/assets/images/brush.png')] bg-cover h-270 bg-center opacity-20 ">
-				<div className='flex flex-row'>
+				<div className='flex flex-row select-none'>
 					<p className=' font-title text-[190px] rotate-90 -mx-200 text-black uppercase'>
 						safety
 					</p>
