@@ -3,7 +3,7 @@ import { IoMdMailOpen } from 'react-icons/io'
 
 const MapSection = () => {
 	return (
-		<section className='flex flex-col overflow-hidden rounded-card shadow-lg shadow-black/20 lg:flex-row'>
+		<section className='flex flex-col max-w-370 mx-auto overflow-hidden rounded-card shadow-lg shadow-black/20 lg:flex-row'>
 			<div className='flex w-full flex-col justify-center gap-1 bg-panel p-10 pl-8 text-copy lg:w-1/2 lg:pl-20'>
 				<h3 className='mb-3 text-2xl font-bold'>Краеведа Соловьёва</h3>
 				<p className='mb-10 text-sm text-copy/60'>

@@ -1,9 +1,11 @@
-import ScrollVelocity from '@/components/ScrollVelocity'
+import ScrollVelocity from '@/components/ui/ScrollVelocity'
 
+import AboutSection from './AboutSection'
 import { HeroSection } from './HeroSection'
+import OffersSection from './OffersSection'
 import { ServicesSection } from './ServicesSection'
 import MapSection from '@/pages/home/MapSection'
-import AboutSection from './AboutSection'
+import PortfolioSection from './PortfolioSection'
 
 const Home = () => {
 	return (
@@ -13,13 +15,23 @@ const Home = () => {
 				texts={['THRILL', 'THRILL', 'THRILL']}
 				velocity={30}
 				className='select-none'
-				numCopies={50}
+				numCopies={100}
 				damping={75}
 				stiffness={500}
 			/>
 			<AboutSection />
 
 			<ServicesSection />
+			<OffersSection />
+			<ScrollVelocity
+				texts={['THRILL', 'THRILL', 'THRILL']}
+				velocity={30}
+				className='select-none'
+				numCopies={100}
+				damping={75}
+				stiffness={500}
+			/>
+			<PortfolioSection />
 			<MapSection />
 		</>
 	)

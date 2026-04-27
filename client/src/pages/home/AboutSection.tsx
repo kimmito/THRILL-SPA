@@ -1,18 +1,18 @@
 const AboutSection = () => {
 	return (
 		<section className='flex flex-row mt-10 items-center justify-center'>
-			<div className="flex flex-1 bg-[url('/src/assets/images/brush.png')] bg-cover h-270 bg-center opacity-20 ">
-				<div className='flex flex-row select-none'>
-					<p className=' font-title text-[190px] rotate-90 -mx-200 text-black uppercase'>
+			<div className="relative flex flex-1 h-270 overflow-hidden before:absolute before:inset-0 before:bg-[url('/src/assets/images/brush.png')] before:bg-cover before:bg-center before:opacity-70 before:mix-blend-color-dodge before:content-['']">
+				<div className='relative z-10 flex flex-row select-none'>
+					<p className=' font-title text-[190px] -rotate-90  text-[#17101f] uppercase'>
 						safety
 					</p>
-					<p className=' font-title text-[150px] rotate-90 -mr-200 text-black uppercase'>
+					<p className='font-title text-[150px] -rotate-90 -ml-185 text-[#17101f] uppercase'>
 						freedom
 					</p>
-					<p className=' font-title text-[150px] rotate-90 -mr-200 text-black uppercase'>
+					<p className=' font-title text-[145px] -rotate-90 -ml-200 text-[#17101f] uppercase'>
 						creative
 					</p>
-					<p className=' font-title text-[155px] rotate-90 -mr-200 text-black uppercase'>
+					<p className=' font-title text-[150px] -rotate-90 -mx-200 text-[#17101f] uppercase'>
 						comfort
 					</p>
 				</div>
