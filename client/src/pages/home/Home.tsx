@@ -13,11 +13,6 @@ const Home = () => {
 			<HeroSection />
 			<ScrollVelocity
 				texts={['THRILL', 'THRILL', 'THRILL']}
-				velocity={30}
-				className='select-none'
-				numCopies={100}
-				damping={75}
-				stiffness={500}
 			/>
 			<AboutSection />
 
@@ -25,11 +20,6 @@ const Home = () => {
 			<OffersSection />
 			<ScrollVelocity
 				texts={['THRILL', 'THRILL', 'THRILL']}
-				velocity={30}
-				className='select-none'
-				numCopies={100}
-				damping={75}
-				stiffness={500}
 			/>
 			<PortfolioSection />
 			<MapSection />

@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import {
 	motion,
 	useAnimationFrame,
+	useInView,
 	useMotionValue,
 	useScroll,
 	useSpring,
@@ -99,6 +100,7 @@ function VelocityText({
 	)
 
 	const viewportRef = useRef<HTMLDivElement>(null)
+	const isInView = useInView(viewportRef, { amount: 0.1, margin: '200px 0px'})
 	const copyRef = useRef<HTMLSpanElement>(null)
 	const viewportWidth = useElementWidth(viewportRef)
 	const copyWidth = useElementWidth(copyRef)
@@ -125,6 +127,7 @@ function VelocityText({
 
 	const directionFactor = useRef(1)
 	useAnimationFrame((_t, delta) => {
+		if (!isInView) return
 		let moveBy = directionFactor.current * baseVelocity * (delta / 1000)
 
 		if (velocityFactor.get() < 0) {
@@ -180,11 +183,11 @@ function VelocityText({
 export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
 	scrollContainerRef,
 	texts = [],
-	velocity = 100,
+	velocity = 30,
 	className = '',
-	damping = 50,
-	stiffness = 400,
-	numCopies,
+	damping = 75,
+	stiffness = 500,
+	numCopies = 100,
 	velocityMapping = { input: [0, 1000], output: [0, 5] },
 	parallaxClassName,
 	scrollerClassName,
@@ -192,7 +195,7 @@ export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
 	scrollerStyle
 }) => {
 	return (
-		<section className='relative left-1/2 right-1/2 ml-[-50dvw] mr-[-50dvw] w-[100dvw] overflow-x-clip'>
+		<section className='relative left-1/2 right-1/2 ml-[-50dvw] mr-[-50dvw] w-[100dvw] overflow-x-clip select-none'>
 			{texts.map((text, index) => (
 				<VelocityText
 					key={index}

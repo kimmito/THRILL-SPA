@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { PointerEvent } from 'react'
+import { useInView } from 'motion/react'
 
 interface CurvedLoopItem {
 	image: string
@@ -27,6 +28,8 @@ const CurvedLoop = ({
 	const hasItems = items.length > 0
 	const loopItems = hasItems ? [...items, ...items] : []
 	const loopDistance = items.length * (ITEM_SIZE + ITEM_GAP)
+	const viewportRef = useRef<HTMLDivElement>(null)
+	const isInView = useInView(viewportRef, { amount: 0.1, margin: '200px 0px' })
 	const [offset, setOffset] = useState(
 		direction === 'right' ? -loopDistance : 0
 	)
@@ -49,6 +52,8 @@ const CurvedLoop = ({
 	}
 
 	useEffect(() => {
+		if (!hasItems || !isInView) return
+
 		let frame = 0
 		let lastTs = 0
 
@@ -57,7 +62,7 @@ const CurvedLoop = ({
 			const delta = ts - lastTs
 			lastTs = ts
 
-			if (hasItems && !dragRef.current) {
+			if (!dragRef.current) {
 				let inertialMove = 0
 				if (Math.abs(inertiaVelocityRef.current) > INERTIA_MIN_VELOCITY) {
 					inertialMove = inertiaVelocityRef.current * (delta / 16.67)
@@ -81,7 +86,7 @@ const CurvedLoop = ({
 
 		frame = requestAnimationFrame(step)
 		return () => cancelAnimationFrame(frame)
-	}, [hasItems, isHovered, loopDistance])
+	}, [hasItems, isHovered, isInView, loopDistance])
 
 	const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
 		if (!interactive) return
@@ -127,6 +132,7 @@ const CurvedLoop = ({
 
 	return (
 		<div
+			ref={viewportRef}
 			className={`portfolio-loop w-full overflow-hidden my-6 py-10 ${cursorClass}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => {
