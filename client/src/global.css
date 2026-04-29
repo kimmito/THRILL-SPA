@@ -6,6 +6,7 @@
 
 @theme {
 	--color-base: #191526;
+	--color-head: #e8e8e8;
 	--color-line: #786a99;
 	--color-copy: #cccccc;
 	--color-panel: #5f5f5f;
@@ -87,8 +88,30 @@
 @layer components {
 	.ant-btn {
 		border-radius: 0;
+		color: var(--color-head);
 		border-color: var(--color-line);
 		font-family: var(--font-body);
 		font-weight: 400;
+	}
+
+	.offers-title-animated {
+		animation: offerTitleIn 420ms ease;
+	}
+}
+
+@keyframes offerTitleIn {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.offers-title-animated {
+		animation: none;
 	}
 }
