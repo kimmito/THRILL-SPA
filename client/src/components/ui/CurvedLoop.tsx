@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PointerEvent } from 'react'
 import { useInView } from 'motion/react'
 
@@ -14,7 +14,7 @@ interface CurvedLoopProps {
 }
 
 const ITEM_SIZE = 200
-const ITEM_GAP = 24
+const ITEM_GAP = 16
 const PIXELS_PER_SECOND = 25
 const HOVER_TRANSITION_SECONDS = 0.2
 const INERTIA_FRICTION = 0.98
@@ -45,11 +45,11 @@ const CurvedLoop = ({
 		directionRef.current = direction
 	}, [direction])
 
-	const wrapOffset = (value: number) => {
+	const wrapOffset = useCallback((value: number) => {
 		if (loopDistance <= 0) return 0
 		const wrapped = ((value % loopDistance) + loopDistance) % loopDistance
 		return wrapped - loopDistance
-	}
+	}, [loopDistance])
 
 	useEffect(() => {
 		if (!hasItems || !isInView) return
@@ -86,7 +86,7 @@ const CurvedLoop = ({
 
 		frame = requestAnimationFrame(step)
 		return () => cancelAnimationFrame(frame)
-	}, [hasItems, isHovered, isInView, loopDistance])
+	}, [hasItems, isHovered, isInView, loopDistance, wrapOffset])
 
 	const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
 		if (!interactive) return
