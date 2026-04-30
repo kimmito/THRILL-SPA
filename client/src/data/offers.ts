@@ -36,17 +36,17 @@ export const tempOffers: Offer[] = [
 			{
 				id: 'repeat-visits-1',
 				title: '1 посещение',
-				value: '-1000 руб.'
+				value: 'Активация'
 			},
 			{
 				id: 'repeat-visits-2',
 				title: '2 посещение',
-				value: '-800 руб.'
+				value: '-800 ₽'
 			},
 			{
 				id: 'repeat-visits-3',
 				title: '3 посещение',
-				value: '-500 руб.'
+				value: '-500 ₽'
 			}
 		]
 	},
