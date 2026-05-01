@@ -4,10 +4,10 @@ import { useCallback, useRef } from 'react'
 import { IoChevronBack } from 'react-icons/io5'
 
 import { AppButton } from '@/components/ui/AppButton'
-import type { Offer } from '@/data/offers'
 
 import GiftCertificateSlide from './GiftCertificateSlide'
 import RepeatVisitDiscountSlide from './RepeatVisitDiscountSlide'
+import type { Offer } from '@/data/offers'
 
 type OffersCarouselProps = {
 	offers: Offer[]
@@ -45,8 +45,9 @@ const OffersCarousel = ({
 	}
 
 	return (
-		<div className='relative'>
+		<div className='relative -mb-20'>
 			<Carousel
+				autoplay
 				ref={carouselRef}
 				accessibility={false}
 				autoplaySpeed={10000}
@@ -65,25 +66,23 @@ const OffersCarousel = ({
 				))}
 			</Carousel>
 
-			<div className='flex justify-between absolute w-full px-20 bottom-10'>
-				<AppButton
-					aria-label='Предыдущее предложение'
-					appVariant='icon'
-					className='group h-10! w-10! min-w-10! rounded-none! p-0!'
-					onClick={() => carouselRef.current?.prev()}
-				>
-					<IoChevronBack className='text-xl text-line transition-colors duration-200 ease group-hover:text-accent' />
-				</AppButton>
+			<AppButton
+				aria-label='Предыдущее предложение'
+				appVariant='icon'
+				className='group h-10! w-10! min-w-10! rounded-none! p-0! absolute bottom-17 left-17'
+				onClick={() => carouselRef.current?.prev()}
+			>
+				<IoChevronBack className='text-xl text-line transition-colors duration-200 ease group-hover:text-accent' />
+			</AppButton>
 
-				<AppButton
-					aria-label='Следующее предложение'
-					appVariant='icon'
-					className='group h-10! w-10! min-w-10! rounded-none! p-0!'
-					onClick={() => carouselRef.current?.next()}
-				>
-					<IoChevronBack className='rotate-180 text-xl text-line transition-colors duration-200 ease group-hover:text-accent' />
-				</AppButton>
-			</div>
+			<AppButton
+				aria-label='Следующее предложение'
+				appVariant='icon'
+				className='group h-10! w-10! min-w-10! rounded-none! p-0! absolute bottom-17 right-17'
+				onClick={() => carouselRef.current?.next()}
+			>
+				<IoChevronBack className='rotate-180 text-xl text-line transition-colors duration-200 ease group-hover:text-accent' />
+			</AppButton>
 		</div>
 	)
 }

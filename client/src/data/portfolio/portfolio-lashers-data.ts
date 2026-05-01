@@ -5,51 +5,39 @@ import brows04 from '@/assets/images/portfolio/portfolio-lashes-02.png'
 
 export const portfolioLashesData = [
 	{
-		image: brows01,
-		text: ''
+		image: brows01
 	},
 	{
-		image: brows02,
-		text: ''
+		image: brows02
 	},
 	{
-		image: brows03,
-		text: ''
+		image: brows03
 	},
 	{
-		image: brows04,
-		text: ''
+		image: brows04
 	},
 	{
-		image: brows03,
-		text: ''
+		image: brows03
 	},
 	{
-		image: brows02,
-		text: ''
+		image: brows02
 	},
 	{
-		image: brows01,
-		text: ''
+		image: brows01
 	},
 	{
-		image: brows02,
-		text: ''
+		image: brows02
 	},
 	{
-		image: brows03,
-		text: ''
+		image: brows03
 	},
 	{
-		image: brows04,
-		text: ''
+		image: brows04
 	},
 	{
-		image: brows03,
-		text: ''
+		image: brows03
 	},
 	{
-		image: brows02,
-		text: ''
+		image: brows02
 	}
 ]

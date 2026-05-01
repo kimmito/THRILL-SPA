@@ -4,13 +4,14 @@ import { useInView } from 'motion/react'
 
 interface CurvedLoopItem {
 	image: string
-	text?: string
 }
 
 interface CurvedLoopProps {
 	items: CurvedLoopItem[]
+	altPrefix: string
 	direction?: 'left' | 'right'
 	interactive?: boolean
+	onItemClick?: (item: CurvedLoopItem) => void
 }
 
 const ITEM_SIZE = 200
@@ -19,11 +20,14 @@ const PIXELS_PER_SECOND = 25
 const HOVER_TRANSITION_SECONDS = 0.2
 const INERTIA_FRICTION = 0.98
 const INERTIA_MIN_VELOCITY = 0.08
+const DRAG_THRESHOLD = 8
 
 const CurvedLoop = ({
 	items,
+	altPrefix,
 	direction = 'left',
-	interactive = true
+	interactive = true,
+	onItemClick
 }: CurvedLoopProps) => {
 	const hasItems = items.length > 0
 	const loopItems = hasItems ? [...items, ...items] : []
@@ -36,9 +40,14 @@ const CurvedLoop = ({
 	const [isDragging, setIsDragging] = useState(false)
 	const [isHovered, setIsHovered] = useState(false)
 	const dragRef = useRef(false)
+	const activeItemRef = useRef<CurvedLoopItem | null>(null)
+	const startXRef = useRef(0)
+	const startYRef = useRef(0)
 	const lastXRef = useRef(0)
 	const velocityRef = useRef(0)
 	const inertiaVelocityRef = useRef(0)
+	const wasDraggedRef = useRef(false)
+	const suppressClickRef = useRef(false)
 	const directionRef = useRef<'left' | 'right'>(direction)
 
 	useEffect(() => {
@@ -90,11 +99,23 @@ const CurvedLoop = ({
 
 	const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
 		if (!interactive) return
+		const itemButton =
+			event.target instanceof Element
+				? event.target.closest<HTMLButtonElement>('[data-loop-item-index]')
+				: null
+		const itemIndex = itemButton?.dataset.loopItemIndex
+
 		dragRef.current = true
 		setIsDragging(true)
+		activeItemRef.current =
+			itemIndex === undefined ? null : loopItems[Number(itemIndex)] || null
+		startXRef.current = event.clientX
+		startYRef.current = event.clientY
 		lastXRef.current = event.clientX
 		velocityRef.current = 0
 		inertiaVelocityRef.current = 0
+		wasDraggedRef.current = false
+		suppressClickRef.current = false
 		event.currentTarget.setPointerCapture(event.pointerId)
 	}
 
@@ -102,6 +123,12 @@ const CurvedLoop = ({
 		if (!interactive || !dragRef.current) return
 		const dx = event.clientX - lastXRef.current
 		lastXRef.current = event.clientX
+		if (
+			Math.abs(event.clientX - startXRef.current) > DRAG_THRESHOLD ||
+			Math.abs(event.clientY - startYRef.current) > DRAG_THRESHOLD
+		) {
+			wasDraggedRef.current = true
+		}
 		velocityRef.current = dx
 		inertiaVelocityRef.current = dx
 
@@ -122,6 +149,23 @@ const CurvedLoop = ({
 		velocityRef.current = 0
 	}
 
+	const onPointerUp = () => {
+		const clickedItem = activeItemRef.current
+
+		endDrag()
+		activeItemRef.current = null
+
+		if (clickedItem && !wasDraggedRef.current) {
+			suppressClickRef.current = true
+			onItemClick?.(clickedItem)
+		}
+	}
+
+	const onPointerCancel = () => {
+		endDrag()
+		activeItemRef.current = null
+	}
+
 	const cursorClass = interactive
 		? isDragging
 			? 'cursor-grabbing'
@@ -133,7 +177,7 @@ const CurvedLoop = ({
 	return (
 		<div
 			ref={viewportRef}
-			className={`portfolio-loop w-full overflow-hidden my-6 py-10 ${cursorClass}`}
+			className={`portfolio-loop w-full overflow-hidden my-12 py-8 ${cursorClass}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => {
 				setIsHovered(false)
@@ -141,8 +185,8 @@ const CurvedLoop = ({
 			}}
 			onPointerDown={onPointerDown}
 			onPointerMove={onPointerMove}
-			onPointerUp={endDrag}
-			onPointerCancel={endDrag}
+			onPointerUp={onPointerUp}
+			onPointerCancel={onPointerCancel}
 			style={{ touchAction: 'pan-y' }}
 		>
 			<style>
@@ -164,9 +208,9 @@ const CurvedLoop = ({
 				}}
 			>
 				{loopItems.map((item, index) => (
-					<figure
+					<div
 						key={`${item.image}-${index}`}
-						className='relative z-0 shrink-0 overflow-hidden bg-panel transition-transform hover:z-10 hover:scale-[1.5]'
+						className='relative z-0 shrink-0 overflow-hidden bg-panel transition-transform hover:z-10 hover:scale-[1.3]'
 						style={{
 							contain: 'paint',
 							height: ITEM_SIZE,
@@ -174,20 +218,29 @@ const CurvedLoop = ({
 							width: ITEM_SIZE
 						}}
 					>
-						<img
-							src={item.image}
-							alt={item.text || ''}
-							className='h-full w-full object-cover'
-							decoding='async'
-							draggable={false}
-							loading='lazy'
-						/>
-						{item.text ? (
-							<figcaption className='absolute inset-x-0 bottom-0 bg-base/75 px-4 py-3 text-xl uppercase text-copy'>
-								{item.text}
-							</figcaption>
-						) : null}
-					</figure>
+						<button
+							type='button'
+							data-loop-item-index={index}
+							className='block h-full w-full cursor-pointer border-0 bg-transparent p-0'
+							aria-label='Открыть фото'
+							onClick={() => {
+								if (suppressClickRef.current || wasDraggedRef.current) {
+									suppressClickRef.current = false
+									return
+								}
+								onItemClick?.(item)
+							}}
+						>
+							<img
+								src={item.image}
+								alt={`${altPrefix} ${index % items.length + 1}`}
+								className='h-full w-full object-cover'
+								decoding='async'
+								draggable={false}
+								loading='lazy'
+							/>
+						</button>
+					</div>
 				))}
 			</div>
 		</div>

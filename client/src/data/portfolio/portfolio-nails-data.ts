@@ -9,35 +9,27 @@ import manicure08 from '@/assets/images/portfolio/portfolio-manicure-08.png'
 
 export const portfolioNailsData = [
 	{
-		image: manicure01,
-		text: ''
+		image: manicure01
 	},
 	{
-		image: manicure02,
-		text: ''
+		image: manicure02
 	},
 	{
-		image: manicure03,
-		text: ''
+		image: manicure03
 	},
 	{
-		image: manicure04,
-		text: ''
+		image: manicure04
 	},
 	{
-		image: manicure05,
-		text: ''
+		image: manicure05
 	},
 	{
-		image: manicure06,
-		text: ''
+		image: manicure06
 	},
 	{
-		image: manicure07,
-		text: ''
+		image: manicure07
 	},
 	{
-		image: manicure08,
-		text: ''
+		image: manicure08
 	}
 ]
