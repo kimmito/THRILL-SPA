@@ -2,7 +2,7 @@ import ScrollVelocity from '@/components/ui/ScrollVelocity'
 
 import AboutSection from './AboutSection'
 import { HeroSection } from './HeroSection'
-import PortfolioSection from './PortfolioSection'
+import PortfolioSection from './portfolioSection/PortfolioSection'
 import ReportsSection from './reportsSection/ReportsSection'
 import { ServicesSection } from './ServicesSection'
 import StaffSection from './staffSection/StaffSection'
