@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { FaCalendarCheck, FaPhoneAlt } from 'react-icons/fa'
 import { IoMdMailOpen } from 'react-icons/io'
 
+import mapPreview from '@/assets/images/map-preview.png'
 import womanImage from '@/assets/images/woman.png'
 
 const MapSection = () => {
@@ -47,7 +48,7 @@ const MapSection = () => {
 			<div className='relative h-120! w-full overflow-hidden bg-panel lg:h-auto lg:w-2/3'>
 				<div className='absolute inset-0'>
 					<img
-						src='./src/assets/images/map-preview.png'
+						src={mapPreview}
 						alt=''
 						aria-hidden='true'
 						className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
