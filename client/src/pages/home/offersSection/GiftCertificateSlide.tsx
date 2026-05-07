@@ -1,7 +1,7 @@
 import { AppButton } from '@/components/ui/AppButton'
-import GlareHover from '@/components/ui/GlareHover'
 
 import type { GiftCertificateOffer } from '@/data/offers'
+import GiftCertificateValueCard from './GiftCertificateValueCard'
 
 type GiftCertificateSlideProps = {
 	offer: GiftCertificateOffer
@@ -12,18 +12,10 @@ const GiftCertificateSlide = ({ offer }: GiftCertificateSlideProps) => {
 		<div className='my-10'>
 			<div className='flex justify-around'>
 				{offer.items.map(item => (
-					<GlareHover
+					<GiftCertificateValueCard
 						key={item.id}
-						glareColor='#ffffff'
-						glareOpacity={0.7}
-						glareAngle={-30}
-						glareSize={220}
-						transitionDuration={450}
-						playOnce={false}
-						className='cursor-pointer rounded-[27px] bg-[#090808] px-14 py-10 text-[64px] font-bold leading-none text-copy transition-colors duration-400 ease hover:bg-accent hover:text-[#090808]'
-					>
-						<p>{item.value}</p>
-					</GlareHover>
+						value={item.value}
+					/>
 				))}
 			</div>
 			<div className='relative -top-3'>
