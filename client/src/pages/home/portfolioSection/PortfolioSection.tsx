@@ -1,19 +1,38 @@
-
+import PortfolioGalleryRow from './PortfolioGalleryRow'
 import { portfolioBrowsData } from '@/data/portfolio/portfolio-brows-data'
 import { portfolioLashesData } from '@/data/portfolio/portfolio-lashers-data'
 import { portfolioNailsData } from '@/data/portfolio/portfolio-nails-data'
-import PortfolioGalleryRow from './PortfolioGalleryRow'
 
+export type PortfolioItem = {
+	items: typeof portfolioNailsData
+	text: string
+	alt: string
+	mix?: string
+	direction: 'left' | 'right'
+}
 const PortfolioSection = () => {
-	const portfolioRows: {
-		items: typeof portfolioNailsData
-		text: string
-		alt: string
-		direction: 'left' | 'right'
-	}[] = [
-		{items: portfolioNailsData, text: 'nails', alt: 'Маникюр, пример работы', direction: 'left'},
-		{items: portfolioBrowsData, text: 'brows', alt: 'Брови, пример работы', direction: 'right'},
-		{items: portfolioLashesData, text: 'lashes', alt: 'Ресницы, пример работы', direction: 'left'}
+	const portfolioRows: PortfolioItem[] = [
+		{
+			items: portfolioNailsData,
+			text: 'nails',
+			alt: 'Маникюр, пример работы',
+			direction: 'left',
+			mix: 'mix-blend-overlay'
+		},
+		{
+			items: portfolioBrowsData,
+			text: 'brows',
+			alt: 'Брови, пример работы',
+			direction: 'right',
+			mix: 'mix-blend-multiply'
+		},
+		{
+			items: portfolioLashesData,
+			text: 'lashes',
+			alt: 'Ресницы, пример работы',
+			direction: 'left',
+			mix: 'mix-blend-color-burn'
+		}
 	]
 	return (
 		<section id='portfolio'>
@@ -28,6 +47,7 @@ const PortfolioSection = () => {
 						text={row.text}
 						alt={row.alt}
 						direction={row.direction}
+						mix={row.mix}
 					/>
 				))}
 			</div>

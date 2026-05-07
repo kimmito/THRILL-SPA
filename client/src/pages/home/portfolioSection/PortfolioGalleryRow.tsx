@@ -1,24 +1,17 @@
+import clsx from 'clsx'
 import { useEffect, useState } from 'react'
 
-import PortfolioImageModal from './PortfolioImageModal'
 import PortfolioCurvedLoop from './PortfolioCurvedLoop'
-
-
-type PortfolioGalleryRowProps = {
-	items: {
-		image: string
-	}[]
-	text: string
-	alt: string
-	direction: 'left' | 'right'
-}
+import PortfolioImageModal from './PortfolioImageModal'
+import type { PortfolioItem } from './PortfolioSection'
 
 const PortfolioGalleryRow = ({
 	items,
 	alt,
 	direction,
-	text
-}: PortfolioGalleryRowProps) => {
+	text,
+	mix
+}: PortfolioItem) => {
 	const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
 	useEffect(() => {
@@ -46,11 +39,11 @@ const PortfolioGalleryRow = ({
 				direction={direction}
 				onItemClick={item => setSelectedImage(item.image)}
 			/>
-			<PortfolioRowTitle text={text} />
+			<PortfolioRowTitle text={text} mix={mix} />
 
 			{selectedImage ? (
 				<PortfolioImageModal
-          alt={alt}
+					alt={alt}
 					image={selectedImage}
 					onClose={() => setSelectedImage(null)}
 				/>
@@ -61,11 +54,17 @@ const PortfolioGalleryRow = ({
 
 type PortfolioRowTitleProps = {
 	text: string
+	mix: string | undefined
 }
 
-const PortfolioRowTitle = ({ text }: PortfolioRowTitleProps) => {
+const PortfolioRowTitle = ({ text, mix }: PortfolioRowTitleProps) => {
 	return (
-		<p className='pointer-events-none absolute top-17 -left-20 z-1 overflow-hidden text-nowrap text-center font-title text-[250px] uppercase mix-blend-overlay select-none'>
+		<p
+			className={clsx(
+				'pointer-events-none absolute top-17 -left-20 z-1 overflow-hidden text-nowrap text-center font-title text-[250px] uppercase select-none',
+				mix || 'mix-blend-overlay'
+			)}
+		>
 			{text}
 			{text}
 			{text}

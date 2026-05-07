@@ -2,16 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { PointerEvent } from 'react'
 import { useInView } from 'motion/react'
 
-interface CurvedLoopItem {
+type PortfolioCurvedLoopItem = {
 	image: string
 }
 
-interface CurvedLoopProps {
-	items: CurvedLoopItem[]
+type PortfolioCurvedLoopProps = {
+	items: PortfolioCurvedLoopItem[]
 	altPrefix: string
-	direction?: 'left' | 'right'
-	interactive?: boolean
-	onItemClick?: (item: CurvedLoopItem) => void
+	direction: 'left' | 'right'
+	onItemClick: (item: PortfolioCurvedLoopItem) => void
 }
 
 const ITEM_SIZE = 200
@@ -22,13 +21,12 @@ const INERTIA_FRICTION = 0.98
 const INERTIA_MIN_VELOCITY = 0.08
 const DRAG_THRESHOLD = 8
 
-const CurvedLoop = ({
+const PortfolioCurvedLoop = ({
 	items,
 	altPrefix,
-	direction = 'left',
-	interactive = true,
+	direction,
 	onItemClick
-}: CurvedLoopProps) => {
+}: PortfolioCurvedLoopProps) => {
 	const hasItems = items.length > 0
 	const loopItems = hasItems ? [...items, ...items] : []
 	const loopDistance = items.length * (ITEM_SIZE + ITEM_GAP)
@@ -40,7 +38,7 @@ const CurvedLoop = ({
 	const [isDragging, setIsDragging] = useState(false)
 	const [isHovered, setIsHovered] = useState(false)
 	const dragRef = useRef(false)
-	const activeItemRef = useRef<CurvedLoopItem | null>(null)
+	const activeItemRef = useRef<PortfolioCurvedLoopItem | null>(null)
 	const startXRef = useRef(0)
 	const startYRef = useRef(0)
 	const lastXRef = useRef(0)
@@ -54,11 +52,14 @@ const CurvedLoop = ({
 		directionRef.current = direction
 	}, [direction])
 
-	const wrapOffset = useCallback((value: number) => {
-		if (loopDistance <= 0) return 0
-		const wrapped = ((value % loopDistance) + loopDistance) % loopDistance
-		return wrapped - loopDistance
-	}, [loopDistance])
+	const wrapOffset = useCallback(
+		(value: number) => {
+			if (loopDistance <= 0) return 0
+			const wrapped = ((value % loopDistance) + loopDistance) % loopDistance
+			return wrapped - loopDistance
+		},
+		[loopDistance]
+	)
 
 	useEffect(() => {
 		if (!hasItems || !isInView) return
@@ -95,10 +96,9 @@ const CurvedLoop = ({
 
 		frame = requestAnimationFrame(step)
 		return () => cancelAnimationFrame(frame)
-	}, [hasItems, isHovered, isInView, loopDistance, wrapOffset])
+	}, [hasItems, isHovered, isInView, wrapOffset])
 
 	const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-		if (!interactive) return
 		const itemButton =
 			event.target instanceof Element
 				? event.target.closest<HTMLButtonElement>('[data-loop-item-index]')
@@ -120,7 +120,7 @@ const CurvedLoop = ({
 	}
 
 	const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-		if (!interactive || !dragRef.current) return
+		if (!dragRef.current) return
 		const dx = event.clientX - lastXRef.current
 		lastXRef.current = event.clientX
 		if (
@@ -132,13 +132,10 @@ const CurvedLoop = ({
 		velocityRef.current = dx
 		inertiaVelocityRef.current = dx
 
-		setOffset(prev => {
-			return wrapOffset(prev + dx)
-		})
+		setOffset(prev => wrapOffset(prev + dx))
 	}
 
 	const endDrag = () => {
-		if (!interactive) return
 		if (!dragRef.current) return
 		dragRef.current = false
 		setIsDragging(false)
@@ -157,7 +154,7 @@ const CurvedLoop = ({
 
 		if (clickedItem && !wasDraggedRef.current) {
 			suppressClickRef.current = true
-			onItemClick?.(clickedItem)
+			onItemClick(clickedItem)
 		}
 	}
 
@@ -166,18 +163,14 @@ const CurvedLoop = ({
 		activeItemRef.current = null
 	}
 
-	const cursorClass = interactive
-		? isDragging
-			? 'cursor-grabbing'
-			: 'cursor-grab'
-		: ''
-
 	if (!hasItems) return null
+
+	const cursorClass = isDragging ? 'cursor-grabbing' : 'cursor-grab'
 
 	return (
 		<div
 			ref={viewportRef}
-			className={`portfolio-loop w-full overflow-hidden my-12 py-8 ${cursorClass}`}
+			className={`portfolio-loop my-12 w-full overflow-hidden py-8 ${cursorClass}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => {
 				setIsHovered(false)
@@ -222,13 +215,13 @@ const CurvedLoop = ({
 							type='button'
 							data-loop-item-index={index}
 							className='block h-full w-full cursor-pointer border-0 bg-transparent p-0'
-							aria-label='Открыть фото'
+							aria-label='Open portfolio photo'
 							onClick={() => {
 								if (suppressClickRef.current || wasDraggedRef.current) {
 									suppressClickRef.current = false
 									return
 								}
-								onItemClick?.(item)
+								onItemClick(item)
 							}}
 						>
 							<img
@@ -247,4 +240,4 @@ const CurvedLoop = ({
 	)
 }
 
-export default CurvedLoop
+export default PortfolioCurvedLoop
