@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { AppButton } from '@/components/ui/AppButton'
 
 import { categories } from '@/data/categories'
-import { useServiceConnectorLine } from '@/pages/home/hooks/useServiceConnectorLine'
+import { useServiceConnectorLine } from '@/pages/home/servicesSection/useServiceConnectorLine'
 
 const PRICE_HASH_PREFIX = 'services-price-'
 
