@@ -23,7 +23,7 @@ const socialLinks = [
 ]
 
 const Header = () => {
-	const [isHeroVisible, setIsHeroVisible] = useState(false)
+	const [isHeroVisible, setIsHeroVisible] = useState(true)
 	useEffect(() => {
 		const hero = document.getElementById('home')
 		if (!hero) return
