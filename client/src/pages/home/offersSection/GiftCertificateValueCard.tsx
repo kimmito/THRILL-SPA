@@ -1,6 +1,8 @@
 import { useRef } from 'react'
 
 type GiftCertificateValueCardProps = {
+	onSelect: (value: string) => void
+	selected: boolean
 	value: string
 }
 
@@ -8,7 +10,7 @@ const GLARE_TRANSITION_MS = 650
 const GLARE_START_POSITION = '-140% -140%'
 const GLARE_END_POSITION = '140% 140%'
 
-const GiftCertificateValueCard = ({ value }: GiftCertificateValueCardProps) => {
+const GiftCertificateValueCard = ({ value, onSelect, selected }: GiftCertificateValueCardProps) => {
 	const overlayRef = useRef<HTMLDivElement | null>(null)
 
 	const animateIn = () => {
@@ -30,11 +32,13 @@ const GiftCertificateValueCard = ({ value }: GiftCertificateValueCardProps) => {
 		el.style.backgroundPosition = GLARE_START_POSITION
 	}
 
+
 	return (
 		<div
-			className='relative grid cursor-pointer place-items-center overflow-hidden rounded-[27px] bg-[#090808] text-head hover:bg-accent/90 hover:text-[#090808] transition-color ease duration-500 hover:shadow-lg px-14 py-10 text-[64px] font-bold leading-none text-[#090808]'
+			className={`relative grid cursor-pointer place-items-center overflow-hidden rounded-[27px] bg-[#090808] text-head hover:bg-accent/90 hover:text-[#090808] transition-color ease duration-500 hover:shadow-lg px-10 py-8 text-[52px] font-bold leading-none ${selected? 'bg-accent text-[#090808]! shadow-lg' : ''}`}
 			onMouseEnter={animateIn}
 			onMouseLeave={animateOut}
+			onClick={() => onSelect(value)}
 		>
 			<div
 				ref={overlayRef}
