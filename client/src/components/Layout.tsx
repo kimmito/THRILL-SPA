@@ -10,7 +10,7 @@ export const Layout = () => {
 		<div className='layout relative'>
 			<div className='flex flex-col min-h-screen relative '>
 				<Header />
-				<main className='w-full mx-auto pb-10 relative'>
+				<main className='w-full flex-1 min-h-screen mx-auto pb-10 relative'>
 					<div className='absolute top-0 left-0 w-full h-full -z-100000'>
 						<Grainient
 							color1='#1c162e'
