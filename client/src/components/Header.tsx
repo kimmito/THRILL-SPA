@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
 import { FaPhoneAlt, FaTelegramPlane, FaVk } from 'react-icons/fa'
+import { useLocation } from 'react-router'
 
 import { AppButton } from './ui/appButton/AppButton'
 
@@ -24,13 +25,16 @@ const socialLinks = [
 
 const Header = () => {
 	const [isHeroVisible, setIsHeroVisible] = useState(true)
+	const { pathname } = useLocation()
+	const isShopPage = pathname.startsWith('/shop')
 	useEffect(() => {
+		if (isShopPage) return
 		const hero = document.getElementById('home')
 		if (!hero) return
 
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				setIsHeroVisible(entry.isIntersecting)
+				setIsHeroVisible(!entry.isIntersecting)
 			},
 			{
 				threshold: 0.1
@@ -38,9 +42,8 @@ const Header = () => {
 		)
 
 		observer.observe(hero)
-
 		return () => observer.disconnect()
-	}, [])
+	}, [isShopPage])
 	const links = [
 		{ href: '#about', label: 'О нас' },
 		{ href: '#services', label: 'Услуги' },
@@ -48,11 +51,11 @@ const Header = () => {
 	]
 	return (
 		<header
-			className={`w-full h-18 fixed top-0 left-0 z-1000 transition-color duration-200 ${!isHeroVisible ? 'bg-base/90' : 'bg-transparent'}`}
+			className={`w-full h-18 fixed top-0 left-0 z-1000 transition-color duration-200 ${isShopPage || !isHeroVisible ? 'bg-base/90' : 'bg-transparent'}`}
 		>
 			<div className='container mx-auto h-full flex items-center justify-between px-6.5'>
 				<div
-					className={`${isHeroVisible ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500 flex items-center`}
+					className={`${isShopPage || !isHeroVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 flex items-center`}
 				>
 					<AppButton
 						appVariant='link'
