@@ -51,22 +51,24 @@ const Header = () => {
 	]
 	return (
 		<header
-			className={`w-full h-18 fixed top-0 left-0 z-1000 transition-color duration-200 ${isShopPage || !isHeroVisible ? 'bg-base/90' : 'bg-transparent'}`}
+			className={`w-full h-18 fixed top-0 left-0 z-1000 transition-color duration-200 ${isShopPage || isHeroVisible ? 'bg-base/90' : 'bg-transparent'}`}
 		>
 			<div className='container mx-auto h-full flex items-center justify-between px-6.5'>
 				<div
-					className={`${isShopPage || !isHeroVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 flex items-center`}
+					className={`${isShopPage || isHeroVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-500 flex items-center`}
 				>
 					<AppButton
 						appVariant='link'
 						className='flex flex-col items-center mb-3 group/logo no-underline!'
 					>
-						<p className='group-hover/logo:text-copy/70 transition-colors duration-300 font-title text-[36px] uppercase text-copy'>
-							Thrill
-						</p>
-						<p className='group-hover/logo:text-copy/80 transition-colors duration-300 text-[13px] tracking-wider leading-0 text-head'>
-							Салон красоты в Краснодаре
-						</p>
+						<a href='#'>
+							<p className='group-hover/logo:text-copy/70 transition-colors duration-300 font-title text-[36px] uppercase text-copy'>
+								Thrill
+							</p>
+							<p className='group-hover/logo:text-copy/80 transition-colors duration-300 text-[13px] tracking-wider leading-0 text-head'>
+								Салон красоты в Краснодаре
+							</p>
+						</a>
 					</AppButton>
 					<AppButton
 						appVariant='primary'
