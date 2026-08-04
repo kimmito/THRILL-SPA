@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import heroImage from '@/assets/images/hero.jpg'
-
-import { categories } from '@/data/categories'
+import { useCategory } from './servicesSection/hooks/useCategory'
 
 export type HeroSectionProps = {
 	servicesRef?: RefObject<HTMLDivElement | null> | null
@@ -19,6 +18,7 @@ export const HeroSection = () => {
 		{ href: '#map', label: 'Контакты' }
 	]
 	const navigate = useNavigate()
+	const { categories } = useCategory()
 	return (
 		<section
 			className='relative flex h-[92vh] max-w-375 mx-auto px-4 mt-10 items-center justify-between gap-20'

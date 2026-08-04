@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
+import { Loader } from '@/components/ui/Loader'
+
 import thrillFrame from '@/assets/svg/thrill.svg'
 
 import OffersCarousel from './OffersCarousel'
 import './OffersSection.css'
-import { tempOffers as offers } from '@/data/offers'
+import { useOffers } from './useOffers'
 
 const OffersSection = () => {
+	const { offers, isLoading } = useOffers()
 	const [activeIndex, setActiveIndex] = useState(0)
 	const activeOffer = offers[activeIndex] ?? offers[0]
 
@@ -29,11 +32,17 @@ const OffersSection = () => {
 				/>
 
 				<div className='relative z-10 mx-20 sm:min-h-130 lg:min-h-145'>
-					<OffersCarousel
-						offers={offers}
-						activeIndex={activeIndex}
-						onOfferSelect={setActiveIndex}
-					/>
+					{isLoading ? (
+						<div className='flex sm:min-h-130 lg:min-h-145 w-full items-center justify-center'>
+							<Loader />
+						</div>
+					) : (
+						<OffersCarousel
+							offers={offers}
+							activeIndex={activeIndex}
+							onOfferSelect={setActiveIndex}
+						/>
+					)}
 				</div>
 			</div>
 		</section>

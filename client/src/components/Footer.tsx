@@ -6,46 +6,49 @@ import { useLocation, useNavigate } from 'react-router'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
-import { categories } from '@/data/categories'
-
-const staticFooterItems = [
-	{
-		key: 's0',
-		label: categories[0].name,
-		categoryId: categories[0].id,
-		span: 6
-	},
-	{ key: 'about', label: 'О нас', span: 6, href: '#about' },
-	{ key: 'services', label: 'Услуги', hash: 'services', span: 6 },
-	{ key: 'portfolio', label: 'Портфолио', span: 6, href: '#portfolio' },
-
-	{
-		key: 's1',
-		label: categories[1].name,
-		categoryId: categories[1].id,
-		span: 6
-	},
-	{ key: 'empty-18-0', label: null, span: 18 },
-
-	{
-		key: 's2',
-		label: categories[2].name,
-		categoryId: categories[2].id,
-		span: 6
-	},
-	{ key: 'empty-18-1', label: null, span: 18 },
-
-	{
-		key: 's3',
-		label: categories[3].name,
-		categoryId: categories[3].id,
-		span: 6
-	}
-]
+import { useCategory } from '@/pages/home/servicesSection/hooks/useCategory'
 
 const Footer = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const { categories } = useCategory()
+	if (!categories || categories.length === 0) {
+		return null
+	}
+	const staticFooterItems = [
+		{
+			key: 's0',
+			label: categories[0].name,
+			categorySlug: categories[0]?.slug,
+			span: 6
+		},
+		{ key: 'about', label: 'О нас', span: 6, href: '#about' },
+		{ key: 'services', label: 'Услуги', hash: 'services', span: 6 },
+		{ key: 'portfolio', label: 'Портфолио', span: 6, href: '#portfolio' },
+
+		{
+			key: 's1',
+			label: categories[1]?.name,
+			categorySlug: categories[1]?.slug,
+			span: 6
+		},
+		{ key: 'empty-18-0', label: null, span: 18 },
+
+		{
+			key: 's2',
+			label: categories[2]?.name,
+			categorySlug: categories[2]?.slug,
+			span: 6
+		},
+		{ key: 'empty-18-1', label: null, span: 18 },
+
+		{
+			key: 's3',
+			label: categories[3]?.name,
+			categorySlug: categories[3]?.slug,
+			span: 6
+		}
+	]
 
 	const footerItems = staticFooterItems
 	const scrollToServices = (hash: string) => {
@@ -95,11 +98,8 @@ const Footer = () => {
 										className='inline-block text-[16px]'
 										href={item.href ? item.href : undefined}
 										onClick={
-											item.categoryId
-												? () =>
-														scrollToServices(
-															`services-price-${item.categoryId}`
-														)
+											item.categorySlug
+												? () => scrollToServices(item.categorySlug)
 												: item.hash
 													? () => scrollToServices(item.hash)
 													: undefined

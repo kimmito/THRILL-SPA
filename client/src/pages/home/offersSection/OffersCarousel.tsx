@@ -5,9 +5,10 @@ import { IoChevronBack } from 'react-icons/io5'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import type { Offer } from '@/types/offers.interface'
+
 import GiftCertificateSlide from './GiftCertificateSlide'
 import RepeatVisitDiscountSlide from './RepeatVisitDiscountSlide'
-import type { Offer } from '@/data/offers'
 
 type OffersCarouselProps = {
 	offers: Offer[]
@@ -16,10 +17,10 @@ type OffersCarouselProps = {
 }
 
 const renderSlide = (offer: Offer) => {
-	switch (offer.type) {
-		case 'repeat-visit':
+	switch (offer.slug) {
+		case 'repeat-visits':
 			return <RepeatVisitDiscountSlide offer={offer} />
-		case 'gift-certificate':
+		case 'certificates':
 			return <GiftCertificateSlide offer={offer} />
 		default:
 			return null

@@ -15,8 +15,8 @@ type LineGeometry = {
 }
 
 type UseServiceConnectorLineArgs = {
-	selectedCategory: string | null
-	categoryIds: string[]
+	selectedCategory: number | null
+	categoryIds: number[]
 }
 
 type UseServiceConnectorLineReturn = {

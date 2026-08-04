@@ -3,20 +3,18 @@ import { useState } from 'react'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import GiftCertificateValueCard from './GiftCertificateValueCard'
-import type { GiftCertificateOffer } from '@/data/offers'
+import type { Offer } from '@/types/offers.interface'
 
-type GiftCertificateSlideProps = {
-	offer: GiftCertificateOffer
-}
 
-const GiftCertificateSlide = ({ offer }: GiftCertificateSlideProps) => {
+
+const GiftCertificateSlide = ({offer}: {offer: Offer}) => {
 	const [selectedCertificate, setSelectedCertificate] = useState<string | null>(
 		null
 	)
 	return (
 		<div className='mt-17'>
 			<div className='flex justify-center gap-20'>
-				{offer.items.map(item => (
+				{offer.offerItems.map(item => (
 					<GiftCertificateValueCard
 						key={item.id}
 						value={item.value}
