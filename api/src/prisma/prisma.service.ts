@@ -5,13 +5,20 @@ import { Pool } from 'pg';
 
 @Injectable()
 export class PrismaService implements OnModuleInit, OnModuleDestroy {
-  private readonly pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
+  private readonly pool: Pool;
+  readonly client: PrismaClient;
 
-  readonly client = new PrismaClient({
-    adapter: new PrismaPg(this.pool),
-  });
+  constructor() {
+    const connectionString = process.env.DATABASE_URL;
+    if (!connectionString) {
+      throw new Error('DATABASE_URL is not set');
+    }
+
+    this.pool = new Pool({ connectionString });
+    this.client = new PrismaClient({
+      adapter: new PrismaPg(this.pool),
+    });
+  }
 
   async onModuleInit() {
     await this.client.$connect();
