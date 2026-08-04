@@ -217,7 +217,7 @@ async function main() {
     console.log('Seed completed');
   } catch (e) {
     console.error('Seed error:', e);
-    throw new Error(String(e));
+    throw e;
   }
 }
 
