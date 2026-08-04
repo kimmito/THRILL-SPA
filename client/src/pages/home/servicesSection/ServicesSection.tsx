@@ -1,41 +1,46 @@
 import { useEffect, useMemo, useState } from 'react'
 
-
-import { categories } from '@/data/categories'
-import { useServiceConnectorLine } from '@/pages/home/servicesSection/useServiceConnectorLine'
-import { ServicesTabs } from './ServicesTabs'
-import { ServicesPriceTable } from './ServicesPriceTable'
 import { ServicesConnectorLine } from './ServicesConnectorLine'
-
-const PRICE_HASH_PREFIX = 'services-price-'
+import { ServicesPriceTable } from './ServicesPriceTable'
+import { ServicesTabs } from './ServicesTabs'
+import { useCategory } from './hooks/useCategory'
+import { useServiceConnectorLine } from '@/pages/home/servicesSection/useServiceConnectorLine'
 
 export const ServicesSection = () => {
-	const [selectedCategory, setSelectedCategory] = useState<string | null>(
+	const { categories } = useCategory()
+	const [selectedCategory, setSelectedCategory] = useState<number | null>(
 		categories.length > 0 ? categories[0].id : null
 	)
-	const categoryIds = useMemo(() => categories.map(category => category.id), [categories])
+	const categoryIds = useMemo(
+		() => categories.map(category => category.id),
+		[categories]
+	)
 	const { sectionRef, tabsRef, priceRef, buttonRefs, line } =
 		useServiceConnectorLine({ selectedCategory, categoryIds })
 
 	useEffect(() => {
 		const applyPriceHash = () => {
 			const hash = window.location.hash.replace('#', '')
-			const categoryId = hash.startsWith(PRICE_HASH_PREFIX)
-				? hash.slice(PRICE_HASH_PREFIX.length)
-				: null
-			const category = categories.find(item => item.id === categoryId)
+			const category = categories.find(item => item.slug === hash) ?? null
 
 			if (category) {
 				setSelectedCategory(category.id)
-			}
-
-			if (category || hash === 'services-price') {
 				requestAnimationFrame(() => {
 					sectionRef.current?.scrollIntoView({
 						behavior: 'smooth',
 						block: 'start'
 					})
+					window.history.replaceState(
+						null,
+						'',
+						`${window.location.pathname}${window.location.search}`
+					)
 				})
+				return
+			}
+
+			if (!category && categories.length > 0) {
+				setSelectedCategory(prev => prev ?? categories[0].id)
 			}
 		}
 
@@ -45,7 +50,7 @@ export const ServicesSection = () => {
 		return () => {
 			window.removeEventListener('hashchange', applyPriceHash)
 		}
-	}, [sectionRef])
+	}, [categories, sectionRef])
 
 	return (
 		<section
@@ -56,11 +61,15 @@ export const ServicesSection = () => {
 				<h2 className='text-head uppercase font-bold text-8xl text-end mb-14 mr-9'>
 					Услуги
 				</h2>
-				<ServicesTabs ref={tabsRef} categories={categories} buttonRefs={buttonRefs} selectedCategory={selectedCategory} onSelectCategory={setSelectedCategory} />
+				<ServicesTabs
+					ref={tabsRef}
+					categories={categories}
+					buttonRefs={buttonRefs}
+					selectedCategory={selectedCategory}
+					onSelectCategory={setSelectedCategory}
+				/>
 				<ServicesPriceTable ref={priceRef} />
 				<ServicesConnectorLine line={line} />
-
-
 			</div>
 		</section>
 	)

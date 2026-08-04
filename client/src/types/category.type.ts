@@ -1,5 +1,8 @@
+import type { Service } from "./service.type"
+
 export type Category = {
-	id: string
+	id: number
 	name: string
-	categoryId: string
+	slug: string
+  services: Service[]
 }

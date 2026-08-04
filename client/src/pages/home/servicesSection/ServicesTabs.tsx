@@ -5,9 +5,9 @@ import type { Category } from '@/types/category.type'
 type ServicesTabsProps = {
 	ref: React.Ref<HTMLDivElement>
 	categories: Category[]
-	selectedCategory: string | null
-	onSelectCategory: (categoryId: string) => void
-	buttonRefs: React.RefObject<Record<string, HTMLDivElement | null>>
+	selectedCategory: number | null
+	onSelectCategory: (categoryId: number) => void
+	buttonRefs: React.RefObject<Record<number, HTMLDivElement | null>>
 }
 
 export const ServicesTabs = ({
