@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Category {
+  @@map("categories")
+  id Int @id @default(autoincrement())
+  slug String @unique
+  name String
+  sortOrder Int @default(0)
+
+  services Service[]
+}
+
+model Service {
+  @@map("services")
+  id Int @id @default(autoincrement())
+  slug String @unique
+  name String
+  price Float
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  categoryId Int
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+model Review {
+  @@map("reviews")
+  id Int @id @default(autoincrement())
+  imagePath String?
+  date DateTime
+  stars Int
+  author String
+  text String
+}
+
+model Staff {
+  @@map("staff")
+  id Int @id @default(autoincrement())
+  name String
+  role String
+  photoPath String
+}
+
+enum Section {
+  NAILS
+  BROWS
+  LASHES
+}
+model Portfolio {
+  @@map("portfolio")
+  id Int @id @default(autoincrement())
+  section Section
+  imagePath String
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Offer {
+  @@map("offers")
+  id Int @id @default(autoincrement())
+  title String
+  slug String @unique
+  description1 String?
+  description2 String?
+  offerItems OfferItem[]
+}
+
+model OfferItem {
+  @@map("offer_items")
+  id Int @id @default(autoincrement())
+  offerId Int
+  title String
+  value String
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  sortOrder Int @default(0)
+  offer Offer @relation(fields: [offerId], references: [id])
+}
