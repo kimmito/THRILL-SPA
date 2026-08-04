@@ -1,18 +1,14 @@
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import type { Offer } from '@/types/offers.interface'
+
 import ticketImage from '@/assets/images/ticket.png'
 
-import type { RepeatVisitOffer } from '@/data/offers'
-
-type RepeatVisitDiscountSlideProps = {
-	offer: RepeatVisitOffer
-}
-
-const RepeatVisitDiscountSlide = ({ offer }: RepeatVisitDiscountSlideProps) => {
+const RepeatVisitDiscountSlide = ({ offer }: { offer: Offer }) => {
 	return (
 		<div className='flex flex-col items-center justify-center h-full mx-5'>
 			<ul className='flex justify-between w-full max-w-325 relative [&>li:nth-child(odd)]:translate-y-1/5'>
-				{offer.items.map(item => (
+				{offer.offerItems.map(item => (
 					<li key={item.id}>
 						<div className='flex relative px-10'>
 							<p
