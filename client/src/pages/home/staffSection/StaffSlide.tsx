@@ -4,8 +4,9 @@ import { IoChevronBack } from 'react-icons/io5'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import type { Staff } from '@/types/staff.type'
+
 import { StaffCard } from './StaffCard'
-import type { Staff } from '@/data/staff'
 
 type StaffSlideProps = {
 	currentSlide: number
@@ -20,6 +21,7 @@ export const StaffSlide = ({
 	instanceRef,
 	staff
 }: StaffSlideProps) => {
+	
 	const shouldDuplicateStaff = staff.length > 3 && staff.length < 6
 	const sliderStaff = shouldDuplicateStaff ? [...staff, ...staff] : staff
 	const activePerson = staff[currentSlide % staff.length]
@@ -58,7 +60,7 @@ export const StaffSlide = ({
 						{activePerson.name}
 					</div>
 					<div className='text-head text-[14px] lg:text-[20px]'>
-						{activePerson.position}
+						{activePerson.role}
 					</div>
 				</div>
 				<AppButton

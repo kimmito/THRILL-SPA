@@ -68,7 +68,7 @@ export const ServicesSection = () => {
 					selectedCategory={selectedCategory}
 					onSelectCategory={setSelectedCategory}
 				/>
-				<ServicesPriceTable ref={priceRef} />
+				<ServicesPriceTable ref={priceRef} categoryId={selectedCategory} />
 				<ServicesConnectorLine line={line} />
 			</div>
 		</section>

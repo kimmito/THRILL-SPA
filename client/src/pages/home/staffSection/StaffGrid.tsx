@@ -1,5 +1,5 @@
 import { StaffCard } from './StaffCard'
-import type { Staff } from '@/data/staff'
+import type { Staff } from '@/types/staff.type'
 
 type StaffGridProps = {
 	staff: Staff[]
