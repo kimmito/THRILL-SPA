@@ -3,7 +3,7 @@ import type { PointerEvent } from 'react'
 import { useInView } from 'motion/react'
 
 type PortfolioCurvedLoopItem = {
-	image: string
+	imagePath: string
 }
 
 type PortfolioCurvedLoopProps = {
@@ -202,7 +202,7 @@ const PortfolioCurvedLoop = ({
 			>
 				{loopItems.map((item, index) => (
 					<div
-						key={`${item.image}-${index}`}
+						key={`${item.imagePath}-${index}`}
 						className='relative z-0 shrink-0 overflow-hidden bg-panel transition-transform hover:z-10 hover:scale-[1.3]'
 						style={{
 							contain: 'paint',
@@ -225,7 +225,7 @@ const PortfolioCurvedLoop = ({
 							}}
 						>
 							<img
-								src={item.image}
+								src={item.imagePath}
 								alt={`${altPrefix} ${index % items.length + 1}`}
 								className='h-full w-full object-cover'
 								decoding='async'

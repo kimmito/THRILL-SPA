@@ -37,7 +37,7 @@ const PortfolioGalleryRow = ({
 				items={items}
 				altPrefix={alt}
 				direction={direction}
-				onItemClick={item => setSelectedImage(item.image)}
+				onItemClick={item => setSelectedImage(item.imagePath)}
 			/>
 			<PortfolioRowTitle text={text} mix={mix} />
 
