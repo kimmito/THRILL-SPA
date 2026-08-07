@@ -25,6 +25,7 @@ model Category {
 model Service {
   @@map("services")
   id Int @id @default(autoincrement())
+  sortOrder Int @default(0)
   slug String @unique
   name String
   price Float
@@ -50,6 +51,8 @@ model Staff {
   name String
   role String
   photoPath String
+  isActive Boolean @default(true)
+  sortOrder Int @default(0)
 }
 
 enum Section {
@@ -62,6 +65,7 @@ model Portfolio {
   id Int @id @default(autoincrement())
   section Section
   imagePath String
+  sortOrder Int @default(0)
   isActive Boolean @default(true)
   createdAt DateTime @default(now())
 }
