@@ -1,4 +1,4 @@
-import type { Staff } from '@/data/staff'
+import type { Staff } from '@/types/staff.type'
 
 type StaffCardProps = {
 	member: Staff
@@ -16,7 +16,7 @@ export const StaffCard = ({
 	return (
 		<article className={`text-center ${className}`}>
 			<img
-				src={member.photo}
+				src={member.photoPath}
 				alt={member.name}
 				className={`aspect-6/7 w-full object-cover transition-opacity duration-300 ease ${
 					isActive ? 'opacity-100' : 'opacity-50'
@@ -28,7 +28,7 @@ export const StaffCard = ({
 						{member.name}
 					</h3>
 					<p className='text-copy mt-1 text-[16px] leading-tight lg:text-[20px]'>
-						{member.position}
+						{member.role}
 					</p>
 				</div>
 			) : null}

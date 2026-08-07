@@ -3,3 +3,6 @@ export const API_URL =
 
 export const getOfferUrl = (string: string) => `/offers${string}`
 export const getCategoryUrl = (string: string) => `/category${string}`
+export const getServiceUrl = (string: string) => `/service${string}`
+export const getStaffUrl = (string: string) => `/staff${string}`
+export const getPortfolioUrl = (string: string) => `/portfolio${string}`
