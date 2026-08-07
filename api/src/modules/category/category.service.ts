@@ -14,7 +14,6 @@ export class CategoryService {
         id: true,
         name: true,
         slug: true,
-        services: true,
       },
     });
   }
