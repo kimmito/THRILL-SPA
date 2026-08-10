@@ -23,7 +23,7 @@ const Footer = () => {
 			span: 6
 		},
 		{ key: 'about', label: 'О нас', span: 6, href: '#about' },
-		{ key: 'services', label: 'Услуги', hash: 'services', span: 6 },
+		{ key: 'services', label: 'Услуги', hash: 'services', href: '#services', span: 6 },
 		{ key: 'portfolio', label: 'Портфолио', span: 6, href: '#portfolio' },
 
 		{
