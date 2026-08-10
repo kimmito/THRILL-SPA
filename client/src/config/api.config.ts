@@ -6,3 +6,4 @@ export const getCategoryUrl = (string: string) => `/category${string}`
 export const getServiceUrl = (string: string) => `/service${string}`
 export const getStaffUrl = (string: string) => `/staff${string}`
 export const getPortfolioUrl = (string: string) => `/portfolio${string}`
+export const getReviewsUrl = (string: string) => `/reviews${string}`
