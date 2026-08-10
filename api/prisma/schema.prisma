@@ -43,6 +43,7 @@ model Review {
   stars Int
   author String
   text String
+  sortOrder Int @default(0)
 }
 
 model Staff {
