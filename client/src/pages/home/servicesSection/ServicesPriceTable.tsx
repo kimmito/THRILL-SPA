@@ -3,6 +3,7 @@ import { AppButton } from '@/components/ui/appButton/AppButton'
 import type { Service } from '@/types/service.type'
 
 import { useServicesByCategoryId } from './hooks/useService'
+import { Loader } from '@/components/ui/Loader'
 
 type ServicesPriceTableProps = {
 	ref: React.RefObject<HTMLDivElement | null>
@@ -19,14 +20,10 @@ export const ServicesPriceTable = ({
 		useServicesByCategoryId(categoryId ?? 0)
 	return (
 		<div id='services-price' ref={ref} className='mt-20'>
-			<table className='w-1/2 mb-10 ml-10 border-collapse [&_td]:border-b [&_td]:border-line/35 [&_td]:py-4 [&_td:last-child]:pl-8 [&_td:last-child]:text-right [&_tr:last-child_td]:border-b-0'>
+			<table className='w-1/2 mb-10 ml-10 border-collapse [&_td]:border-b [&_td]:border-line/35 [&_td]:py-4 [&_td:last-child]:text-center [&_td:last-child]:pl-40 [&_tr:last-child_td]:border-b-0'>
 				<tbody>
 					{isLoading ? (
-						<tr>
-							<td colSpan={2} className='text-center text-2xl'>
-								Loading...
-							</td>
-						</tr>
+						<Loader />
 					) : (
 						services?.map(service => (
 							<tr key={service.id}>

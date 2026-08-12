@@ -3,7 +3,7 @@ export interface Service {
 	categoryId: number
 	isActive: boolean
 	name: string
-	price: number
+	price: string
 	slug: string
 	sortOrder: number
 }
