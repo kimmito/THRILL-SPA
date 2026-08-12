@@ -20,7 +20,7 @@ const baseClasses =
 
 const variantClasses: Record<AppButtonVariant, string> = {
 	primary:
-		'border-line bg-button px-6 py-4 text-[32px] leading-none text-copy uppercase hover:bg-transparent hover:text-accent hover:border-accent',
+		'border-button bg-button px-6 py-4 text-[32px] leading-none text-copy uppercase hover:bg-transparent hover:text-accent hover:border-accent',
 	outline:
 		'border-line bg-transparent px-6 py-4 text-[32px] leading-none text-copy uppercase hover:border-accent hover:text-[#414141] hover:bg-accent',
 	active:
