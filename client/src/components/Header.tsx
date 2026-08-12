@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
 import { FaPhoneAlt, FaTelegramPlane, FaVk } from 'react-icons/fa'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
+import { Navigation } from './Navigation'
 import { AppButton } from './ui/appButton/AppButton'
 
 const socialLinks = [
@@ -44,11 +45,12 @@ const Header = () => {
 		observer.observe(hero)
 		return () => observer.disconnect()
 	}, [isShopPage])
-	const links = [
-		{ href: '#about', label: 'О нас' },
-		{ href: '#services', label: 'Услуги' },
-		{ href: '#portfolio', label: 'Портфолио' }
-	]
+	const navigate = useNavigate()
+	const handleLogoClick = () => {
+		navigate('/')
+		window.location.reload()
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}
 	return (
 		<header
 			className={`w-full h-18 fixed top-0 left-0 z-1000 transition-color duration-200 ${isShopPage || isHeroVisible ? 'bg-base/90' : 'bg-transparent'}`}
@@ -60,15 +62,18 @@ const Header = () => {
 					<AppButton
 						appVariant='link'
 						className='flex flex-col items-center mb-3 group/logo no-underline!'
+						onClick={() => {
+							handleLogoClick()
+						}}
 					>
-						<a href='#'>
+						<div>
 							<p className='group-hover/logo:text-copy/70 transition-colors duration-300 font-title text-[36px] uppercase text-copy'>
 								Thrill
 							</p>
 							<p className='group-hover/logo:text-copy/80 transition-colors duration-300 text-[13px] tracking-wider leading-0 text-head'>
 								Салон красоты в Краснодаре
 							</p>
-						</a>
+						</div>
 					</AppButton>
 					<AppButton
 						appVariant='primary'
@@ -76,22 +81,9 @@ const Header = () => {
 					>
 						Онлайн-запись
 					</AppButton>
-					<nav>
-						<ul className='flex gap-2'>
-							{links.map(link => (
-								<li key={link.label}>
-									<AppButton
-										appVariant='outline'
-										className='text-[14px]! p-4!'
-										href={link.href}
-									>
-										{link.label}
-									</AppButton>
-								</li>
-							))}
-						</ul>
-					</nav>
+					<Navigation />
 				</div>
+
 				<div className='flex space-x-2 items-center'>
 					{socialLinks.map(link => (
 						<AppButton
