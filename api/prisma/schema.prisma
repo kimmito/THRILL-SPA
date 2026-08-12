@@ -28,7 +28,7 @@ model Service {
   sortOrder Int @default(0)
   slug String @unique
   name String
-  price Float
+  price String
   isActive Boolean @default(true)
   createdAt DateTime @default(now())
   categoryId Int
@@ -91,4 +91,40 @@ model OfferItem {
   createdAt DateTime @default(now())
   sortOrder Int @default(0)
   offer Offer @relation(fields: [offerId], references: [id])
+}
+
+model Post {
+  @@map("posts")
+  id Int @id @default(autoincrement())
+  title String
+  slug String @unique
+  description String?
+  imagePath String?
+  isActive Boolean @default(true)
+}
+
+model ShopCategory {
+  @@map("shop_categories")
+  id Int @id @default(autoincrement())
+  name String
+  slug String @unique
+  sortOrder Int @default(0)
+  isActive Boolean @default(true)
+
+  shopItems ShopItem[]
+}
+
+model ShopItem {
+  @@map("shop_items")
+  id Int @id @default(autoincrement())
+  name String
+  slug String @unique
+  description String?
+  price Float
+  imagePath String?
+  isActive Boolean @default(true)
+  sortOrder Int @default(0)
+  createdAt DateTime @default(now())
+  shopCategoryId Int
+  shopCategory ShopCategory @relation(fields: [shopCategoryId], references: [id])
 }
