@@ -6,26 +6,30 @@ import { useLocation, useNavigate } from 'react-router'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import { useScrollToSection } from '@/hooks/useScrollToSection'
+
 import { useCategory } from '@/pages/home/servicesSection/hooks/useCategory'
 
 const Footer = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const { categories } = useCategory()
+	const { scrollToSection } = useScrollToSection()
+
 	if (!categories || categories.length === 0) {
 		return null
 	}
-	const staticFooterItems = [
+
+	const footerItems = [
 		{
 			key: 's0',
-			label: categories[0].name,
+			label: categories[0]?.name,
 			categorySlug: categories[0]?.slug,
 			span: 6
 		},
-		{ key: 'about', label: 'О нас', span: 6, href: '#about' },
-		{ key: 'services', label: 'Услуги', hash: 'services', href: '#services', span: 6 },
-		{ key: 'portfolio', label: 'Портфолио', span: 6, href: '#portfolio' },
-
+		{ key: 'about', label: 'О нас', span: 6, sectionId: 'about' },
+		{ key: 'services', label: 'Услуги', span: 6, sectionId: 'services' },
+		{ key: 'portfolio', label: 'Портфолио', span: 6, sectionId: 'portfolio' },
 		{
 			key: 's1',
 			label: categories[1]?.name,
@@ -33,7 +37,6 @@ const Footer = () => {
 			span: 6
 		},
 		{ key: 'empty-18-0', label: null, span: 18 },
-
 		{
 			key: 's2',
 			label: categories[2]?.name,
@@ -41,7 +44,6 @@ const Footer = () => {
 			span: 6
 		},
 		{ key: 'empty-18-1', label: null, span: 18 },
-
 		{
 			key: 's3',
 			label: categories[3]?.name,
@@ -50,7 +52,6 @@ const Footer = () => {
 		}
 	]
 
-	const footerItems = staticFooterItems
 	const scrollToServices = (hash: string) => {
 		if (location.pathname !== '/') {
 			navigate({ pathname: '/', hash })
@@ -60,6 +61,7 @@ const Footer = () => {
 		window.history.pushState(null, '', `#${hash}`)
 		window.dispatchEvent(new HashChangeEvent('hashchange'))
 	}
+
 	const social = [
 		{
 			key: 'ig',
@@ -77,11 +79,12 @@ const Footer = () => {
 			icon: <FaTelegramPlane size={20} className='relative top-0.5' />
 		}
 	]
+
 	return (
-		<footer className='site-footer w-full  gap-20 bg-dark px-4 py-10 text-copy'>
+		<footer className='site-footer w-full gap-20 bg-dark px-4 py-10 text-copy'>
 			<div className='max-w-380 mx-auto justify-between flex'>
 				<div className='flex items-center max-w-2/7'>
-					<p className='text-[14px] tracking-wide text-copy/60 '>
+					<p className='text-[14px] tracking-wide text-copy/60'>
 						&copy; 2026 THRILL. Все права защищены. <br />
 						Цены на нашем сайте не являются публичной офертой, актуальные цены
 						можно узнать при записи.
@@ -96,14 +99,13 @@ const Footer = () => {
 									<AppButton
 										appVariant='link'
 										className='inline-block text-[16px]'
-										href={item.href ? item.href : undefined}
-										onClick={
-											item.categorySlug
-												? () => scrollToServices(item.categorySlug)
-												: item.hash
-													? () => scrollToServices(item.hash)
-													: undefined
-										}
+										onClick={() => {
+											if (item.categorySlug) {
+												scrollToServices(item.categorySlug)
+											} else if (item.sectionId) {
+												scrollToSection(item.sectionId)
+											}
+										}}
 									>
 										{item.label}
 									</AppButton>
@@ -139,4 +141,5 @@ const Footer = () => {
 		</footer>
 	)
 }
+
 export default Footer
