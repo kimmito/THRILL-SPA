@@ -1,5 +1,17 @@
+import ScrollVelocity from '@/components/ui/ScrollVelocity'
+
+import CatalogSection from './catalogSection/CatalogSection'
+import PostsSection from './postsSection/PostsSection'
+
 const Shop = () => {
-	return <div className="mt-40 text-4xl text-center" id="shop">Магазин временно недоступен</div>
+	return (
+		<div className="mb-30">
+			<PostsSection />
+			<CatalogSection />
+			<ScrollVelocity texts={['THRILL', 'THRILL', 'THRILL']} />
+
+		</div>
+	)
 }
 
 export default Shop
