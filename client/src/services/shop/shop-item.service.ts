@@ -12,9 +12,16 @@ export const ShopItemService = {
 		})
 	},
 
-	async getByCategorySlug(categorySlug: string) {
+	async getByCategoryId(categoryId: number) {
 		return request<ShopItem[]>({
-			url: getShopItemUrl(`/by-category/${categorySlug}`),
+			url: getShopItemUrl(`/by-category/${categoryId}`),
+			method: 'GET'
+		})
+	},
+
+	async getBySlug(slug: string) {
+		return request<ShopItem>({
+			url: getShopItemUrl(`/${slug}`),
 			method: 'GET'
 		})
 	}

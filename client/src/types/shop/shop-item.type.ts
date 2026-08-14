@@ -3,7 +3,8 @@ export type ShopItem = {
 	name: string
 	slug: string
 	isActive: boolean
-	description: string
+	description?: string
 	imagePath: string
 	price: number
+	additionalImagePaths?: string[]
 }

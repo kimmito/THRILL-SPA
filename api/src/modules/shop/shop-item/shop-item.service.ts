@@ -22,10 +22,10 @@ export class ShopItemService {
     });
   }
 
-  getByCategorySlug(categorySlug: string) {
+  getByCategoryId(categoryId: number) {
     return this.prisma.client.shopItem.findMany({
       where: {
-        slug: categorySlug,
+        shopCategoryId: categoryId,
       },
       orderBy: {
         sortOrder: 'asc',
@@ -38,6 +38,24 @@ export class ShopItemService {
         description: true,
         imagePath: true,
         price: true,
+      },
+    });
+  }
+
+  getBySlug(slug: string) {
+    return this.prisma.client.shopItem.findUnique({
+      where: {
+        slug: slug,
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        isActive: true,
+        description: true,
+        imagePath: true,
+        price: true,
+        additionalImagePaths: true,
       },
     });
   }

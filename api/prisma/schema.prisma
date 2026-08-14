@@ -125,6 +125,7 @@ model ShopItem {
   isActive Boolean @default(true)
   sortOrder Int @default(0)
   createdAt DateTime @default(now())
+  additionalImagePaths String[]
   shopCategoryId Int
   shopCategory ShopCategory @relation(fields: [shopCategoryId], references: [id])
 }
