@@ -229,7 +229,6 @@ async function main() {
       ],
     });
 
-
     await prisma.staff.createMany({
       data: [
         {
@@ -254,7 +253,6 @@ async function main() {
         },
       ],
     });
-
 
     await prisma.portfolio.createMany({
       data: [
@@ -340,102 +338,205 @@ async function main() {
     const setsCategory = await prisma.shopCategory.create({
       data: { name: 'Наборы', slug: 'sets' },
     });
-
-
     await prisma.shopItem.createMany({
       data: [
         // Лицо
         {
           name: 'Увлажняющий крем для лица',
           slug: 'face-moisturizing-cream',
+          description:
+            'Интенсивно увлажняет кожу лица, предотвращает обезвоживание, делает кожу мягкой и эластичной. Подходит для всех типов кожи. Содержит гиалуроновую кислоту и натуральные экстракты.',
           price: 1500,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: faceCategory.id,
         },
         {
           name: 'Маска для лица увлажняющая',
           slug: 'face-moisturizing-mask',
+          description:
+            'Глубокая увлажняющая маска с экстрактом алоэ и гиалуроновой кислотой. Восстанавливает водный баланс кожи, успокаивает раздражения, придает свежесть и сияние. Рекомендуется для сухой и обезвоженной кожи.',
           price: 1200,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: faceCategory.id,
         },
         {
           name: 'Маска для лица питательная',
           slug: 'face-nourishing-mask',
+          description:
+            'Питательная маска с маслами ши и авокадо. Интенсивно питает и восстанавливает кожу, разглаживает мелкие морщины, повышает упругость и эластичность. Идеальна для ухода за зрелой и сухой кожей.',
           price: 1300,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: faceCategory.id,
         },
         // Руки
         {
           name: 'Увлажняющий крем для рук',
           slug: 'hand-moisturizing-cream',
+          description:
+            'Легкий увлажняющий крем для рук с экстрактом ромашки и пантенолом. Быстро впитывается, увлажняет и смягчает кожу рук, защищает от внешних воздействий. Оставляет приятный ненавязчивый аромат.',
           price: 800,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: handsCategory.id,
         },
         {
           name: 'Маска для рук восстанавливающая',
           slug: 'hand-restoring-mask',
+          description:
+            'Интенсивная восстанавливающая маска для рук с керамидами и витамином E. Восстанавливает поврежденную кожу рук, разглаживает морщины, укрепляет ногтевую пластину. Эффективна для очень сухой и поврежденной кожи.',
           price: 900,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: handsCategory.id,
         },
         {
           name: 'Масло для кутикулы',
           slug: 'cuticle-oil',
+          description:
+            'Питательное масло для кутикулы с витаминами и натуральными маслами (жожоба, миндальное, авокадо). Смягчает и увлажняет кутикулу, укрепляет ногти, стимулирует их рост. Удобный аппликатор для точного нанесения.',
           price: 600,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: handsCategory.id,
         },
         {
           name: 'Бесцветный лак для укрепления ногтей',
           slug: 'nail-strengthening-polish',
+          description:
+            'Бесцветный укрепляющий лак для ногтей с кальцием и протеинами шелка. Укрепляет и восстанавливает ногтевую пластину, предотвращает расслаивание и ломкость. Обеспечивает здоровый и ухоженный вид ногтей.',
           price: 750,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: handsCategory.id,
         },
         {
           name: 'Бесцветный лак для роста ногтей',
           slug: 'nail-growth-polish',
+          description:
+            'Бесцветный лак для стимуляции роста ногтей с комплексом активных веществ. Ускоряет рост ногтей, укрепляет их, улучшает структуру. Регулярное использование делает ногти крепкими и здоровыми.',
           price: 750,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: handsCategory.id,
         },
         // Ноги
         {
           name: 'Увлажняющий крем для ног',
           slug: 'foot-moisturizing-cream',
+          description:
+            'Интенсивный увлажняющий крем для ног с мочевиной и экстрактами трав. Увлажняет и смягчает огрубевшую кожу стоп, предотвращает появление трещин. Обладает легким охлаждающим эффектом.',
           price: 900,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: legsCategory.id,
         },
         {
           name: 'Маска для ног питательная',
           slug: 'foot-nourishing-mask',
+          description:
+            'Питательная маска для ног с маслом ши и кокоса. Интенсивно питает и восстанавливает кожу стоп, заживляет мелкие трещины, делает кожу мягкой и нежной. Рекомендуется для сухой и поврежденной кожи ног.',
           price: 1000,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: legsCategory.id,
         },
         {
           name: 'Парафин для парафинотерапии',
           slug: 'paraffin-therapy',
+          description:
+            'Косметический парафин для парафинотерапии рук и ног с добавлением эфирных масел. Глубоко увлажняет и питает кожу, улучшает кровообращение, разглаживает морщины. Идеален для профессионального и домашнего ухода.',
           price: 850,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: legsCategory.id,
         },
         {
           name: 'Средство от трещин на пятках',
           slug: 'cracked-heels-remedy',
+          description:
+            'Специализированное средство для устранения и профилактики трещин на пятках. Содержит мочевину, аллантоин и пантенол. Интенсивно смягчает огрубевшую кожу, способствует быстрому заживлению трещин.',
           price: 700,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: legsCategory.id,
         },
         // Наборы
         {
           name: 'Набор "Уход за руками" (крем + масло + лак)',
           slug: 'hand-care-set',
+          description:
+            'Комплект для комплексного ухода за руками и ногтями включает: увлажняющий крем для рук, масло для кутикулы и укрепляющий лак. Идеальный набор для поддержания красоты и здоровья рук в домашних условиях.',
           price: 2000,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: setsCategory.id,
         },
         {
           name: 'Набор "Уход за ногами" (крем + маска + парафин)',
           slug: 'foot-care-set',
+          description:
+            'Комплект для профессионального ухода за ногами включает: увлажняющий крем для ног, питательную маску и парафин для парафинотерапии. Обеспечивает полный уход за кожей стоп в домашних условиях.',
           price: 2500,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: setsCategory.id,
         },
         {
           name: 'Подарочный набор "Все для ухода"',
           slug: 'gift-set-all-care',
+          description:
+            'Роскошный подарочный набор включает лучшие средства для ухода за лицом, руками и ногами. В составе: увлажняющий крем для лица, маска для лица, крем для рук, крем для ног и масло для кутикулы. Прекрасный подарок для близких.',
           price: 3500,
+          imagePath: '/src/assets/images/shop/shop-card.jpg',
+          additionalImagePaths: [
+            '/src/assets/images/shop/shop-card1.jpg',
+            '/src/assets/images/shop/shop-card2.jpg',
+          ],
           shopCategoryId: setsCategory.id,
         },
       ],
