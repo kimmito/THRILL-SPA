@@ -1,9 +1,9 @@
+import { Loader } from '@/components/ui/Loader'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import type { Service } from '@/types/service.type'
 
 import { useServicesByCategoryId } from './hooks/useService'
-import { Loader } from '@/components/ui/Loader'
 
 type ServicesPriceTableProps = {
 	ref: React.RefObject<HTMLDivElement | null>
@@ -20,20 +20,23 @@ export const ServicesPriceTable = ({
 		useServicesByCategoryId(categoryId ?? 0)
 	return (
 		<div id='services-price' ref={ref} className='mt-20'>
+			{isLoading ? (
+				<Loader />
+			) : services?.length === 0 ? (
+				<p className='text-4xl text-head text-center my-40'>
+					Услуги не найдены
+				</p>
+			) : null}
 			<table className='w-1/2 mb-10 ml-10 border-collapse [&_td]:border-b [&_td]:border-line/35 [&_td]:py-4 [&_td:last-child]:text-center [&_td:last-child]:pl-40 [&_tr:last-child_td]:border-b-0'>
 				<tbody>
-					{isLoading ? (
-						<Loader />
-					) : (
-						services?.map(service => (
-							<tr key={service.id}>
-								<td className='text-2xl max-w-100'>{service.name}</td>
-								<td className='text-[32px] font-bold text-center'>
-									{service.price} ₽
-								</td>
-							</tr>
-						))
-					)}
+					{services?.map(service => (
+						<tr key={service.id}>
+							<td className='text-2xl max-w-100'>{service.name}</td>
+							<td className='text-[32px] font-bold text-center'>
+								{service.price} ₽
+							</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 			<div className='flex flex-row gap-3 ml-10 w-1/2 *:flex *:px-20 *:py-6 *:text-2xl'>
