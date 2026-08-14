@@ -5,7 +5,7 @@ import PostsSection from './postsSection/PostsSection'
 
 const Shop = () => {
 	return (
-		<div className="mb-30">
+		<div className="my-30">
 			<PostsSection />
 			<CatalogSection />
 			<ScrollVelocity texts={['THRILL', 'THRILL', 'THRILL']} />
