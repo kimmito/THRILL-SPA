@@ -13,3 +13,4 @@ export const getReviewsUrl = (string: string) => `/reviews${string}`
 // shop
 export const getShopItemUrl = (string: string) => `/shop${string}`
 export const getShopCategoryUrl = (string: string) => `/shop-category${string}`
+export const getPostUrl = (string: string) => `/post${string}`
