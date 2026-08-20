@@ -6,11 +6,15 @@ import type { ShopItem } from '@/types/shop/shop-item.type'
 
 export const ShopItemEl = ({ item }: { item: ShopItem }) => {
 	const navigate = useNavigate()
+	const handleClick = () => {
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+		navigate(`/shop/${item.slug}`)
+	}
 	return (
 		<div key={item.id} className='flex flex-col p-4 max-w-[400px] mx-auto'>
 			<div
 				className='cursor-pointer'
-				onClick={() => navigate(`/shop/${item.slug}`)}
+				onClick={handleClick}
 			>
 				<img
 					src={
