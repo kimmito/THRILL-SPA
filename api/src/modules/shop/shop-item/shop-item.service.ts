@@ -65,22 +65,4 @@ export class ShopItemService {
       },
     });
   }
-
-  getBySlug(slug: string) {
-    return this.prisma.client.shopItem.findUnique({
-      where: {
-        slug: slug,
-      },
-      select: {
-        id: true,
-        name: true,
-        slug: true,
-        isActive: true,
-        description: true,
-        imagePath: true,
-        price: true,
-        additionalImagePaths: true,
-      },
-    });
-  }
 }
