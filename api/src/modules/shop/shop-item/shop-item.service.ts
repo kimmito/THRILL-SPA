@@ -16,8 +16,10 @@ export class ShopItemService {
         slug: true,
         isActive: true,
         description: true,
+        shopCategoryId: true,
         imagePath: true,
         price: true,
+        createdAt: true,
       },
     });
   }
@@ -38,6 +40,28 @@ export class ShopItemService {
         description: true,
         imagePath: true,
         price: true,
+        shopCategoryId: true,
+        createdAt: true,
+      },
+    });
+  }
+
+  getBySlug(slug: string) {
+    return this.prisma.client.shopItem.findUnique({
+      where: {
+        slug: slug,
+      },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        isActive: true,
+        description: true,
+        imagePath: true,
+        createdAt: true,
+        shopCategoryId: true,
+        price: true,
+        additionalImagePaths: true,
       },
     });
   }

@@ -7,4 +7,6 @@ export type ShopItem = {
 	imagePath: string
 	price: number
 	additionalImagePaths?: string[]
+	shopCategoryId: number
+	createdAt: string
 }

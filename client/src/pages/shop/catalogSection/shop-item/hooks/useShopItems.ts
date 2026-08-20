@@ -24,10 +24,7 @@ export const useShopItemsByCategoryId = (categoryId: number | null) => {
 export const useShopItemBySlug = (slug: string) => {
 	const { data: shopItem, isLoading: isShopItemLoading } = useQuery({
 		queryKey: ['shopItem', slug],
-		queryFn: async () => {
-			const result = await ShopItemService.getBySlug(slug)
-			return result
-		},
+		queryFn: () => ShopItemService.getBySlug(slug),
 		enabled: !!slug && slug.length > 0
 	})
 
