@@ -7,7 +7,7 @@ import { ShopItemEl } from './shop-item/ShopItemEl'
 import {
 	useShopItems,
 	useShopItemsByCategoryId
-} from './shop-item/useShopItems'
+} from './shop-item/hooks/useShopItems'
 import { useShopCategory } from './useShopCategory'
 
 const CatalogSection = () => {
