@@ -1,11 +1,8 @@
 import { Carousel } from 'antd'
 import type { CarouselRef } from 'antd/es/carousel'
 import { useState } from 'react'
-import {
-	LiaLongArrowAltLeftSolid,
-	LiaLongArrowAltRightSolid
-} from 'react-icons/lia'
 
+import { GoChevronLeft, GoChevronRight  } from "react-icons/go";
 import type { ShopPost } from '@/types/shop/shop-post.type'
 
 import { PostsSlide } from './PostsSlide'
@@ -25,7 +22,7 @@ export const PostsSlider = ({ posts, carouselRef }: IPostsSlider) => {
 
 	const settings = {
 		autoplay: true,
-		autoplaySpeed: 10000,
+		autoplaySpeed: 5000,
 		dots: false,
 		arrows: true,
 		draggable: true,
@@ -62,7 +59,7 @@ export const PostsSlider = ({ posts, carouselRef }: IPostsSlider) => {
 	return (
 		<div>
 			<div className='relative'>
-				<LiaLongArrowAltLeftSolid
+				<GoChevronLeft	
 					className='text-[100px] absolute left-[430px] top-[52px] z-10 cursor-pointer hover:text-accent transition-colors'
 					onClick={() => carouselRef.current?.prev()}
 				/>
@@ -71,7 +68,7 @@ export const PostsSlider = ({ posts, carouselRef }: IPostsSlider) => {
 						<PostsSlide key={post.id} post={post} />
 					))}
 				</Carousel>
-				<LiaLongArrowAltRightSolid
+				<GoChevronRight
 					className='text-[100px] absolute right-[430px] top-[52px] z-10 cursor-pointer hover:text-accent transition-colors'
 					onClick={() => carouselRef.current?.next()}
 				/>
