@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 
+import Cart from '@/pages/cart/Cart'
 import Home from '@/pages/home/Home'
 import Profile from '@/pages/profile/Profile'
 import Shop from '@/pages/shop/Shop'
@@ -27,5 +28,7 @@ export const appRoutes: IRoute[] = [
 		title: 'Магазин',
 		component: Shop
 	},
-	{ path: '/shop/:slug', title: 'Товар', component: ShopItemPage }
+	{ path: '/shop/:slug', title: 'Товар', component: ShopItemPage },
+
+	{ path: '/cart', title: 'Корзина', component: Cart }
 ]

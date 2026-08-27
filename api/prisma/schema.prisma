@@ -128,4 +128,34 @@ model ShopItem {
   additionalImagePaths String[]
   shopCategoryId Int
   shopCategory ShopCategory @relation(fields: [shopCategoryId], references: [id])
+  cartItems CartItem[]
+}
+
+model User {
+  @@map("users")
+  id String @id @default(cuid())
+  email String? @unique
+  password String
+  name String?
+  phoneNumber String?
+  createdAt DateTime @default(now())
+  cartItems CartItem[]
+}
+model CartItem {
+  @@map("cart_items")
+  id String @id @default(cuid())
+  userId String?
+  sessionId String?
+  shopItemId Int
+  variantId Int?
+  quantity Int @default(1)
+
+  shopItem ShopItem @relation(fields: [shopItemId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
+
+  @@unique([userId, shopItemId, variantId])
+  @@unique([sessionId, shopItemId, variantId])
+
+  @@index([userId])
+  @@index([sessionId])
 }
