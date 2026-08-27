@@ -46,7 +46,7 @@ export const ServicesPriceTable = ({
 				>
 					Онлайн-запись
 				</AppButton>
-				<AppButton className='flex-1' appVariant='outline'>
+				<AppButton className='flex-1' appVariant='outline' onClick={() => window.location.hash = '#portfolio'}>
 					Портфолио
 				</AppButton>
 			</div>

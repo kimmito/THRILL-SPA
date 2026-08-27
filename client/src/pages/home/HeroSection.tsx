@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import heroImage from '@/assets/images/hero.jpg'
+
 import { useCategory } from './servicesSection/hooks/useCategory'
 
 export type HeroSectionProps = {
@@ -19,6 +20,10 @@ export const HeroSection = () => {
 	]
 	const navigate = useNavigate()
 	const { categories } = useCategory()
+	const handleShopClick = () => {
+		navigate('/shop')
+		window.scrollTo({ top: 0, behavior: 'smooth' })
+	}
 	return (
 		<section
 			className='relative flex h-[92vh] max-w-375 mx-auto px-4 mt-10 items-center justify-between gap-20'
@@ -63,7 +68,7 @@ export const HeroSection = () => {
 					<AppButton
 						appVariant='primary'
 						className='w-75 py-6 text-2xl!'
-						onClick={() => navigate('/shop')}
+						onClick={handleShopClick}
 					>
 						Магазин
 					</AppButton>
