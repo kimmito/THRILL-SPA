@@ -17,7 +17,7 @@ export const ShopItemPage = () => {
 			<div className='w-[1100px] mx-auto mt-40'>
 				<AppButton
 					appVariant='link'
-					className='uppercase underline text-[#605792]! text-2xl! mb-10'
+					className='uppercase underline text-[#605792]! text-2xl! mb-10 hover:text-accent!'
 					onClick={() => navigate('/shop')}
 				>
 					Вернуться
