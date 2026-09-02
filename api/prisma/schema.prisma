@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -13,47 +8,191 @@ datasource db {
 }
 
 model Category {
-  @@map("categories")
-  id Int @id @default(autoincrement())
-  slug String @unique
-  name String
-  sortOrder Int @default(0)
+  id         Int      @id @default(autoincrement())
+  slug       String   @unique
+  name       String
+  sortOrder  Int      @default(0) @map("sort_order")
 
-  services Service[]
+  services   Service[]
+
+  @@map("categories")
 }
 
 model Service {
+  id         Int      @id @default(autoincrement())
+  sortOrder  Int      @default(0) @map("sort_order")
+  slug       String   @unique
+  name       String
+  price      String
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  categoryId Int      @map("category_id")
+  
+  category   Category @relation(fields: [categoryId], references: [id])
+
   @@map("services")
-  id Int @id @default(autoincrement())
-  sortOrder Int @default(0)
-  slug String @unique
-  name String
-  price String
-  isActive Boolean @default(true)
-  createdAt DateTime @default(now())
-  categoryId Int
-  category Category @relation(fields: [categoryId], references: [id])
 }
 
 model Review {
+  id         Int      @id @default(autoincrement())
+  imagePath  String?  @map("image_path")
+  date       DateTime
+  stars      Int
+  author     String
+  text       String
+  sortOrder  Int      @default(0) @map("sort_order")
+
   @@map("reviews")
-  id Int @id @default(autoincrement())
-  imagePath String?
-  date DateTime
-  stars Int
-  author String
-  text String
-  sortOrder Int @default(0)
 }
 
 model Staff {
+  id         Int      @id @default(autoincrement())
+  name       String
+  role       String
+  photoPath  String   @map("photo_path")
+  isActive   Boolean  @default(true) @map("is_active")
+  sortOrder  Int      @default(0) @map("sort_order")
+
   @@map("staff")
-  id Int @id @default(autoincrement())
-  name String
-  role String
-  photoPath String
-  isActive Boolean @default(true)
-  sortOrder Int @default(0)
+}
+
+model Portfolio {
+  id         Int      @id @default(autoincrement())
+  section    Section
+  imagePath  String   @map("image_path")
+  sortOrder  Int      @default(0) @map("sort_order")
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("portfolio")
+}
+
+model Offer {
+  id           Int      @id @default(autoincrement())
+  title        String
+  slug         String   @unique
+  description1 String?  @map("description_1")
+  description2 String?  @map("description_2")
+  
+  offerItems   OfferItem[]
+
+  @@map("offers")
+}
+
+model OfferItem {
+  id         Int      @id @default(autoincrement())
+  offerId    Int      @map("offer_id")
+  title      String
+  value      String
+  isActive   Boolean  @default(true) @map("is_active")
+  createdAt  DateTime @default(now()) @map("created_at")
+  sortOrder  Int      @default(0) @map("sort_order")
+  
+  offer      Offer    @relation(fields: [offerId], references: [id])
+
+  @@map("offer_items")
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  description String?
+  imagePath   String?  @map("image_path")
+  isActive    Boolean  @default(true) @map("is_active")
+
+  @@map("posts")
+}
+
+model ShopCategory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  slug       String   @unique
+  sortOrder  Int      @default(0) @map("sort_order")
+  isActive   Boolean  @default(true) @map("is_active")
+
+  shopItems  ShopItem[]
+
+  @@map("shop_categories")
+}
+
+model ShopItem {
+  id                  Int      @id @default(autoincrement())
+  name                String
+  slug                String   @unique
+  description         String?
+  price               Float
+  imagePath           String?  @map("image_path")
+  isActive            Boolean  @default(true) @map("is_active")
+  sortOrder           Int      @default(0) @map("sort_order")
+  createdAt           DateTime @default(now()) @map("created_at")
+  additionalImagePaths String[] @map("additional_image_paths")
+  shopCategoryId      Int      @map("shop_category_id")
+  
+  shopCategory        ShopCategory @relation(fields: [shopCategoryId], references: [id])
+  cartItems           CartItem[]
+
+  @@map("shop_items")
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique
+  password    String
+  role        UserRole @default(REGULAR)
+  displayName String   @map("display_name")
+  isVerified  Boolean  @default(false) @map("is_verified")
+  picture     String?
+  phoneNumber String?  @map("phone_number")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  method      AuthMethod
+  
+  cartItems   CartItem[]
+  accounts    Account[]
+
+  @@map("users")
+}
+
+model Account {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  refreshToken String?  @map("refresh_token")
+  accessToken  String?  @map("access_token")
+  expiresAt    Int?     @map("expires_at")
+  userId       String?  @map("user_id")
+  
+  User         User?    @relation(fields: [userId], references: [id])
+
+  @@map("accounts")
+}
+
+model Token {
+  id       String    @id @default(uuid())
+  email String
+  token    String @unique
+  type     EnumToken
+  expiresIn DateTime @map("expires_in")
+  @@map("tokens")
+}
+
+model CartItem {
+  id          String   @id @default(cuid())
+  userId      String?  @map("user_id")
+  sessionId   String?  @map("session_id")
+  shopItemId  Int      @map("shop_item_id")
+  variantId   Int?     @map("variant_id")
+  quantity    Int      @default(1)
+  
+  shopItem    ShopItem @relation(fields: [shopItemId], references: [id])
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, shopItemId, variantId])
+  @@unique([sessionId, shopItemId, variantId])
+  @@index([userId])
+  @@index([sessionId])
+  @@map("cart_items")
 }
 
 enum Section {
@@ -61,101 +200,19 @@ enum Section {
   BROWS
   LASHES
 }
-model Portfolio {
-  @@map("portfolio")
-  id Int @id @default(autoincrement())
-  section Section
-  imagePath String
-  sortOrder Int @default(0)
-  isActive Boolean @default(true)
-  createdAt DateTime @default(now())
+
+enum UserRole {
+  REGULAR
+  ADMIN
 }
 
-model Offer {
-  @@map("offers")
-  id Int @id @default(autoincrement())
-  title String
-  slug String @unique
-  description1 String?
-  description2 String?
-  offerItems OfferItem[]
+enum AuthMethod {
+  CREDENTIALS
+  GOOGLE
+  YANDEX
 }
 
-model OfferItem {
-  @@map("offer_items")
-  id Int @id @default(autoincrement())
-  offerId Int
-  title String
-  value String
-  isActive Boolean @default(true)
-  createdAt DateTime @default(now())
-  sortOrder Int @default(0)
-  offer Offer @relation(fields: [offerId], references: [id])
-}
-
-model Post {
-  @@map("posts")
-  id Int @id @default(autoincrement())
-  title String
-  slug String @unique
-  description String?
-  imagePath String?
-  isActive Boolean @default(true)
-}
-
-model ShopCategory {
-  @@map("shop_categories")
-  id Int @id @default(autoincrement())
-  name String
-  slug String @unique
-  sortOrder Int @default(0)
-  isActive Boolean @default(true)
-
-  shopItems ShopItem[]
-}
-
-model ShopItem {
-  @@map("shop_items")
-  id Int @id @default(autoincrement())
-  name String
-  slug String @unique
-  description String?
-  price Float
-  imagePath String?
-  isActive Boolean @default(true)
-  sortOrder Int @default(0)
-  createdAt DateTime @default(now())
-  additionalImagePaths String[]
-  shopCategoryId Int
-  shopCategory ShopCategory @relation(fields: [shopCategoryId], references: [id])
-  cartItems CartItem[]
-}
-
-model User {
-  @@map("users")
-  id String @id @default(cuid())
-  email String? @unique
-  password String
-  name String?
-  phoneNumber String?
-  createdAt DateTime @default(now())
-  cartItems CartItem[]
-}
-model CartItem {
-  @@map("cart_items")
-  id String @id @default(cuid())
-  userId String?
-  sessionId String?
-  shopItemId Int
-  variantId Int?
-  quantity Int @default(1)
-
-  shopItem ShopItem @relation(fields: [shopItemId], references: [id])
-  user User? @relation(fields: [userId], references: [id])
-
-  @@unique([userId, shopItemId, variantId])
-  @@unique([sessionId, shopItemId, variantId])
-
-  @@index([userId])
-  @@index([sessionId])
+enum EnumToken {
+  VERIFICATION 
+  PASSWORD_RESET
 }

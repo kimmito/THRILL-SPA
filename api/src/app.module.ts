@@ -7,9 +7,20 @@ import { StaffModule } from './modules/staff/staff.module';
 import { PortfolioModule } from './modules/portfolio/portfolio.module';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { ShopModule } from './modules/shop/shop.module';
+import { IS_DEV_ENV } from './libs/common/utils/is-dev.util';
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { ProviderModule } from './modules/auth/provider/provider.module';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      ignoreEnvFile: !IS_DEV_ENV,
+    }),
     PrismaModule,
+    AuthModule,
+    UserModule,
     OfferModule,
     CategoryModule,
     ServiceModule,
@@ -17,6 +28,7 @@ import { ShopModule } from './modules/shop/shop.module';
     PortfolioModule,
     ReviewsModule,
     ShopModule,
+    ProviderModule,
   ],
   controllers: [],
   providers: [],
