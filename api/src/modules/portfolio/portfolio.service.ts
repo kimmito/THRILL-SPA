@@ -5,8 +5,8 @@ import { PrismaService } from '@src/prisma/prisma.service';
 export class PortfolioService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAll() {
-    return this.prisma.client.portfolio.findMany({
+  async getAll() {
+    return await this.prisma.client.portfolio.findMany({
       orderBy: {
         sortOrder: 'asc',
       },
@@ -21,8 +21,8 @@ export class PortfolioService {
     });
   }
 
-  getBySection(section: 'NAILS' | 'BROWS' | 'LASHES') {
-    return this.prisma.client.portfolio.findMany({
+  async getBySection(section: 'NAILS' | 'BROWS' | 'LASHES') {
+    return await this.prisma.client.portfolio.findMany({
       where: {
         section: section,
       },

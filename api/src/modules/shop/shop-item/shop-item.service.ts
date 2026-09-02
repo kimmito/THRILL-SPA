@@ -5,8 +5,8 @@ import { PrismaService } from '../../../prisma/prisma.service';
 export class ShopItemService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAll() {
-    return this.prisma.client.shopItem.findMany({
+  async getAll() {
+    return await this.prisma.client.shopItem.findMany({
       orderBy: {
         sortOrder: 'asc',
       },
@@ -24,8 +24,8 @@ export class ShopItemService {
     });
   }
 
-  getByCategoryId(categoryId: number) {
-    return this.prisma.client.shopItem.findMany({
+  async getByCategoryId(categoryId: number) {
+    return await this.prisma.client.shopItem.findMany({
       where: {
         shopCategoryId: categoryId,
       },

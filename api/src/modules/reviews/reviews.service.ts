@@ -5,8 +5,8 @@ import { PrismaService } from '@src/prisma/prisma.service';
 export class ReviewsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAll() {
-    return this.prisma.client.review.findMany({
+  async getAll() {
+    return await this.prisma.client.review.findMany({
       orderBy: { sortOrder: 'asc' },
       select: {
         id: true,

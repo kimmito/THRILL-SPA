@@ -5,8 +5,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAll() {
-    return this.prisma.client.category.findMany({
+  async getAll() {
+    return await this.prisma.client.category.findMany({
       orderBy: {
         sortOrder: 'asc',
       },

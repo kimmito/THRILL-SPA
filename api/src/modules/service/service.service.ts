@@ -5,8 +5,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ServiceService {
   constructor(private readonly prisma: PrismaService) {}
 
-  getAll() {
-    return this.prisma.client.service.findMany({
+  async getAll() {
+    return await this.prisma.client.service.findMany({
       orderBy: {
         sortOrder: 'asc',
       },
@@ -22,8 +22,8 @@ export class ServiceService {
     });
   }
 
-  getByCategoryId(categoryId: number) {
-    return this.prisma.client.service.findMany({
+  async getByCategoryId(categoryId: number) {
+    return await this.prisma.client.service.findMany({
       orderBy: {
         sortOrder: 'asc',
       },
@@ -42,8 +42,8 @@ export class ServiceService {
     });
   }
 
-  getBySlug(slug: string) {
-    return this.prisma.client.service.findFirst({
+  async getBySlug(slug: string) {
+    return await this.prisma.client.service.findFirst({
       where: {
         name: slug,
       },
