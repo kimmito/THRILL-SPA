@@ -9,9 +9,9 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
   readonly client: PrismaClient;
 
   constructor() {
-    const connectionString = process.env.DATABASE_URL;
+    const connectionString = process.env.DB_URI;
     if (!connectionString) {
-      throw new Error('DATABASE_URL is not set');
+      throw new Error('DB_URI is not set');
     }
 
     this.pool = new Pool({ connectionString });
