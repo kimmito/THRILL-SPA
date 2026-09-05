@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { createClient } from 'redis';
 import session from 'express-session';
 import { RedisStore } from 'connect-redis';
@@ -51,7 +51,9 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['set-cookie'],
   });
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: 'auth/oauth/callback/:provider', method: RequestMethod.GET }],
+  });
 
   await app.listen(config.getOrThrow<number>('APPLICATION_PORT'));
 }
