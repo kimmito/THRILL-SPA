@@ -48,7 +48,7 @@ export class BaseOAuthService {
     return `${this.options.authorize_url}?${query.toString()}`;
   }
 
-  public async findUserByCode({ code }: { code: string }): Promise<TypeUserInfo> {
+  public async findUserByCode(code: string): Promise<TypeUserInfo> {
     const client_id = this.options.client_id;
     const client_secret = this.options.client_secret;
 
