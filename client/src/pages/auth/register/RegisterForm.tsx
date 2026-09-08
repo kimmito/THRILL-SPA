@@ -1,22 +1,25 @@
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Alert, Form, Input } from 'antd'
+import { useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+
+import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import { AuthWrapper } from '../AuthWrapper'
 import {
 	RegisterSchema,
 	type TypeRegisterSchema
 } from '../schemes/register.schema'
-import { AppButton } from '@/components/ui/appButton/AppButton'
 
-
+const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
 export const RegisterForm = () => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting },
-		setError
+		formState: { errors, isSubmitting }
 	} = useForm<TypeRegisterSchema>({
 		resolver: zodResolver(RegisterSchema),
 		defaultValues: {
@@ -26,17 +29,13 @@ export const RegisterForm = () => {
 			passwordRepeat: ''
 		}
 	})
+	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 
 	const onSubmit = async (values: TypeRegisterSchema) => {
-		try {
+		if (recaptchaValue) {
 			console.log(values)
-			// await authService.register(values)
-
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		} catch (error) {
-			setError('root', {
-				message: 'Ошибка регистрации. Попробуйте позже.'
-			})
+		} else {
+			toast('Пожалуйста, завершите проверку reCAPTCHA', { icon: '⚠️', style: {fontFamily: "'Arsenal SC', sans-serif"} })
 		}
 	}
 
@@ -88,7 +87,7 @@ export const RegisterForm = () => {
 								placeholder='Введите ваше имя'
 								size='large'
 								status={errors.name ? 'error' : ''}
-								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
+								className=' bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
 							/>
 						</Form.Item>
 					)}
@@ -131,9 +130,7 @@ export const RegisterForm = () => {
 							help={errors.password?.message}
 							required
 							style={{ marginBottom: 0 }}
-							extra={
-								'Минимум 6 символов'
-							}
+							extra={'Минимум 6 символов'}
 						>
 							<Input.Password
 								{...field}
@@ -159,7 +156,7 @@ export const RegisterForm = () => {
 							validateStatus={errors.passwordRepeat ? 'error' : ''}
 							help={errors.passwordRepeat?.message}
 							required
-							style={{ marginBottom: 34 }}
+							style={{ marginBottom: 16 }}
 						>
 							<Input.Password
 								{...field}
@@ -175,8 +172,14 @@ export const RegisterForm = () => {
 						</Form.Item>
 					)}
 				/>
-
-				<Form.Item style={{ marginBottom: 34 }}>
+				<div className='flex justify-center mb-4'>
+					<ReCAPTCHA
+						theme='dark'
+						sitekey={recaptchaSiteKey}
+						onChange={setRecaptchaValue}
+					/>
+				</div>
+				<Form.Item style={{ marginBottom: 16 }}>
 					<AppButton
 						appVariant='primary'
 						htmlType='submit'
@@ -187,7 +190,7 @@ export const RegisterForm = () => {
 						style={{
 							height: 48,
 							fontSize: 16,
-							fontWeight: 500,
+							fontWeight: 500
 						}}
 					>
 						{isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}

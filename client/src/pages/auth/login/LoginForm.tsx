@@ -1,7 +1,10 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Alert, Form, Input } from 'antd'
+import { useState } from 'react'
+import ReCAPTCHA from 'react-google-recaptcha'
 import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
@@ -12,8 +15,7 @@ export const LoginForm = () => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors, isSubmitting },
-		setError
+		formState: { errors, isSubmitting }
 	} = useForm<TypeLoginSchema>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
@@ -22,17 +24,17 @@ export const LoginForm = () => {
 		}
 	})
 	const onSubmit = (values: TypeLoginSchema) => {
-		try {
+		if (recaptchaValue) {
 			console.log(values)
-			// await authService.register(values)
-
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		} catch (error) {
-			setError('root', {
-				message: 'Ошибка авторизации. Попробуйте позже.'
+		} else {
+			toast('Пожалуйста, завершите проверку reCAPTCHA', {
+				icon: '⚠️',
+				style: { fontFamily: "'Arsenal SC', sans-serif" }
 			})
 		}
 	}
+	const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
+	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
 	return (
 		<AuthWrapper
 			heading='Войти'
@@ -115,8 +117,14 @@ export const LoginForm = () => {
 						</Form.Item>
 					)}
 				/>
-
-				<Form.Item style={{ marginBottom: 34 }}>
+				<div className='flex justify-center mb-4'>
+					<ReCAPTCHA
+						theme='dark'
+						sitekey={recaptchaSiteKey}
+						onChange={setRecaptchaValue}
+					/>
+				</div>
+				<Form.Item style={{ marginBottom: 20 }}>
 					<AppButton
 						appVariant='primary'
 						htmlType='submit'
