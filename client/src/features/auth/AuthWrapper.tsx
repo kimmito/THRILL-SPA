@@ -27,18 +27,20 @@ export const AuthWrapper = ({
 				<p className='mb-5'>{description}</p>
 				{isShowSocial && <AuthSocial />}
 				<div className='relative my-5'>
-				
-          <div className="absolute inset-0 flex items-center">
-            <span className='w-full border-t'></span>
-          </div>
-          <div className='relative flex justify-center text-md inset-0 uppercase'>
-            <span className='bg-panel px-2'>или</span>
-          </div>
+					<div className='absolute inset-0 flex items-center'>
+						<span className='w-full border-t'></span>
+					</div>
+					<div className='relative flex justify-center text-md inset-0 uppercase'>
+						<span className='bg-panel px-2'>или</span>
+					</div>
 				</div>
 
 				{children}
 				{backButtonLabel && backButtonHref && (
-					<a className='hover:text-accent text-center block' href={backButtonHref}>
+					<a
+						className='hover:text-accent text-center block'
+						href={backButtonHref}
+					>
 						{backButtonLabel}
 					</a>
 				)}

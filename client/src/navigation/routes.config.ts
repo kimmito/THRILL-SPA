@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react'
 
+import { Register } from '@/pages/auth/Register'
 import { Login } from '@/pages/auth/login/Login'
-import { Register } from '@/pages/auth/register/Register'
 import Cart from '@/pages/cart/Cart'
 import Home from '@/pages/home/Home'
 import Profile from '@/pages/profile/Profile'

@@ -9,7 +9,8 @@ import toast from 'react-hot-toast'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import { AuthWrapper } from '../AuthWrapper'
-import { LoginSchema, type TypeLoginSchema } from '../schemes/login.schema'
+
+import { LoginSchema, type TypeLoginSchema } from './login.schema'
 
 export const LoginForm = () => {
 	const {

@@ -9,10 +9,8 @@ import toast from 'react-hot-toast'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import { AuthWrapper } from '../AuthWrapper'
-import {
-	RegisterSchema,
-	type TypeRegisterSchema
-} from '../schemes/register.schema'
+
+import { RegisterSchema, type TypeRegisterSchema } from './register.schema'
 
 const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
 export const RegisterForm = () => {
@@ -35,7 +33,10 @@ export const RegisterForm = () => {
 		if (recaptchaValue) {
 			console.log(values)
 		} else {
-			toast('Пожалуйста, завершите проверку reCAPTCHA', { icon: '⚠️', style: {fontFamily: "'Arsenal SC', sans-serif"} })
+			toast('Пожалуйста, завершите проверку reCAPTCHA', {
+				icon: '⚠️',
+				style: { fontFamily: "'Arsenal SC', sans-serif" }
+			})
 		}
 	}
 
