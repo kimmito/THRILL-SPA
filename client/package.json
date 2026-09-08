@@ -16,11 +16,11 @@
     ]
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^5.9.1",
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-query": "^5.101.2",
-    "antd": "^6.3.5",
+    "antd": "^6.6.3",
     "axios": "^1.18.1",
     "clsx": "^2.1.1",
     "keen-slider": "^6.8.6",
@@ -28,13 +28,14 @@
     "ogl": "^1.0.11",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "react-hook-form": "^7.75.0",
+    "react-google-recaptcha": "^3.1.0",
+    "react-hook-form": "^7.87.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.6.0",
     "react-loader-spinner": "^8.0.2",
     "react-redux": "^9.2.0",
     "react-router": "^7.14.1",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -45,6 +46,7 @@
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/react-google-recaptcha": "^2.1.9",
     "@vitejs/plugin-react": "^6.0.1",
     "autoprefixer": "^10.5.0",
     "babel-plugin-react-compiler": "^1.0.0",

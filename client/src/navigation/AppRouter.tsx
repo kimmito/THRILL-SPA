@@ -6,10 +6,13 @@ import { appRoutes } from './routes.config'
 import NotFound from '@/pages/not-found/NotFound'
 
 export const AppRouter = () => {
+	const layoutRoutes = appRoutes.filter(route => route.layout !== false)
+	const standaloneRoutes = appRoutes.filter(route => route.layout === false)
+
 	return (
 		<Routes>
 			<Route element={<Layout />}>
-				{appRoutes.map(({ path, component: Component }) =>
+				{layoutRoutes.map(({ path, component: Component }) =>
 					path === '/' ? (
 						<Route key={path} index element={<Component />} />
 					) : (
@@ -17,6 +20,9 @@ export const AppRouter = () => {
 					)
 				)}
 			</Route>
+			{standaloneRoutes.map(({ path, component: Component }) => (
+				<Route key={path} path={path.replace(/^\//, '')} element={<Component />} />
+			))}
 			<Route path='not-found' element={<NotFound />} />
 			<Route path='*' element={<NotFound />} />
 		</Routes>
