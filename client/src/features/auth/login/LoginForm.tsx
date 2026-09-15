@@ -1,41 +1,40 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Alert, Form, Input } from 'antd'
+import { Form, Input } from 'antd'
 import { useState } from 'react'
 import ReCAPTCHA from 'react-google-recaptcha'
-import { Controller, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import { AuthWrapper } from '../AuthWrapper'
 
-import { LoginSchema, type TypeLoginSchema } from './login.schema'
+import { useLoginMutation } from './useLoginMutation'
+
+type TypeLoginForm = {
+	email: string
+	password: string
+}
 
 export const LoginForm = () => {
-	const {
-		control,
-		handleSubmit,
-		formState: { errors, isSubmitting }
-	} = useForm<TypeLoginSchema>({
-		resolver: zodResolver(LoginSchema),
-		defaultValues: {
-			email: '',
-			password: ''
-		}
-	})
-	const onSubmit = (values: TypeLoginSchema) => {
-		if (recaptchaValue) {
-			console.log(values)
-		} else {
+	const [form] = Form.useForm<TypeLoginForm>()
+	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
+
+	const { login, isLoadingLogin } = useLoginMutation()
+
+	const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
+
+	const onFinish = (values: TypeLoginForm) => {
+		if (!recaptchaValue) {
 			toast('Пожалуйста, завершите проверку reCAPTCHA', {
 				icon: '⚠️',
 				style: { fontFamily: "'Arsenal SC', sans-serif" }
 			})
+			return
 		}
+
+		login({ data: values, recaptcha: recaptchaValue })
 	}
-	const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
-	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
+
 	return (
 		<AuthWrapper
 			heading='Войти'
@@ -45,79 +44,58 @@ export const LoginForm = () => {
 			isShowSocial={true}
 		>
 			<Form
-				onFinish={handleSubmit(onSubmit)}
+				form={form}
+				onFinish={onFinish}
 				layout='vertical'
 				size='large'
 				style={{ width: '100%', marginTop: -10 }}
 				validateTrigger='onBlur'
 				variant='outlined'
 				requiredMark={false}
+				disabled={isLoadingLogin}
 			>
-				{errors.root && (
-					<Form.Item>
-						<Alert
-							title={errors.root.message}
-							type='error'
-							showIcon
-							closable
-							style={{ marginBottom: 16 }}
-						/>
-					</Form.Item>
-				)}
-
-				<Controller
+				<Form.Item
 					name='email'
-					control={control}
-					render={({ field }) => (
-						<Form.Item
-							label={'Email'}
-							validateStatus={errors.email ? 'error' : ''}
-							help={errors.email?.message}
-							required
-							style={{ marginBottom: 4 }}
-						>
-							<Input
-								{...field}
-								prefix={
-									<MailOutlined style={{ color: '#bfbfbf', marginRight: 8 }} />
-								}
-								placeholder='example@gmail.com'
-								type='email'
-								autoComplete='email'
-								size='large'
-								status={errors.email ? 'error' : ''}
-								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
-							/>
-						</Form.Item>
-					)}
-				/>
+					label='Email'
+					rules={[
+						{ required: true, message: 'Введите email' },
+						{ type: 'email', message: 'Введите корректный email' }
+					]}
+					style={{ marginBottom: 16 }}
+				>
+					<Input
+						prefix={
+							<MailOutlined style={{ color: '#bfbfbf', marginRight: 8 }} />
+						}
+						placeholder='example@gmail.com'
+						type='email'
+						autoComplete='email'
+						size='large'
+						className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
+					/>
+				</Form.Item>
 
-				<Controller
+				<Form.Item
 					name='password'
-					control={control}
-					render={({ field }) => (
-						<Form.Item
-							label={'Пароль'}
-							validateStatus={errors.password ? 'error' : ''}
-							help={errors.password?.message}
-							required
-							style={{ marginBottom: 34 }}
-							extra={'Минимум 6 символов'}
-						>
-							<Input.Password
-								{...field}
-								prefix={
-									<LockOutlined style={{ color: '#bfbfbf', marginRight: 8 }} />
-								}
-								placeholder='Введите пароль'
-								autoComplete='new-password'
-								size='large'
-								status={errors.password ? 'error' : ''}
-								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
-							/>
-						</Form.Item>
-					)}
-				/>
+					label='Пароль'
+					rules={[
+						{ required: true, message: 'Введите пароль' },
+						{ min: 6, message: 'Минимум 6 символов' }
+					]}
+					extra='Минимум 6 символов'
+					style={{ marginBottom: 34 }}
+				>
+					<Input.Password
+						prefix={
+							<LockOutlined style={{ color: '#bfbfbf', marginRight: 8 }} />
+						}
+						placeholder='Введите пароль'
+						autoComplete='new-password'
+						size='large'
+						className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
+					/>
+				</Form.Item>
+
 				<div className='flex justify-center mb-4'>
 					<ReCAPTCHA
 						theme='dark'
@@ -125,13 +103,13 @@ export const LoginForm = () => {
 						onChange={setRecaptchaValue}
 					/>
 				</div>
+
 				<Form.Item style={{ marginBottom: 20 }}>
 					<AppButton
 						appVariant='primary'
 						htmlType='submit'
 						block
 						size='large'
-						loading={isSubmitting}
 						className='text-copy! text-[18px]! hover:bg-button-hover! hover:text-accent!'
 						style={{
 							height: 48,
@@ -139,7 +117,7 @@ export const LoginForm = () => {
 							fontWeight: 500
 						}}
 					>
-						{isSubmitting ? 'Вход...' : 'Войти'}
+						{isLoadingLogin ? 'Вход...' : 'Войти'}
 					</AppButton>
 				</Form.Item>
 			</Form>

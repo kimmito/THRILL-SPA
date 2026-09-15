@@ -11,6 +11,7 @@ import { AppButton } from '@/components/ui/appButton/AppButton'
 import { AuthWrapper } from '../AuthWrapper'
 
 import { RegisterSchema, type TypeRegisterSchema } from './register.schema'
+import { useRegisterMutation } from './useRegisterMutation'
 
 const recaptchaSiteKey = import.meta.env.VITE_GOOGLE_RECAPTCHA_SITE_KEY
 export const RegisterForm = () => {
@@ -28,10 +29,10 @@ export const RegisterForm = () => {
 		}
 	})
 	const [recaptchaValue, setRecaptchaValue] = useState<string | null>(null)
-
+	const { register, isLoadingRegister } = useRegisterMutation()
 	const onSubmit = async (values: TypeRegisterSchema) => {
 		if (recaptchaValue) {
-			console.log(values)
+			register({ data: values, recaptcha: recaptchaValue })
 		} else {
 			toast('Пожалуйста, завершите проверку reCAPTCHA', {
 				icon: '⚠️',
@@ -88,6 +89,7 @@ export const RegisterForm = () => {
 								placeholder='Введите ваше имя'
 								size='large'
 								status={errors.name ? 'error' : ''}
+								disabled={isLoadingRegister}
 								className=' bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
 							/>
 						</Form.Item>
@@ -114,6 +116,7 @@ export const RegisterForm = () => {
 								type='email'
 								autoComplete='email'
 								size='large'
+								disabled={isLoadingRegister}
 								status={errors.email ? 'error' : ''}
 								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
 							/>
@@ -142,6 +145,7 @@ export const RegisterForm = () => {
 								autoComplete='new-password'
 								size='large'
 								status={errors.password ? 'error' : ''}
+								disabled={isLoadingRegister}
 								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
 							/>
 						</Form.Item>
@@ -168,6 +172,7 @@ export const RegisterForm = () => {
 								autoComplete='new-password'
 								size='large'
 								status={errors.passwordRepeat ? 'error' : ''}
+								disabled={isLoadingRegister}
 								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30'
 							/>
 						</Form.Item>
@@ -186,6 +191,7 @@ export const RegisterForm = () => {
 						htmlType='submit'
 						block
 						size='large'
+						disabled={isLoadingRegister}
 						loading={isSubmitting}
 						className='text-copy! text-[18px]! hover:bg-button-hover! hover:text-accent!'
 						style={{
