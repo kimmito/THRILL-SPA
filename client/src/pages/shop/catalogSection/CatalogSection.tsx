@@ -11,7 +11,7 @@ import {
 import { useShopCategory } from './useShopCategory'
 
 const CatalogSection = () => {
-	const { shopCategories, isCategoriesLoading } = useShopCategory()
+	const { shopCategories } = useShopCategory()
 
 	const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null)
 
@@ -33,9 +33,6 @@ const CatalogSection = () => {
 				<h2 className='text-head block font-bold text-7xl uppercase'>
 					Магазин
 				</h2>
-				{isCategoriesLoading && (
-					<p className='text-xl ml-8'>Загрузка категорий...</p>
-				)}
 				<nav>
 					<ul className='flex flex-row gap-10 ml-8'>
 						<li className='cursor-pointer'>
