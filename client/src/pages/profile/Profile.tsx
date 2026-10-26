@@ -8,10 +8,12 @@ import { useProfile } from '@/hooks/useProfile'
 
 import { EditBadge } from './EditBadge'
 import { SettingsForm } from '@/features/user/SettingsForm'
+import { useLogoutMutation } from '@/features/user/hooks/useLogoutMutation'
 
 const Profile = () => {
 	const { user, isLoading } = useProfile()
 	const [isEditing, setIsEditing] = useState<boolean>(false)
+	const { logout, isLoadingLogout } = useLogoutMutation()
 
 	if (!user) {
 		toast.error('Пользователь не найден')
@@ -38,9 +40,18 @@ const Profile = () => {
 						</div>
 					)}
 
-					<h1 className='text-2xl font-bold m-0 leading-none flex-1'>
+					<p className='text-2xl font-bold m-0 leading-none flex-1'>
 						{isEditing ? 'Редактирование профиля' : 'Профиль'}
-					</h1>
+					</p>
+					<button
+						type='button'
+						className='text-sm! text-button hover:text-button/80'
+						onClick={() => {
+							logout()
+						}}
+					>
+						{isLoadingLogout ? 'Выход...' : 'Выйти из профиля'}
+					</button>
 
 					<AppButton
 						appVariant='outline'
