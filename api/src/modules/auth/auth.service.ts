@@ -25,6 +25,14 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly providerService: ProviderService
   ) {}
+
+  public me(req: Request) {
+    if (!req.user) {
+      throw new UnauthorizedException('Пользователь не авторизован');
+    }
+    return this.userService.toPublicUser(req.user);
+  }
+
   public async register(req: Request, dto: RegisterDto) {
     const isExists = await this.userService.getByEmail(dto.email);
     if (isExists) {
@@ -67,21 +75,36 @@ export class AuthService {
     if (!profile) {
       throw new UnauthorizedException('Не удалось получить профиль пользователя');
     }
-    const account = await this.prismaService.client.account.findFirst({
-      where: {
-        id: profile.id,
-        provider: profile.provider,
-      },
-    });
 
     let user: User | null = null;
 
-    if (account?.userId) {
-      user = await this.userService.getById(account.userId);
+    if (profile.email) {
+      user = await this.userService.getByEmail(profile.email);
     }
+
     if (user) {
+      const account = await this.prismaService.client.account.findFirst({
+        where: {
+          userId: user.id,
+          provider: profile.provider,
+        },
+      });
+
+      if (!account) {
+        await this.prismaService.client.account.create({
+          data: {
+            userId: user.id,
+            provider: profile.provider,
+            accessToken: profile.access_token,
+            refreshToken: profile.refresh_token,
+            expiresAt: profile.expires_at,
+          },
+        });
+      }
+
       return this.saveSession(req, user);
     }
+
     user = await this.userService.create(
       profile.email,
       '',
@@ -91,17 +114,16 @@ export class AuthService {
       true
     );
 
-    if (!account) {
-      await this.prismaService.client.account.create({
-        data: {
-          userId: user.id,
-          provider: profile.provider,
-          accessToken: profile.access_token,
-          refreshToken: profile.refresh_token,
-          expiresAt: profile.expires_at,
-        },
-      });
-    }
+    await this.prismaService.client.account.create({
+      data: {
+        userId: user.id,
+        provider: profile.provider,
+        accessToken: profile.access_token,
+        refreshToken: profile.refresh_token,
+        expiresAt: profile.expires_at,
+      },
+    });
+
     return this.saveSession(req, user);
   }
 
@@ -127,7 +149,7 @@ export class AuthService {
         }
 
         resolve({
-          user,
+          user: this.userService.toPublicUser(user),
         });
       });
     });

@@ -21,6 +21,7 @@ import { Recaptcha } from '@nestlab/google-recaptcha';
 import { AuthProviderGuard } from './guards/auth-provider.guard';
 import { ProviderService } from './provider/provider.service';
 import { ConfigService } from '@nestjs/config';
+import { Authorization } from './decorators/auth.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -29,6 +30,13 @@ export class AuthController {
     private readonly providerService: ProviderService,
     private readonly configService: ConfigService
   ) {}
+
+  @Authorization()
+  @Get('me')
+  @HttpCode(HttpStatus.OK)
+  public me(@Req() req: Request) {
+    return this.authService.me(req);
+  }
 
   @Recaptcha()
   @Post('register')
@@ -48,7 +56,7 @@ export class AuthController {
   @UseGuards(AuthProviderGuard)
   public async callback(
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
+    @Res() res: Response,
     @Query('code') code: string,
     @Param('provider') provider: string
   ) {
@@ -59,9 +67,7 @@ export class AuthController {
     }
 
     await this.authService.extractProfileFromCode(req, provider, code);
-    return res.redirect(
-      `${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/dashboard/settings`
-    );
+    return res.redirect(`${this.configService.getOrThrow<string>('ALLOWED_ORIGIN')}/`);
   }
 
   @UseGuards(AuthProviderGuard)

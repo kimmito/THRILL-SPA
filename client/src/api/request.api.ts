@@ -7,7 +7,9 @@ import instance from './interceptors.api'
 export const request = async <T>(config: AxiosRequestConfig) => {
 	const onSuccess = (response: AxiosResponse<T>) => response.data
 	const onError = (error: AxiosError<T>) => {
-		toast.error(errorCatch(error))
+		if (error.response?.status !== 401) {
+			toast.error(errorCatch(error))
+		}
 
 		return Promise.reject(error)
 	}

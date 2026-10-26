@@ -16,11 +16,7 @@ export interface IAccount {
 	id: string
 	createdAt: string
 	updatedAt: string
-	type: string
 	provider: string
-	refreshToken: string
-	accessToken: string
-	expiresIn: number
 	userId: string
 }
 
@@ -29,12 +25,10 @@ export interface IUser {
 	createdAt: string
 	updatedAt: string
 	email: string
-	password: string
 	displayName: string
 	picture: string
 	role: UserRole
 	isVerified: boolean
-	isTwoFactorEnabled: boolean
 	method: AuthMethod
 	accounts: IAccount[]
 }

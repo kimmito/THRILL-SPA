@@ -1,6 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 
 import { AuthService } from '@/services/auth.service'
 
@@ -10,6 +10,8 @@ import type { TypeLoginSchema } from './login.schema'
 
 export const useLoginMutation = () => {
 	const navigate = useNavigate()
+	const location = useLocation()
+	const queryClient = useQueryClient()
 	const { mutate: login, isPending: isLoadingLogin } = useMutation({
 		mutationFn: ({
 			data,
@@ -21,7 +23,9 @@ export const useLoginMutation = () => {
 		mutationKey: ['login user'],
 		onSuccess() {
 			toast.success('Вы успешно вошли в систему.')
-			navigate('/')
+			const from = location.state?.from?.pathname ?? '/'
+			navigate(from, { replace: true })
+			queryClient.invalidateQueries({ queryKey: ['auth', 'me'] })
 		},
 		onError(error) {
 			toastMessageHandler(error)

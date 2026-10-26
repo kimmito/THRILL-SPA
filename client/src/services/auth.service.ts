@@ -8,6 +8,12 @@ import type { TypeLoginSchema } from '@/features/auth/login/login.schema'
 import type { TypeRegisterSchema } from '@/features/auth/register/register.schema'
 
 export const AuthService = {
+	async me() {
+		return request<IUser>({
+			url: getAuthUrl('/me'),
+			method: 'GET'
+		})
+	},
 	async register(data: TypeRegisterSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
 
@@ -33,6 +39,12 @@ export const AuthService = {
 		return request<{ url: string }>({
 			url: getAuthUrl(`/oauth/connect/${provider}`),
 			method: 'GET'
+		})
+	},
+	async logout() {
+		return request({
+			url: getAuthUrl('/logout'),
+			method: 'POST'
 		})
 	}
 }

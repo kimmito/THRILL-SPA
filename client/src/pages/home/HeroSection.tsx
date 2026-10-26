@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import { useAuth } from '@/hooks/useAuth'
+
 import heroImage from '@/assets/images/hero.jpg'
 
 import { useCategory } from './servicesSection/hooks/useCategory'
@@ -18,6 +20,8 @@ export const HeroSection = () => {
 		{ href: '#portfolio', label: 'Портфолио' },
 		{ href: '#map', label: 'Контакты' }
 	]
+
+	const { user } = useAuth()
 	const navigate = useNavigate()
 	const { categories } = useCategory()
 	const handleShopClick = () => {
@@ -73,14 +77,29 @@ export const HeroSection = () => {
 						Магазин
 					</AppButton>
 				</div>
-				<div className='flex flex-col gap-2'>
+
+				{!user ? (
+					<div className='flex flex-col gap-2'>
+						<AppButton
+							appVariant='link'
+							className='px-2'
+							onClick={() => navigate('/auth/login')}
+						>
+							<span>Войти в аккаунт</span>
+						</AppButton>
+						<AppButton
+							appVariant='link'
+							className='px-2'
+							onClick={() => navigate('/auth/register')}
+						>
+							Зарегистрироваться
+						</AppButton>
+					</div>
+				) : (
 					<AppButton appVariant='link' className='px-2'>
-						<span>Войти в аккаунт</span>
+						Выйти из аккаунта
 					</AppButton>
-					<AppButton appVariant='link' className='px-2'>
-						Зарегистрироваться
-					</AppButton>
-				</div>
+				)}
 			</div>
 			<div>
 				<img

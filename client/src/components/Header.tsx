@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { AiFillInstagram } from 'react-icons/ai'
 import { FaPhoneAlt, FaTelegramPlane, FaVk } from 'react-icons/fa'
+import { RxAvatar } from 'react-icons/rx'
 import { useLocation, useNavigate } from 'react-router'
+
+import { useProfile } from '@/hooks/useProfile'
 
 import { Navigation } from './Navigation'
 import { AppButton } from './ui/appButton/AppButton'
@@ -27,6 +30,7 @@ const socialLinks = [
 const Header = () => {
 	const [isHeroVisible, setIsHeroVisible] = useState(true)
 	const { pathname } = useLocation()
+	const { user } = useProfile()
 	const isShopPage = pathname.startsWith('/shop')
 	useEffect(() => {
 		if (isShopPage) return
@@ -104,6 +108,19 @@ const Header = () => {
 						className='w-full h-10! px-8 bg-button! text-[22px] hover:bg-transparent! hover:text-accent! hover:border-accent!'
 					>
 						+7 (961) 517-73-32
+					</AppButton>
+					<AppButton appVariant='icon' className='w-10 h-10!' onClick={() => navigate('/profile')}>
+						{user?.picture ? (
+							<img
+								src={user.picture}
+								alt='Avatar'
+								className='w-10 h-10 shrink-0 rounded-full object-cover'
+							/>
+						) : (
+							<div className='w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-button text-2xl'>
+								{user?.displayName?.[0]?.toUpperCase() ?? <RxAvatar />}
+							</div>
+						)}
 					</AppButton>
 				</div>
 			</div>
