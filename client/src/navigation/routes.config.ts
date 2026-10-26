@@ -1,7 +1,9 @@
 import type { ComponentType } from 'react'
 
-import { Register } from '@/pages/auth/Register'
+import type { UserRole } from '@/types/user.types'
+
 import { Login } from '@/pages/auth/Login'
+import { Register } from '@/pages/auth/Register'
 import Cart from '@/pages/cart/Cart'
 import Home from '@/pages/home/Home'
 import Profile from '@/pages/profile/Profile'
@@ -13,6 +15,9 @@ export interface IRoute {
 	title: string
 	component: ComponentType
 	layout?: boolean
+	protected?: boolean
+	guestOnly?: boolean
+	roles?: UserRole[]
 }
 
 export const appRoutes: IRoute[] = [
@@ -24,19 +29,22 @@ export const appRoutes: IRoute[] = [
 	{
 		path: '/profile',
 		title: 'Профиль',
-		component: Profile
+		component: Profile,
+		protected: true
 	},
 	{
 		path: '/auth/login',
 		title: 'Вход',
 		component: Login,
-		layout: false
+		layout: false,
+		guestOnly: true
 	},
 	{
 		path: '/auth/register',
 		title: 'Регистрация',
 		component: Register,
-		layout: false
+		layout: false,
+		guestOnly: true
 	},
 	{
 		path: '/shop',
@@ -45,5 +53,5 @@ export const appRoutes: IRoute[] = [
 	},
 	{ path: '/shop/:slug', title: 'Товар', component: ShopItemPage },
 
-	{ path: '/cart', title: 'Корзина', component: Cart }
+	{ path: '/cart', title: 'Корзина', component: Cart, protected: true }
 ]
