@@ -16,6 +16,7 @@ export const useLogoutMutation = () => {
 		onSuccess: () => {
 			toast.success('Вы успешно вышли из аккаунта')
 			queryClient.removeQueries({ queryKey: ['auth'] })
+			queryClient.removeQueries({ queryKey: ['profile'] })
 			navigate('/auth/login')
 		},
 		onError(error) {

@@ -1,20 +1,32 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RxAvatar } from 'react-icons/rx'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
+import { Loader } from '@/components/ui/Loader'
 
 import { useProfile } from '@/hooks/useProfile'
 
 import { EditBadge } from './EditBadge'
 import { SettingsForm } from '@/features/user/SettingsForm'
+import { useLogoutMutation } from '@/features/user/hooks/useLogoutMutation'
 
 const Profile = () => {
-	const { user, isLoading } = useProfile()
+	const { user, isLoading, isError, error } = useProfile()
 	const [isEditing, setIsEditing] = useState<boolean>(false)
+	const { logout, isLoadingLogout } = useLogoutMutation()
 
-	if (!user) {
-		toast.error('Пользователь не найден')
+	useEffect(() => {
+		if (isError) {
+			toast.error(error instanceof Error ? error.message : 'Не удалось загрузить профиль')
+		}
+	}, [error, isError])
+
+	if (isLoading) {
+		return <Loader />
+	}
+
+	if (isError || !user) {
 		return null
 	}
 
@@ -38,9 +50,18 @@ const Profile = () => {
 						</div>
 					)}
 
-					<h1 className='text-2xl font-bold m-0 leading-none flex-1'>
+					<p className='text-2xl font-bold m-0 leading-none flex-1'>
 						{isEditing ? 'Редактирование профиля' : 'Профиль'}
-					</h1>
+					</p>
+					<button
+						type='button'
+						className='text-sm! text-button hover:text-button/80'
+						onClick={() => {
+							logout()
+						}}
+					>
+						{isLoadingLogout ? 'Выход...' : 'Выйти из профиля'}
+					</button>
 
 					<AppButton
 						appVariant='outline'
@@ -51,7 +72,12 @@ const Profile = () => {
 					</AppButton>
 				</div>
 
-				<SettingsForm user={user} isLoading={isLoading} isEditing={isEditing} />
+				<SettingsForm
+					user={user}
+					isLoading={isLoading}
+					isEditing={isEditing}
+					onCancel={() => setIsEditing(false)}
+				/>
 			</div>
 		</div>
 	)

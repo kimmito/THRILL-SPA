@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth'
 import heroImage from '@/assets/images/hero.jpg'
 
 import { useCategory } from './servicesSection/hooks/useCategory'
+import { useLogoutMutation } from '@/features/user/hooks/useLogoutMutation'
 
 export type HeroSectionProps = {
 	servicesRef?: RefObject<HTMLDivElement | null> | null
@@ -28,6 +29,7 @@ export const HeroSection = () => {
 		navigate('/shop')
 		window.scrollTo({ top: 0, behavior: 'smooth' })
 	}
+	const { logout, isLoadingLogout } = useLogoutMutation()
 	return (
 		<section
 			className='relative flex h-[92vh] max-w-375 mx-auto px-4 mt-10 items-center justify-between gap-20'
@@ -96,8 +98,14 @@ export const HeroSection = () => {
 						</AppButton>
 					</div>
 				) : (
-					<AppButton appVariant='link' className='px-2'>
-						Выйти из аккаунта
+					<AppButton
+						appVariant='link'
+						className='px-2'
+						onClick={() => {
+							logout()
+						}}
+					>
+						{isLoadingLogout ? 'Выход...' : 'Выйти из аккаунта'}
 					</AppButton>
 				)}
 			</div>

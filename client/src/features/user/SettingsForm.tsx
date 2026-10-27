@@ -9,6 +9,7 @@ import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import type { IUser } from '@/types/user.types'
 
+import { useUpdateProfileMutation } from './hooks/useUpdateProfileMutation'
 import { SettingsSchema, type TypeSettingsSchema } from './settings.schema'
 
 interface SettingsFormProps {
@@ -44,8 +45,11 @@ export const SettingsForm = ({
 		})
 	}, [user, reset])
 
+	const { update, isLoadingUpdate } = useUpdateProfileMutation()
 	const onSubmit = (values: TypeSettingsSchema) => {
-		console.log(values)
+		update(values, {
+			onSuccess: () => onCancel?.()
+		})
 	}
 
 	if (!user || isLoading) return <Loader />
@@ -60,7 +64,7 @@ export const SettingsForm = ({
 				validateTrigger='onBlur'
 				variant='outlined'
 				requiredMark={false}
-				disabled={!isEditing || isSubmitting}
+				disabled={!isEditing || isSubmitting || isLoadingUpdate}
 			>
 				<Form.Item
 					label='Имя'
@@ -121,6 +125,7 @@ export const SettingsForm = ({
 								appVariant='primary'
 								htmlType='submit'
 								block
+								disabled={isSubmitting || isLoadingUpdate}
 								size='large'
 								className='text-copy! text-[18px]! hover:bg-button-hover! hover:text-accent!'
 								style={{

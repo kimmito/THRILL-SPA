@@ -5,6 +5,7 @@ import type { UserRole } from '@/types/user.types'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
 import Cart from '@/pages/cart/Cart'
+import { Forbidden } from '@/pages/forbidden/Forbidden'
 import Home from '@/pages/home/Home'
 import Profile from '@/pages/profile/Profile'
 import Shop from '@/pages/shop/Shop'
@@ -53,5 +54,6 @@ export const appRoutes: IRoute[] = [
 	},
 	{ path: '/shop/:slug', title: 'Товар', component: ShopItemPage },
 
-	{ path: '/cart', title: 'Корзина', component: Cart, protected: true }
+	{ path: '/cart', title: 'Корзина', component: Cart, protected: true },
+	{ path: '/forbidden', title: 'Доступ запрещен', component: Forbidden }
 ]
