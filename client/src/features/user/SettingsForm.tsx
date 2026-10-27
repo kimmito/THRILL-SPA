@@ -47,7 +47,9 @@ export const SettingsForm = ({
 
 	const { update, isLoadingUpdate } = useUpdateProfileMutation()
 	const onSubmit = (values: TypeSettingsSchema) => {
-		update(values)
+		update(values, {
+			onSuccess: () => onCancel?.()
+		})
 	}
 
 	if (!user || isLoading) return <Loader />
@@ -62,7 +64,7 @@ export const SettingsForm = ({
 				validateTrigger='onBlur'
 				variant='outlined'
 				requiredMark={false}
-				disabled={!isEditing || isSubmitting}
+				disabled={!isEditing || isSubmitting || isLoadingUpdate}
 			>
 				<Form.Item
 					label='Имя'

@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { RxAvatar } from 'react-icons/rx'
 
 import { AppButton } from '@/components/ui/appButton/AppButton'
+import { Loader } from '@/components/ui/Loader'
 
 import { useProfile } from '@/hooks/useProfile'
 
@@ -11,12 +12,21 @@ import { SettingsForm } from '@/features/user/SettingsForm'
 import { useLogoutMutation } from '@/features/user/hooks/useLogoutMutation'
 
 const Profile = () => {
-	const { user, isLoading } = useProfile()
+	const { user, isLoading, isError, error } = useProfile()
 	const [isEditing, setIsEditing] = useState<boolean>(false)
 	const { logout, isLoadingLogout } = useLogoutMutation()
 
-	if (!user) {
-		toast.error('Пользователь не найден')
+	useEffect(() => {
+		if (isError) {
+			toast.error(error instanceof Error ? error.message : 'Не удалось загрузить профиль')
+		}
+	}, [error, isError])
+
+	if (isLoading) {
+		return <Loader />
+	}
+
+	if (isError || !user) {
 		return null
 	}
 
@@ -62,7 +72,12 @@ const Profile = () => {
 					</AppButton>
 				</div>
 
-				<SettingsForm user={user} isLoading={isLoading} isEditing={isEditing} />
+				<SettingsForm
+					user={user}
+					isLoading={isLoading}
+					isEditing={isEditing}
+					onCancel={() => setIsEditing(false)}
+				/>
 			</div>
 		</div>
 	)
