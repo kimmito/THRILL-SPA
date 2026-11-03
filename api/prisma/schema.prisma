@@ -8,148 +8,160 @@ datasource db {
 }
 
 model Category {
-  id         Int      @id @default(autoincrement())
-  slug       String   @unique
-  name       String
-  sortOrder  Int      @default(0) @map("sort_order")
+  id        Int    @id @default(autoincrement())
+  slug      String @unique
+  name      String
+  sortOrder Int    @default(0) @map("sort_order")
 
-  services   Service[]
+  services Service[]
 
   @@map("categories")
 }
 
 model Service {
-  id         Int      @id @default(autoincrement())
-  sortOrder  Int      @default(0) @map("sort_order")
-  slug       String   @unique
-  name       String
-  price      String
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at")
-  categoryId Int      @map("category_id")
-  
-  category   Category @relation(fields: [categoryId], references: [id])
+  id              Int      @id @default(autoincrement())
+  sortOrder       Int      @default(0) @map("sort_order")
+  slug            String   @unique
+  name            String
+  price           Int
+  durationMinutes Int      @map("duration_minutes")
+  isActive        Boolean  @default(true) @map("is_active")
+  isBookable      Boolean  @default(true) @map("is_bookable")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  categoryId      Int      @map("category_id")
 
+  category      Category       @relation(fields: [categoryId], references: [id])
+  staffServices StaffService[]
+  appointments  Appointment[]
+
+  @@index([categoryId, isActive, isBookable])
   @@map("services")
 }
 
 model Review {
-  id         Int      @id @default(autoincrement())
-  imagePath  String?  @map("image_path")
-  date       DateTime
-  stars      Int
-  author     String
-  text       String
-  sortOrder  Int      @default(0) @map("sort_order")
+  id        Int      @id @default(autoincrement())
+  imagePath String?  @map("image_path")
+  date      DateTime
+  stars     Int
+  author    String
+  text      String
+  sortOrder Int      @default(0) @map("sort_order")
 
   @@map("reviews")
 }
 
 model Staff {
-  id         Int      @id @default(autoincrement())
-  name       String
-  role       String
-  photoPath  String   @map("photo_path")
-  isActive   Boolean  @default(true) @map("is_active")
-  sortOrder  Int      @default(0) @map("sort_order")
+  id             Int             @id @default(autoincrement())
+  name           String
+  role           String
+  photoPath      String          @map("photo_path")
+  isActive       Boolean         @default(true) @map("is_active")
+  sortOrder      Int             @default(0) @map("sort_order")
+  staffSchedules StaffSchedule[]
+  staffBreaks    StaffBreak[]
+  timeOffs       StaffTimeOff[]
+  staffServices  StaffService[]
+  appointments   Appointment[]
 
   @@map("staff")
 }
 
 model Portfolio {
-  id         Int      @id @default(autoincrement())
-  section    Section
-  imagePath  String   @map("image_path")
-  sortOrder  Int      @default(0) @map("sort_order")
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at")
+  id        Int      @id @default(autoincrement())
+  section   Section
+  imagePath String   @map("image_path")
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@map("portfolio")
 }
 
 model Offer {
-  id           Int      @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   title        String
-  slug         String   @unique
-  description1 String?  @map("description_1")
-  description2 String?  @map("description_2")
-  
-  offerItems   OfferItem[]
+  slug         String  @unique
+  description1 String? @map("description_1")
+  description2 String? @map("description_2")
+
+  offerItems OfferItem[]
 
   @@map("offers")
 }
 
 model OfferItem {
-  id         Int      @id @default(autoincrement())
-  offerId    Int      @map("offer_id")
-  title      String
-  value      String
-  isActive   Boolean  @default(true) @map("is_active")
-  createdAt  DateTime @default(now()) @map("created_at")
-  sortOrder  Int      @default(0) @map("sort_order")
-  
-  offer      Offer    @relation(fields: [offerId], references: [id])
+  id        Int      @id @default(autoincrement())
+  offerId   Int      @map("offer_id")
+  title     String
+  value     String
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  sortOrder Int      @default(0) @map("sort_order")
+
+  offer Offer @relation(fields: [offerId], references: [id])
 
   @@map("offer_items")
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   title       String
-  slug        String   @unique
+  slug        String  @unique
   description String?
-  imagePath   String?  @map("image_path")
-  isActive    Boolean  @default(true) @map("is_active")
+  imagePath   String? @map("image_path")
+  isActive    Boolean @default(true) @map("is_active")
 
   @@map("posts")
 }
 
 model ShopCategory {
-  id         Int      @id @default(autoincrement())
-  name       String
-  slug       String   @unique
-  sortOrder  Int      @default(0) @map("sort_order")
-  isActive   Boolean  @default(true) @map("is_active")
+  id        Int     @id @default(autoincrement())
+  name      String
+  slug      String  @unique
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
 
-  shopItems  ShopItem[]
+  shopItems ShopItem[]
 
   @@map("shop_categories")
 }
 
 model ShopItem {
-  id                  Int      @id @default(autoincrement())
-  name                String
-  slug                String   @unique
-  description         String?
-  price               Float
-  imagePath           String?  @map("image_path")
-  isActive            Boolean  @default(true) @map("is_active")
-  sortOrder           Int      @default(0) @map("sort_order")
-  createdAt           DateTime @default(now()) @map("created_at")
+  id                   Int      @id @default(autoincrement())
+  name                 String
+  slug                 String   @unique
+  description          String?
+  price                Float
+  imagePath            String?  @map("image_path")
+  isActive             Boolean  @default(true) @map("is_active")
+  sortOrder            Int      @default(0) @map("sort_order")
+  createdAt            DateTime @default(now()) @map("created_at")
   additionalImagePaths String[] @map("additional_image_paths")
-  shopCategoryId      Int      @map("shop_category_id")
-  
-  shopCategory        ShopCategory @relation(fields: [shopCategoryId], references: [id])
-  cartItems           CartItem[]
+  shopCategoryId       Int      @map("shop_category_id")
+
+  shopCategory ShopCategory @relation(fields: [shopCategoryId], references: [id])
+  cartItems    CartItem[]
 
   @@map("shop_items")
 }
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
+  id          String     @id @default(uuid())
+  email       String     @unique
   password    String
-  role        UserRole @default(REGULAR)
-  displayName String   @map("display_name")
-  isVerified  Boolean  @default(false) @map("is_verified")
+  role        UserRole   @default(REGULAR)
+  displayName String     @map("display_name")
+  isVerified  Boolean    @default(false) @map("is_verified")
   picture     String?
-  phoneNumber String?  @map("phone_number")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
+  phoneNumber String?    @map("phone_number")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
   method      AuthMethod
-  
-  cartItems   CartItem[]
-  accounts    Account[]
+
+  cartItems    CartItem[]
+  accounts     Account[]
+  appointments Appointment[]
 
   @@map("users")
 }
@@ -163,38 +175,134 @@ model Account {
   accessToken  String?  @map("access_token")
   expiresAt    Int?     @map("expires_at")
   userId       String?  @map("user_id")
-  
-  User         User?    @relation(fields: [userId], references: [id])
+
+  User User? @relation(fields: [userId], references: [id])
 
   @@map("accounts")
 }
 
 model Token {
-  id       String    @id @default(uuid())
-  email String
-  token    String @unique
-  type     EnumToken
-  expiresIn DateTime @map("expires_in")
-  createdAt DateTime @default(now()) @map("created_at")
+  id        String    @id @default(uuid())
+  email     String
+  token     String    @unique
+  type      EnumToken
+  expiresIn DateTime  @map("expires_in")
+  createdAt DateTime  @default(now()) @map("created_at")
+
   @@map("tokens")
 }
 
 model CartItem {
-  id          String   @id @default(cuid())
-  userId      String?  @map("user_id")
-  sessionId   String?  @map("session_id")
-  shopItemId  Int      @map("shop_item_id")
-  variantId   Int?     @map("variant_id")
-  quantity    Int      @default(1)
-  
-  shopItem    ShopItem @relation(fields: [shopItemId], references: [id])
-  user        User?    @relation(fields: [userId], references: [id])
+  id         String  @id @default(cuid())
+  userId     String? @map("user_id")
+  sessionId  String? @map("session_id")
+  shopItemId Int     @map("shop_item_id")
+  variantId  Int?    @map("variant_id")
+  quantity   Int     @default(1)
+
+  shopItem ShopItem @relation(fields: [shopItemId], references: [id])
+  user     User?    @relation(fields: [userId], references: [id])
 
   @@unique([userId, shopItemId, variantId])
   @@unique([sessionId, shopItemId, variantId])
   @@index([userId])
   @@index([sessionId])
   @@map("cart_items")
+}
+
+model StaffSchedule {
+  id          Int @id @default(autoincrement())
+  staffId     Int @map("staff_id")
+  dayOfWeek   Int @map("day_of_week")
+  startMinute Int @map("start_minute")
+  endMinute   Int @map("end_minute")
+
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId, dayOfWeek])
+  @@map("staff_schedules")
+}
+
+model StaffBreak {
+  id          Int     @id @default(autoincrement())
+  staffId     Int     @map("staff_id")
+  dayOfWeek   Int     @map("day_of_week")
+  startMinute Int     @map("start_minute")
+  endMinute   Int     @map("end_minute")
+  title       String?
+
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId, dayOfWeek])
+  @@map("staff_breaks")
+}
+
+model StaffTimeOff {
+  id      Int      @id @default(autoincrement())
+  staffId Int      @map("staff_id")
+  startAt DateTime @map("start_at")
+  endAt   DateTime @map("end_at")
+  reason  String?
+
+  staff Staff @relation(fields: [staffId], references: [id], onDelete: Cascade)
+
+  @@index([staffId, startAt, endAt])
+  @@map("staff_time_off")
+}
+
+model StaffService {
+  staffId   Int @map("staff_id")
+  serviceId Int @map("service_id")
+
+  staff   Staff   @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, serviceId])
+  @@map("staff_services")
+}
+
+model BusinessClosure {
+  id      Int      @id @default(autoincrement())
+  startAt DateTime @map("start_at")
+  endAt   DateTime @map("end_at")
+  reason  String?
+
+  @@index([startAt, endAt])
+  @@map("business_closures")
+}
+
+model Appointment {
+  id                      Int               @id @default(autoincrement())
+  staffId                 Int               @map("staff_id")
+  serviceId               Int               @map("service_id")
+  userId                  String            @map("user_id")
+  startAt                 DateTime          @map("start_at")
+  endAt                   DateTime          @map("end_at")
+  status                  AppointmentStatus @default(CONFIRMED)
+  comment                 String?
+  serviceNameSnapshot     String            @map("service_name_snapshot")
+  staffNameSnapshot       String            @map("staff_name_snapshot")
+  priceSnapshot           Int               @map("price_snapshot")
+  durationMinutesSnapshot Int               @map("duration_minutes_snapshot")
+  createdAt               DateTime          @default(now()) @map("created_at")
+  updatedAt               DateTime          @updatedAt @map("updated_at")
+
+  staff   Staff   @relation(fields: [staffId], references: [id])
+  service Service @relation(fields: [serviceId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([userId, startAt])
+  @@index([staffId, startAt])
+  @@index([status, startAt])
+  @@map("appointments")
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
 }
 
 enum Section {
@@ -215,6 +323,6 @@ enum AuthMethod {
 }
 
 enum EnumToken {
-  VERIFICATION 
+  VERIFICATION
   PASSWORD_RESET
 }

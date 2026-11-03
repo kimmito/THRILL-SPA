@@ -4,10 +4,10 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../generated/prisma/client';
 import { Pool } from 'pg';
 
-const connectionString = process.env.DATABASE_URL;
+const connectionString = process.env.DATABASE_URL ?? process.env.DB_URI;
 
 if (!connectionString) {
-  throw new Error('DATABASE_URL is not set');
+  throw new Error('DATABASE_URL or DB_URI is not set');
 }
 
 const pool = new Pool({ connectionString });
@@ -20,6 +20,12 @@ async function main() {
     await prisma.offerItem.deleteMany();
     await prisma.offer.deleteMany();
     await prisma.portfolio.deleteMany();
+    await prisma.appointment.deleteMany();
+    await prisma.businessClosure.deleteMany();
+    await prisma.staffTimeOff.deleteMany();
+    await prisma.staffBreak.deleteMany();
+    await prisma.staffSchedule.deleteMany();
+    await prisma.staffService.deleteMany();
     await prisma.staff.deleteMany();
     await prisma.review.deleteMany();
     await prisma.service.deleteMany();
@@ -61,136 +67,165 @@ async function main() {
         {
           slug: 'manicure-basic',
           name: 'Маникюр без покрытия',
-          price: '1500',
+          price: 1500,
+          durationMinutes: 60,
           categoryId: nailsCategory.id,
         },
         {
           slug: 'manicure-coating',
           name: 'Маникюр с покрытием',
-          price: '2300',
+          price: 2300,
+          durationMinutes: 120,
           categoryId: nailsCategory.id,
         },
         {
           slug: 'manicure-men',
           name: 'Мужской маникюр',
-          price: '1200',
+          price: 1200,
+          durationMinutes: 60,
           categoryId: nailsCategory.id,
         },
         {
           slug: 'manicure-combined-coating',
           name: 'Комбинированный маникюр с покрытием однотон',
-          price: '2500',
+          price: 2500,
+          durationMinutes: 150,
           categoryId: nailsCategory.id,
         },
         {
           slug: 'manicure-extension',
           name: 'Наращивание длины/сложная коррекция',
-          price: '3000',
+          price: 3000,
+          durationMinutes: 180,
           categoryId: nailsCategory.id,
         },
         {
           slug: 'manicure-design-simple',
-          name: 'Дизайн простой/сложный',
-          price: '+500/+900',
+          name: 'Дизайн простой',
+          price: 500,
+          durationMinutes: 30,
+          categoryId: nailsCategory.id,
+        },
+        {
+          slug: 'manicure-design-complex',
+          name: 'Дизайн сложный',
+          price: 900,
+          durationMinutes: 60,
           categoryId: nailsCategory.id,
         },
         // Брови
         {
           slug: 'brows-correction',
           name: 'Коррекция бровей',
-          price: '700',
+          price: 700,
+          durationMinutes: 30,
           categoryId: browsCategory.id,
         },
         {
           slug: 'brows-coloring',
           name: 'Окрашивание бровей',
-          price: '1000',
+          price: 1000,
+          durationMinutes: 45,
           categoryId: browsCategory.id,
         },
         {
           slug: 'brows-correction-coloring',
           name: 'Коррекция + окрашивание',
-          price: '1300',
+          price: 1300,
+          durationMinutes: 60,
           categoryId: browsCategory.id,
         },
         {
           slug: 'brows-lamination',
           name: 'Долговременная укладка',
-          price: '2000',
+          price: 2000,
+          durationMinutes: 90,
           categoryId: browsCategory.id,
         },
         {
           slug: 'brows-complex',
           name: 'Комплекс (окрашивание + долговременная укладка)',
-          price: '2700',
+          price: 2700,
+          durationMinutes: 120,
           categoryId: browsCategory.id,
         },
         {
           slug: 'brows-face-depilation',
           name: 'Депиляция зоны лица',
-          price: '500',
+          price: 500,
+          durationMinutes: 30,
           categoryId: browsCategory.id,
         },
         // Ресницы
         {
           slug: 'lashes-classic',
           name: 'Классика',
-          price: '2000',
+          price: 2000,
+          durationMinutes: 120,
           categoryId: lashesCategory.id,
         },
         {
           slug: 'lashes-15d',
           name: '1.5D',
-          price: '2300',
+          price: 2300,
+          durationMinutes: 150,
           categoryId: lashesCategory.id,
         },
         {
           slug: 'lashes-2d',
           name: '2D',
-          price: '2600',
+          price: 2600,
+          durationMinutes: 150,
           categoryId: lashesCategory.id,
         },
         {
           slug: 'lashes-25d',
           name: '2.5D',
-          price: '2900',
+          price: 2900,
+          durationMinutes: 180,
           categoryId: lashesCategory.id,
         },
         {
           slug: 'lashes-3d',
           name: '3D',
-          price: '3300',
+          price: 3300,
+          durationMinutes: 180,
           categoryId: lashesCategory.id,
         },
         {
           slug: 'lashes-lamination',
           name: 'Ламинирование ресниц',
-          price: '2000',
+          price: 2000,
+          durationMinutes: 90,
           categoryId: lashesCategory.id,
         },
         // Педикюр
         {
           slug: 'pedicure-basic',
           name: 'Педикюр без покрытия',
-          price: '1800',
+          price: 1800,
+          durationMinutes: 90,
           categoryId: pedicureCategory.id,
         },
         {
           slug: 'pedicure-feet-only',
           name: 'Педикюр только стопы/пальцы',
-          price: '1500',
+          price: 1500,
+          durationMinutes: 60,
           categoryId: pedicureCategory.id,
         },
         {
           slug: 'pedicure-coating-no-feet',
           name: 'Педикюр с покрытием без стопы',
-          price: '2500',
+          price: 2500,
+          durationMinutes: 120,
           categoryId: pedicureCategory.id,
         },
         {
           slug: 'pedicure-complex',
           name: 'Педикюр комплекс',
-          price: '3000',
+          price: 3000,
+          durationMinutes: 150,
           categoryId: pedicureCategory.id,
         },
       ],
@@ -252,6 +287,68 @@ async function main() {
           photoPath: '/src/assets/images/team/master-04.png',
         },
       ],
+    });
+
+    const staff = await prisma.staff.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+    const services = await prisma.service.findMany({
+      select: {
+        id: true,
+        slug: true,
+      },
+    });
+    const staffByName = new Map(staff.map((item) => [item.name, item.id]));
+    const serviceBySlug = new Map(services.map((item) => [item.slug, item.id]));
+
+    const staffServiceLinks = [
+      ['Анна Петрова', 'manicure-basic'],
+      ['Анна Петрова', 'manicure-coating'],
+      ['Анна Петрова', 'manicure-men'],
+      ['Анна Петрова', 'manicure-combined-coating'],
+      ['Светлана Иванова', 'pedicure-basic'],
+      ['Светлана Иванова', 'pedicure-feet-only'],
+      ['Светлана Иванова', 'pedicure-coating-no-feet'],
+      ['Светлана Иванова', 'pedicure-complex'],
+      ['Екатерина Смирнова', 'manicure-extension'],
+      ['Мария Кузнецова', 'manicure-design-simple'],
+      ['Мария Кузнецова', 'manicure-design-complex'],
+    ]
+      .map(([staffName, serviceSlug]) => {
+        const staffId = staffByName.get(staffName);
+        const serviceId = serviceBySlug.get(serviceSlug);
+
+        if (!staffId || !serviceId) {
+          throw new Error(`Unable to seed staff service link: ${staffName}/${serviceSlug}`);
+        }
+
+        return { staffId, serviceId };
+      });
+
+    await prisma.staffService.createMany({
+      data: staffServiceLinks,
+    });
+
+    await prisma.staffSchedule.createMany({
+      data: staff.flatMap(({ id }) => [1, 2, 3, 4, 5, 6].map((dayOfWeek) => ({
+        staffId: id,
+        dayOfWeek,
+        startMinute: 600,
+        endMinute: 1200,
+      }))),
+    });
+
+    await prisma.staffBreak.createMany({
+      data: staff.flatMap(({ id }) => [1, 2, 3, 4, 5, 6].map((dayOfWeek) => ({
+        staffId: id,
+        dayOfWeek,
+        startMinute: 840,
+        endMinute: 900,
+        title: 'Обед',
+      }))),
     });
 
     await prisma.portfolio.createMany({
