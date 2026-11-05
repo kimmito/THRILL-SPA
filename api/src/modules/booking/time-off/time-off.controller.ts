@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
 import { TimeOffService } from './time-off.service';
 import { CreateTimeOffDto } from './dto/create-time-off.dto';
+import { Authorization } from '@src/modules/auth/decorators/auth.decorator';
+import { UserRole } from '../../../../generated/prisma/enums';
 
+@Authorization(UserRole.ADMIN)
 @Controller('admin/staff/:staffId/time-off')
 export class TimeOffController {
   constructor(private readonly timeOffService: TimeOffService) {}

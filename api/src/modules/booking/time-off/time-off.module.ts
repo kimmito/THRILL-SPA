@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TimeOffController } from './time-off.controller';
 import { TimeOffService } from './time-off.service';
+import { UserModule } from '@src/modules/user/user.module';
 
 @Module({
+  imports: [UserModule],
   controllers: [TimeOffController],
   providers: [TimeOffService],
   exports: [TimeOffService],
