@@ -19,6 +19,23 @@ export class StaffService {
       },
     });
   }
+  async getByStaffId(staffId: number) {
+    const staff = await this.prisma.client.staff.findUnique({
+      where: {
+        id: staffId,
+        isActive: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        photoPath: true,
+        role: true,
+      },
+    });
+    if (!staff) {
+      throw new NotFoundException('Мастер не найден');
+    }
+  }
   async getByServiceId(serviceId: number) {
     const staff = await this.prisma.client.staff.findMany({
       where: {

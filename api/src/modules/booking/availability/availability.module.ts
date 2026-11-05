@@ -7,5 +7,6 @@ import { StaffModule } from '@src/modules/staff/staff.module';
   controllers: [AvailabilityController],
   providers: [AvailabilityService],
   imports: [StaffModule],
+  exports: [AvailabilityService],
 })
 export class AvailabilityModule {}

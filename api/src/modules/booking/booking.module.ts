@@ -3,8 +3,8 @@ import { ScheduleModule } from './schedule/schedule.module';
 import { BreakModule } from './break/break.module';
 import { TimeOffModule } from './time-off/time-off.module';
 import { AvailabilityModule } from './availability/availability.module';
-import { AppointmentModule } from './appointment/appointment.module';
 import { BusinessClosureModule } from './business-closure/business-closure.module';
+import { AppointmentsModule } from '@src/modules/booking/appointment/appointment.module';
 
 @Module({
   imports: [
@@ -12,8 +12,8 @@ import { BusinessClosureModule } from './business-closure/business-closure.modul
     BreakModule,
     TimeOffModule,
     AvailabilityModule,
-    AppointmentModule,
     BusinessClosureModule,
+    AppointmentsModule,
   ],
 })
 export class BookingModule {}
