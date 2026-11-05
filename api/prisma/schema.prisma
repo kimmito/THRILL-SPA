@@ -258,6 +258,7 @@ model StaffService {
   service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
   @@id([staffId, serviceId])
+  @@index([serviceId])
   @@map("staff_services")
 }
 
@@ -275,7 +276,9 @@ model Appointment {
   id                      Int               @id @default(autoincrement())
   staffId                 Int               @map("staff_id")
   serviceId               Int               @map("service_id")
-  userId                  String            @map("user_id")
+  userId                  String?           @map("user_id")
+  guestEmail              String?           @map("guest_email")
+  guestCancellationTokenHash String?        @unique(map: "appointments_guest_cancellation_token_hash_key") @map("guest_cancellation_token_hash")
   startAt                 DateTime          @map("start_at")
   endAt                   DateTime          @map("end_at")
   status                  AppointmentStatus @default(CONFIRMED)
@@ -289,7 +292,7 @@ model Appointment {
 
   staff   Staff   @relation(fields: [staffId], references: [id])
   service Service @relation(fields: [serviceId], references: [id])
-  user    User    @relation(fields: [userId], references: [id])
+  user    User?    @relation(fields: [userId], references: [id])
 
   @@index([userId, startAt])
   @@index([staffId, startAt])
