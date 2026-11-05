@@ -3,7 +3,11 @@ export interface Service {
 	categoryId: number
 	isActive: boolean
 	name: string
-	price: string
+	price: number
+	durationMinutes: number
+	isBookable: boolean
+	createdAt: string
+	updatedAt: string
 	slug: string
 	sortOrder: number
 }

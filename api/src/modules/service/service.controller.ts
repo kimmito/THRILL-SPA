@@ -14,4 +14,9 @@ export class ServiceController {
   getByCategoryId(@Param('categoryId') categoryId: string) {
     return this.serviceService.getByCategoryId(Number(categoryId));
   }
+
+  @Get(':slug')
+  getBySlug(@Param('slug') slug: string) {
+    return this.serviceService.getBySlug(slug);
+  }
 }

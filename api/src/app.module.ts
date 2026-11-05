@@ -12,6 +12,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { ProviderModule } from './modules/auth/provider/provider.module';
+import { BookingModule } from './modules/booking/booking.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,6 +30,7 @@ import { ProviderModule } from './modules/auth/provider/provider.module';
     ReviewsModule,
     ShopModule,
     ProviderModule,
+    BookingModule,
   ],
   controllers: [],
   providers: [],

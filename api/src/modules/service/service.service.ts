@@ -16,7 +16,11 @@ export class ServiceService {
         slug: true,
         sortOrder: true,
         price: true,
+        durationMinutes: true,
         isActive: true,
+        isBookable: true,
+        createdAt: true,
+        updatedAt: true,
         categoryId: true,
       },
     });
@@ -36,7 +40,11 @@ export class ServiceService {
         slug: true,
         sortOrder: true,
         price: true,
+        durationMinutes: true,
         isActive: true,
+        isBookable: true,
+        createdAt: true,
+        updatedAt: true,
         categoryId: true,
       },
     });
@@ -45,7 +53,7 @@ export class ServiceService {
   async getBySlug(slug: string) {
     return await this.prisma.client.service.findFirst({
       where: {
-        name: slug,
+        slug,
       },
       select: {
         id: true,
@@ -53,7 +61,11 @@ export class ServiceService {
         slug: true,
         sortOrder: true,
         price: true,
+        durationMinutes: true,
         isActive: true,
+        isBookable: true,
+        createdAt: true,
+        updatedAt: true,
         categoryId: true,
       },
     });
