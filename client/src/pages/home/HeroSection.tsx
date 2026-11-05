@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth'
 import heroImage from '@/assets/images/hero.jpg'
 
 import { useCategory } from './servicesSection/hooks/useCategory'
+import { useBooking } from '@/features/booking/context/useBooking'
 import { useLogoutMutation } from '@/features/user/hooks/useLogoutMutation'
 
 export type HeroSectionProps = {
@@ -25,6 +26,7 @@ export const HeroSection = () => {
 	const { user } = useAuth()
 	const navigate = useNavigate()
 	const { categories } = useCategory()
+	const { openBooking } = useBooking()
 	const handleShopClick = () => {
 		navigate('/shop')
 		window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -68,7 +70,11 @@ export const HeroSection = () => {
 				</div>
 
 				<div className='mt-12 mb-18 flex w-full justify-between'>
-					<AppButton appVariant='primary' className='w-75 py-6 text-2xl!'>
+					<AppButton
+						appVariant='primary'
+						className='w-75 py-6 text-2xl!'
+						onClick={() => openBooking()}
+					>
 						Онлайн-запись
 					</AppButton>
 					<AppButton

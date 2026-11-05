@@ -1,12 +1,14 @@
+
+
 import ScrollVelocity from '@/components/ui/ScrollVelocity'
 
 import AboutSection from './AboutSection'
 import { HeroSection } from './HeroSection'
+import OffersSection from './offersSection/OffersSection'
 import PortfolioSection from './portfolioSection/PortfolioSection'
 import ReportsSection from './reviewSection/ReviewSection'
 import { ServicesSection } from './servicesSection/ServicesSection'
 import StaffSection from './staffSection/StaffSection'
-import OffersSection from './offersSection/OffersSection'
 import MapSection from '@/pages/home/MapSection'
 
 const Home = () => {
