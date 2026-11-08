@@ -54,7 +54,6 @@ export class StaffService {
         name: true,
         photoPath: true,
         role: true,
-        isActive: true,
       },
     });
     if (!staff || staff.length === 0) {

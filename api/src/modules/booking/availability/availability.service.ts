@@ -86,6 +86,18 @@ export class AvailabilityService {
     return { schedules, breaks, timeOffs, businessClosures, appointments };
   }
 
+  private parseDate(date: string): Date {
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) ? new Date(`${date}T00:00:00`) : new Date(date);
+  }
+
+  private formatDate(date: Date): string {
+    return [
+      date.getFullYear(),
+      String(date.getMonth() + 1).padStart(2, '0'),
+      String(date.getDate()).padStart(2, '0'),
+    ].join('-');
+  }
+
   private isSlotAvailable(
     context: Awaited<ReturnType<AvailabilityService['getSlotContext']>>,
     startAt: Date,
@@ -170,7 +182,7 @@ export class AvailabilityService {
     return slots;
   }
   async getAvailableSlots(dto: GetAvailabilityDto) {
-    const selectedDate = new Date(dto.date);
+    const selectedDate = this.parseDate(dto.date);
     const staff = await this.staffService.getByServiceId(dto.serviceId);
 
     if (dto.staffId) {
@@ -187,7 +199,7 @@ export class AvailabilityService {
       );
 
       return {
-        date: dto.date,
+        date: this.formatDate(selectedDate),
         mode: 'specific_staff' as const,
         slots: calculatedSlots.map(slot => ({
           ...slot,
@@ -229,7 +241,7 @@ export class AvailabilityService {
     );
 
     return {
-      date: dto.date,
+      date: this.formatDate(selectedDate),
       mode: 'any_staff' as const,
       slots,
     };
@@ -240,14 +252,18 @@ export class AvailabilityService {
     const staff = await this.staffService.getByServiceId(dto.serviceId);
     const staffIds = dto.staffId ? [dto.staffId] : staff.map(s => s.id);
     if (dto.staffId) {
+      if (!staff.some(item => item.id === dto.staffId)) {
+        throw new NotFoundException('Мастер не оказывает выбранную услугу');
+      }
+
       for (let offset = 0; offset < 30; offset++) {
         const date = new Date();
         date.setHours(0, 0, 0, 0);
         date.setDate(date.getDate() + offset);
         const slots = await this.calculateStaffSlots(dto.serviceId, dto.staffId, date);
-        availableDates.push({ date: date.toISOString().slice(0, 10), available: slots.length > 0 });
+        availableDates.push({ date: this.formatDate(date), available: slots.length > 0 });
       }
-      return { dates: availableDates };
+      return { staffIds, dates: availableDates };
     }
 
     for (let offset = 0; offset < 30; offset++) {
@@ -259,7 +275,7 @@ export class AvailabilityService {
         staff.map(currentStaff => this.calculateStaffSlots(dto.serviceId, currentStaff.id, date))
       );
       const hasAvailableSlots = staffSlots.some(slots => slots.length > 0);
-      availableDates.push({ date: date.toISOString().slice(0, 10), available: hasAvailableSlots });
+      availableDates.push({ date: this.formatDate(date), available: hasAvailableSlots });
     }
 
     return {
