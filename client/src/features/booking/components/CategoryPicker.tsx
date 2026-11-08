@@ -45,8 +45,8 @@ export const CategoryPicker = () => {
 	}
 
 	return (
-		<div>
-			<h1 className='text-4xl text-base uppercase mb-10'>
+		<div className='mt-10'>
+			<h1 className='text-3xl text-base uppercase mb-10'>
 				{!activeCategory
 					? 'Выберите категорию'
 					: `Выберите услугу из категории ${activeCategory.name}`}

@@ -1,4 +1,4 @@
-import { type ReactNode, useMemo, useState } from 'react'
+import { type ReactNode, useState } from 'react'
 
 import type { BookingDraft, BookingStep } from '../types/booking.types'
 
@@ -46,15 +46,17 @@ export const BookingProvider = ({ children }: BookingProviderProps) => {
 	}
 
 	const selectStaff = (staffId: number | null) => {
-		setDraft(prev => ({ ...prev, staffId, date: null, startAt: null }))
-		setStep('date')
+		setDraft(prev => ({
+			...prev,
+			staffId,
+			...(step === 'staff' ? { date: null, startAt: null } : {})
+		}))
 	}
 	const selectDate = (date: string) => {
 		setDraft(prev => ({ ...prev, date, startAt: null }))
 	}
 	const selectSlot = (startAt: string) => {
 		setDraft(prev => ({ ...prev, startAt: startAt }))
-		setStep('contact')
 	}
 
 	const setComment = (comment: string) => {
@@ -83,26 +85,23 @@ export const BookingProvider = ({ children }: BookingProviderProps) => {
 		setStep(nextStep)
 	}
 
-	const value = useMemo<BookingContextValue>(
-		() => ({
-			open,
-			step,
-			draft,
-			openBooking,
-			closeBooking,
-			resetBooking,
-			selectService,
-			selectStaff,
-			selectDate,
-			selectSlot,
-			setComment,
-			setEmail,
-			goBack,
-			nextStep,
-			goToStep
-		}),
-		[open, step, draft]
-	)
+	const value: BookingContextValue = {
+		open,
+		step,
+		draft,
+		openBooking,
+		closeBooking,
+		resetBooking,
+		selectService,
+		selectStaff,
+		selectDate,
+		selectSlot,
+		setComment,
+		setEmail,
+		goBack,
+		nextStep,
+		goToStep
+	}
 
 	return (
 		<BookingContext.Provider value={value}>{children}</BookingContext.Provider>

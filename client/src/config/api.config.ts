@@ -17,3 +17,6 @@ export const getPostUrl = (string: string) => `/post${string}`
 
 // auth
 export const getAuthUrl = (string: string) => `/auth${string}`
+
+// booking
+export const getAvailabilityUrl = (string: string) => `/booking/availability${string}`
