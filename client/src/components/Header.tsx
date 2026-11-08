@@ -8,6 +8,7 @@ import { useProfile } from '@/hooks/useProfile'
 
 import { Navigation } from './Navigation'
 import { AppButton } from './ui/appButton/AppButton'
+import { useBooking } from '@/features/booking/context/useBooking'
 
 const socialLinks = [
 	{
@@ -29,6 +30,7 @@ const socialLinks = [
 
 const Header = () => {
 	const [isHeroVisible, setIsHeroVisible] = useState(true)
+	const { openBooking } = useBooking()
 	const { pathname } = useLocation()
 	const { user } = useProfile()
 	const isShopPage = pathname.startsWith('/shop')
@@ -82,6 +84,7 @@ const Header = () => {
 					<AppButton
 						appVariant='primary'
 						className='text-lg! hover:text-accent! mx-7 px-7 py-4.5 hover:bg-transparent! shadow-lg '
+						onClick={() => openBooking()}
 					>
 						Онлайн-запись
 					</AppButton>
@@ -109,12 +112,16 @@ const Header = () => {
 					>
 						+7 (961) 517-73-32
 					</AppButton>
-					<AppButton appVariant='icon' className='w-10 h-10!' onClick={() => navigate('/profile')}>
+					<AppButton
+						appVariant='icon'
+						className='w-10 h-10!'
+						onClick={() => navigate('/profile')}
+					>
 						{user?.picture ? (
 							<img
 								src={user.picture}
 								alt='Avatar'
-								className='w-10 h-10 shrink-0 rounded-full object-cover'
+								className='w-10 h-10 shrink-0 object-cover'
 							/>
 						) : (
 							<div className='w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-button text-2xl'>

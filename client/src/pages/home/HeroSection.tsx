@@ -106,7 +106,7 @@ export const HeroSection = () => {
 				) : (
 					<AppButton
 						appVariant='link'
-						className='px-2'
+						className='px-2 -mt-5 opacity-60 hover:opacity-100'
 						onClick={() => {
 							logout()
 						}}
