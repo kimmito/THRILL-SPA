@@ -10,7 +10,9 @@ const initialDraft: BookingDraft = {
 	date: null,
 	startAt: null,
 	guestEmail: '',
-	comment: ''
+	comment: '',
+	name: '',
+	phone: ''
 }
 const STEPS: BookingStep[] = ['service', 'staff', 'date', 'contact', 'confirm']
 type BookingProviderProps = {
@@ -66,6 +68,15 @@ export const BookingProvider = ({ children }: BookingProviderProps) => {
 	const setEmail = (email: string) => {
 		setDraft(prev => ({ ...prev, guestEmail: email }))
 	}
+
+	const setName = (name: string) => {
+		setDraft(prev => ({ ...prev, name }))
+	}
+
+	const setPhone = (phone: string) => {
+		setDraft(prev => ({ ...prev, phone }))
+	}
+
 	const goBack = () => {
 		setStep(prev => {
 			const idx = STEPS.indexOf(prev)
@@ -98,6 +109,9 @@ export const BookingProvider = ({ children }: BookingProviderProps) => {
 		selectSlot,
 		setComment,
 		setEmail,
+		setName,
+		setPhone,
+
 		goBack,
 		nextStep,
 		goToStep

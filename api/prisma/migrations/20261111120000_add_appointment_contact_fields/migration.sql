@@ -1,0 +1,7 @@
+ALTER TABLE "appointments"
+  ADD COLUMN "name" TEXT NOT NULL DEFAULT '',
+  ADD COLUMN "phone" TEXT NOT NULL DEFAULT '';
+
+ALTER TABLE "appointments"
+  ALTER COLUMN "name" DROP DEFAULT,
+  ALTER COLUMN "phone" DROP DEFAULT;

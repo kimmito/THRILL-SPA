@@ -17,6 +17,8 @@ export type BookingContextValue = {
 	selectSlot: (startAt: string) => void
 	setComment: (comment: string) => void
 	setEmail: (email: string) => void
+	setName: (name: string) => void
+	setPhone: (phone: string) => void
 
 	goBack: () => void
 	nextStep: () => void

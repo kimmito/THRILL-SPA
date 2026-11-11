@@ -274,6 +274,8 @@ model BusinessClosure {
 
 model Appointment {
   id                      Int               @id @default(autoincrement())
+  name                    String            @map("name")
+  phone                   String            @map("phone")
   staffId                 Int               @map("staff_id")
   serviceId               Int               @map("service_id")
   userId                  String?           @map("user_id")

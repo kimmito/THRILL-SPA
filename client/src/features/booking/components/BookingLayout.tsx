@@ -6,7 +6,7 @@ import type { BookingStep } from '../types/booking.types'
 import { BookingDatePicker } from './BookingDatePicker'
 import { CategoryPicker } from './CategoryPicker'
 import { ConfirmBooking } from './ConfirmBooking'
-import { ContactForm } from './ContactForm'
+import { ContactForm } from './ContactForm/ContactForm'
 import { StaffPicker } from './StaffPicker'
 
 const STEPS: { key: BookingStep; title: string }[] = [

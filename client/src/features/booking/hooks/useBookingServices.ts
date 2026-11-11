@@ -1,6 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 
 import { BookingService } from '../services/booking.service'
+
+import type { CreateAppointmentProps } from './../types/booking.types'
 
 export const useAvailableDates = (serviceId: number, staffId?: number) => {
 	const { data: availableDates, isLoading } = useQuery({
@@ -11,7 +13,11 @@ export const useAvailableDates = (serviceId: number, staffId?: number) => {
 	return { availableDates: availableDates?.dates ?? [], isLoading }
 }
 
-export const useAvailableSlots = (serviceId: number, date: string | null, staffId?: number) => {
+export const useAvailableSlots = (
+	serviceId: number,
+	date: string | null,
+	staffId?: number
+) => {
 	const { data: availableSlots, isLoading } = useQuery({
 		queryKey: ['slots', serviceId, date, staffId],
 		queryFn: () => {
@@ -25,4 +31,14 @@ export const useAvailableSlots = (serviceId: number, date: string | null, staffI
 	})
 
 	return { availableSlots: availableSlots?.slots ?? [], isLoading }
+}
+
+export const useCreateAppointment = () => {
+	const { mutate: createAppointment, isPending: isCreating } = useMutation({
+		mutationKey: ['appointment', 'create'],
+		mutationFn: (data: CreateAppointmentProps) =>
+			BookingService.createAppointment(data)
+	})
+
+	return { createAppointment, isCreating }
 }

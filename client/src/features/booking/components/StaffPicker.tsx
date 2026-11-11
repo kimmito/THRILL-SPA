@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { FaChevronRight } from 'react-icons/fa'
+import { FaArrowLeft, FaChevronRight } from 'react-icons/fa'
 
 import { useBooking } from '../context/useBooking'
 
 import { useStaffByService } from '@/pages/home/staffSection/useStaff'
 
 export const StaffPicker = () => {
-	const { draft, goToStep, selectStaff, nextStep } = useBooking()
+	const { draft, goToStep, selectStaff, nextStep, goBack } = useBooking()
 	const [isAnyStaffSelected, setIsAnyStaffSelected] = useState(false)
 	const selectedService = draft.serviceId
 
@@ -79,6 +79,14 @@ export const StaffPicker = () => {
 					</div>
 				</button>
 			))}
+			<button
+				type='button'
+				onClick={() => goBack()}
+				className='inline-flex mt-5 items-center justify-center gap-2 rounded-lg border border-base px-5 py-3 hover:bg-base/5 text-base text-[18px]'
+			>
+				<FaArrowLeft className='mr-5' />
+				Назад
+			</button>
 		</div>
 	)
 }

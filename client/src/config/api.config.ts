@@ -20,3 +20,4 @@ export const getAuthUrl = (string: string) => `/auth${string}`
 
 // booking
 export const getAvailabilityUrl = (string: string) => `/booking/availability${string}`
+export const getAppointmentUrl = (string: string) => `/appointments${string}`

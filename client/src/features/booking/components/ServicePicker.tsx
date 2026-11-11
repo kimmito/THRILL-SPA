@@ -8,7 +8,7 @@ export const ServicePicker = ({ categoryId }: ServicePickerProps) => {
 	const { draft, selectService } = useBooking()
 	const { services } = useServicesByCategoryId(categoryId)
 	return (
-		<div className='flex flex-col ml-4 items-start'>
+		<div className='flex flex-col ml-4 items-start '>
 			{services.map(service => (
 				<button
 					key={service.id}
