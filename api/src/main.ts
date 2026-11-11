@@ -1,5 +1,5 @@
 import 'dotenv/config';
-
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
@@ -13,6 +13,13 @@ import { parseBoolean } from './libs/common/utils/parse-boolean.util';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const swaggerConfig = new DocumentBuilder().build();
+
+  // Создаем документ (используем фабрику для оптимизации)
+  const documentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
+
+  // Монтируем Swagger UI по пути /api
+  SwaggerModule.setup('api', app, documentFactory);
 
   const config = app.get(ConfigService);
 
