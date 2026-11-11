@@ -1,4 +1,6 @@
 import type { PropsWithChildren } from 'react'
+import { FaArrowLeft } from 'react-icons/fa'
+import { useNavigate } from 'react-router'
 
 import Grainient from '@/components/ui/Gradient'
 
@@ -20,9 +22,18 @@ export const AuthWrapper = ({
 	backButtonHref,
 	isShowSocial
 }: AuthWrapperProps) => {
+	const navigate = useNavigate()
 	return (
 		<>
-			<div className='w-130 mx-auto my-20 p-10 bg-panel shadow-xl'>
+			<div className='w-130 mx-auto my-20 p-10 relative bg-panel shadow-xl'>
+				<div className='absolute -top-8 left-0 '>
+					<button
+						className='text-xl flex items-center gap-1 cursor-pointer'
+						onClick={() => navigate('/')}
+					>
+						<FaArrowLeft /> Вернуться на главную
+					</button>
+				</div>
 				<h2 className='text-3xl text-head'>{heading}</h2>
 				<p className='mb-5'>{description}</p>
 				{isShowSocial && <AuthSocial />}
