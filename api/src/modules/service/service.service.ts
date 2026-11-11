@@ -7,6 +7,9 @@ export class ServiceService {
 
   async getAll() {
     return await this.prisma.client.service.findMany({
+      where: {
+        isActive: true,
+      },
       orderBy: {
         sortOrder: 'asc',
       },
@@ -17,7 +20,6 @@ export class ServiceService {
         sortOrder: true,
         price: true,
         durationMinutes: true,
-        isActive: true,
         isBookable: true,
         createdAt: true,
         updatedAt: true,

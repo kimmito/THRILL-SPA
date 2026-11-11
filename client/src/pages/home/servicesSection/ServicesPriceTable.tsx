@@ -4,6 +4,7 @@ import { AppButton } from '@/components/ui/appButton/AppButton'
 import type { Service } from '@/types/service.type'
 
 import { useServicesByCategoryId } from './hooks/useService'
+import { useBooking } from '@/features/booking/context/useBooking'
 
 type ServicesPriceTableProps = {
 	ref: React.RefObject<HTMLDivElement | null>
@@ -13,6 +14,7 @@ export const ServicesPriceTable = ({
 	ref,
 	categoryId
 }: ServicesPriceTableProps) => {
+	const { openBooking } = useBooking()
 	const {
 		services,
 		isLoading
@@ -43,10 +45,15 @@ export const ServicesPriceTable = ({
 				<AppButton
 					className='flex-2 hover:bg-transparent hover:text-accent! hover:border-accent'
 					appVariant='primary'
+					onClick={() => openBooking()}
 				>
 					Онлайн-запись
 				</AppButton>
-				<AppButton className='flex-1' appVariant='outline' onClick={() => window.location.hash = '#portfolio'}>
+				<AppButton
+					className='flex-1'
+					appVariant='outline'
+					onClick={() => (window.location.hash = '#portfolio')}
+				>
 					Портфолио
 				</AppButton>
 			</div>

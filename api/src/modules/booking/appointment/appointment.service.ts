@@ -162,6 +162,8 @@ export class AppointmentsService {
     try {
       const appointment = await this.service.client.appointment.create({
         data: {
+          name: dto.name,
+          phone: dto.phone,
           userId: user?.id,
           guestEmail: user ? undefined : dto.guestEmail,
           guestCancellationTokenHash: cancellationToken
