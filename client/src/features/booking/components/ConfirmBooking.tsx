@@ -13,7 +13,7 @@ import { FaPhoneAlt } from 'react-icons/fa'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
 import { useBooking } from '../context/useBooking'
-import { useCreateAppointment } from '../hooks/useBookingServices'
+import { useCreateAppointment } from '../hooks/useAppointmentsService'
 
 import { useServices } from '@/pages/home/servicesSection/hooks/useService'
 import { useStaffByService } from '@/pages/home/staffSection/useStaff'
