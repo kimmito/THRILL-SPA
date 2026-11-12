@@ -1,0 +1,5 @@
+ALTER TABLE "users"
+  ADD COLUMN "method" "AuthMethod" NOT NULL DEFAULT 'CREDENTIALS';
+
+ALTER TABLE "users"
+  ALTER COLUMN "method" DROP DEFAULT;
