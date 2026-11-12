@@ -8,11 +8,13 @@ import {
   Post,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { UserRole } from '../../../../generated/prisma/enums';
 import { Authorization } from '@src/modules/auth/decorators/auth.decorator';
 import { Authorized } from '@src/modules/auth/decorators/authorized.decorator';
+import { OptionalAuthGuard } from '@src/modules/auth/guards/optional-auth.guard';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { RescheduleAppointmentDto } from './dto/reschedule-appointment.dto';
 import { AppointmentsService } from './appointment.service';
@@ -22,6 +24,7 @@ export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
 
   @Post()
+  @UseGuards(OptionalAuthGuard)
   createAppointment(@Body() dto: CreateAppointmentDto, @Req() req: Request) {
     return this.appointmentsService.createAppointment(dto, req.user);
   }

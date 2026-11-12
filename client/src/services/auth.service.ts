@@ -7,6 +7,10 @@ import { request } from '@/api/request.api'
 import type { TypeLoginSchema } from '@/features/auth/login/login.schema'
 import type { TypeRegisterSchema } from '@/features/auth/register/register.schema'
 
+type AuthResponse = {
+	user: IUser
+}
+
 export const AuthService = {
 	async me() {
 		return request<IUser>({
@@ -17,7 +21,7 @@ export const AuthService = {
 	async register(data: TypeRegisterSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
 
-		return request<IUser>({
+		return request<AuthResponse>({
 			url: getAuthUrl('/register'),
 			method: 'POST',
 			data,
@@ -27,7 +31,7 @@ export const AuthService = {
 	async login(data: TypeLoginSchema, recaptcha?: string) {
 		const headers = recaptcha ? { recaptcha } : undefined
 
-		return request<IUser>({
+		return request<AuthResponse>({
 			url: getAuthUrl('/login'),
 			method: 'POST',
 			data,

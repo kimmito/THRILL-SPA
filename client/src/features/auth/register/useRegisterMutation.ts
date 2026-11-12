@@ -24,7 +24,7 @@ export const useRegisterMutation = () => {
 				'Успешная регистрация. Пожалуйста, проверьте вашу почту для подтверждения аккаунта.'
 				
 			)
-			navigate('/dashboard/settings')
+			navigate('/profile')
 		},
 		onError(error) {
 			toastMessageHandler(error)

@@ -37,7 +37,8 @@ export type AvailableSlots = {
 	slots: AvailableSlot[]
 }
 
-type Appointment = {
+export type Appointment = {
+	id: number
 	name: string
 	phone: string
 	userId: number

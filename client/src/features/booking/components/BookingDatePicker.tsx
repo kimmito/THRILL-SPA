@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { FaArrowLeft, FaArrowRight, FaChevronRight } from 'react-icons/fa'
+
 // import useOverflowScroll from 'use-overflow-scroll'
 
 import { Loader } from '@/components/ui/Loader'
@@ -8,7 +9,7 @@ import { useBooking } from '../context/useBooking'
 import {
 	useAvailableDates,
 	useAvailableSlots
-} from '../hooks/useBookingServices'
+} from '../hooks/useAvailabilityService'
 import type { AvailableSlot } from '../types/booking.types'
 
 const WEEKDAYS_SHORT = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
