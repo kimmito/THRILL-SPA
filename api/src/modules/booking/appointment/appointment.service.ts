@@ -28,7 +28,7 @@ export class AppointmentsService {
   async getMyAppointments(userId: string) {
     return this.service.client.appointment.findMany({
       where: { userId },
-      orderBy: { startAt: 'asc' },
+      orderBy: { startAt: 'desc' },
     });
   }
 
@@ -138,6 +138,18 @@ export class AppointmentsService {
       throw new BadRequestException('Для гостевой записи необходимо указать email');
     }
 
+    const phone = dto.phone ? this.normalizePhone(dto.phone) : user?.phoneNumber?.trim();
+    if (!phone) {
+      throw new BadRequestException('Необходимо указать номер телефона');
+    }
+
+    if (user?.id && user.phoneNumber !== phone) {
+      await this.service.client.user.update({
+        where: { id: user.id },
+        data: { phoneNumber: phone },
+      });
+    }
+
     const service = await this.availabilityService.getBookableService(dto.serviceId);
     const staff = await this.service.client.staff.findFirst({
       where: {
@@ -163,7 +175,7 @@ export class AppointmentsService {
       const appointment = await this.service.client.appointment.create({
         data: {
           name: dto.name,
-          phone: dto.phone,
+          phone,
           userId: user?.id,
           guestEmail: user ? undefined : dto.guestEmail,
           guestCancellationTokenHash: cancellationToken
@@ -223,6 +235,10 @@ export class AppointmentsService {
 
   private hashToken(token: string): string {
     return createHash('sha256').update(token).digest('hex');
+  }
+
+  private normalizePhone(phone: string): string {
+    return `+${phone.replace(/\D/g, '')}`;
   }
 
   private isAppointmentOverlapError(error: unknown): boolean {

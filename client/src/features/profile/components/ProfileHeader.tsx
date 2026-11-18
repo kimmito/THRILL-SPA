@@ -25,8 +25,8 @@ export const ProfileHeader = ({
 	logout
 }: ProfileHeaderProps) => {
 	return (
-		<div>
-			<div className='flex items-center gap-4 mb-8 w-full hover:cursor-pointer'>
+		<div className='h-105'>
+			<div className=' flex items-center gap-4 mb-8 w-full hover:cursor-pointer'>
 				{user?.picture ? (
 					<div className='relative group'>
 						<img
@@ -43,12 +43,12 @@ export const ProfileHeader = ({
 					</div>
 				)}
 
-				<p className='text-2xl font-bold m-0 leading-none flex-1'>
+				<p className='text-2xl font-bold m-0 leading-none cursor-auto flex-1'>
 					{isEditing ? 'Редактирование профиля' : 'Профиль'}
 				</p>
 				<button
 					type='button'
-					className='text-sm! text-button hover:text-button/80'
+					className='text-sm! text-copy/80 cursor-pointer hover:text-copy'
 					onClick={() => {
 						logout()
 					}}

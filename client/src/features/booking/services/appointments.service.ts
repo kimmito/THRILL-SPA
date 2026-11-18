@@ -19,5 +19,12 @@ export const AppointmentsService = {
 			url: getAppointmentUrl('/my'),
 			method: 'GET'
 		})
+	},
+
+	async cancelMyAppointment(appointmentId: number) {
+		return request<void>({
+			url: getAppointmentUrl(`/cancel/${appointmentId}`),
+			method: 'PATCH'
+		})
 	}
 }

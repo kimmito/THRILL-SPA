@@ -1,68 +1,18 @@
 import { Loader } from '@/components/ui/Loader'
 import { AppButton } from '@/components/ui/appButton/AppButton'
 
+import { AppointmentRow } from './AppointmentRow'
 import { useBooking } from '@/features/booking/context/useBooking'
 import { useGetMyAppointments } from '@/features/booking/hooks/useAppointmentsService'
-import type { Appointment } from '@/features/booking/types/booking.types'
-
-interface AppointmentRowProps {
-	appointment: Appointment
-}
-
-interface FormattedDateTime {
-	date: string
-	time: string
-}
-
-const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
-	day: '2-digit',
-	month: '2-digit',
-	year: '2-digit'
-})
-
-const timeFormatter = new Intl.DateTimeFormat('ru-RU', {
-	hour: '2-digit',
-	minute: '2-digit'
-})
-
-const splitDateTime = (input: string): FormattedDateTime => {
-	const date = new Date(input)
-
-	if (isNaN(date.getTime())) {
-		return { date: '-', time: '-' }
-	}
-
-	return {
-		date: dateFormatter.format(date),
-		time: timeFormatter.format(date)
-	}
-}
-
-const AppointmentRow = ({ appointment }: AppointmentRowProps) => {
-	const { date: startDate, time: startTime } = splitDateTime(
-		appointment.startAt
-	)
-	const { time: endTime } = splitDateTime(appointment.endAt)
-
-	return (
-		<div>
-			<span>{appointment.serviceNameSnapshot}</span>
-			<span>{appointment.staffNameSnapshot}</span>
-			<span>
-				{startDate} {startTime} - {endTime}
-			</span>
-		</div>
-	)
-}
 
 export const UserAppointments = () => {
 	const { appointments, isLoading, isError } = useGetMyAppointments()
 	const { openBooking } = useBooking()
 
 	return (
-		<div>
+		<div className='max-h-105 overflow-y-scroll scrollbar-thumb-gray-400'>
 			<h2 className='border-b border-base text-2xl uppercase'>Ваши записи</h2>
-			<div>
+			<div className='mr-2'>
 				{isLoading ? (
 					<Loader />
 				) : isError ? (
