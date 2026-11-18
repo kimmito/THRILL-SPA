@@ -32,8 +32,8 @@ const Profile = () => {
 	}
 
 	return (
-		<div className='flex flex-col items-center justify-center min-h-screen'>
-			<div className='max-w-xl w-full bg-base/80 border border-button/30 shadow-md p-10'>
+		<div className='h-105 flex flex-row items-center justify-center min-h-screen gap-3'>
+			<div className='max-w-xl w-full bg-base/80 border border-button/30 shadow-md p-10 min-h-100'>
 				<ProfileHeader
 					user={user}
 					isEditing={isEditing}
@@ -43,7 +43,9 @@ const Profile = () => {
 					setIsEditing={setIsEditing}
 				/>
 			</div>
-			<UserAppointments />
+			<div className='max-w-xl w-full bg-base/80 border border-button/30 shadow-md p-10 min-h-100'>
+				<UserAppointments />
+			</div>
 		</div>
 	)
 }
