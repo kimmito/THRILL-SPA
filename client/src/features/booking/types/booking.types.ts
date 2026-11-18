@@ -1,5 +1,16 @@
 import type { Staff } from '@/types/staff.type'
 
+export const AppointmentStatus = {
+	PENDING: 'PENDING',
+	CONFIRMED: 'CONFIRMED',
+	CANCELLED: 'CANCELLED',
+	COMPLETED: 'COMPLETED',
+	NO_SHOW: 'NO_SHOW'
+} as const
+
+export type AppointmentStatus =
+	(typeof AppointmentStatus)[keyof typeof AppointmentStatus]
+
 export type AvailableDate = {
 	date: string
 	available: boolean
@@ -53,6 +64,7 @@ export type Appointment = {
 	staffNameSnapshot: string
 	priceSnapshot: number
 	durationMinutesSnapshot: number
+	status: AppointmentStatus
 }
 
 export type CreatedAppointment = {

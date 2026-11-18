@@ -28,3 +28,16 @@ export const useGetMyAppointments = () => {
 	})
 	return { appointments, isLoading, isError }
 }
+export const useCancelMyAppointment = () => {
+	const queryClient = useQueryClient()
+	const { mutate: cancelAppointment, isPending: isCancelling } = useMutation({
+		mutationKey: ['appointment', 'cancel'],
+		mutationFn: (appointmentId: number) =>
+			AppointmentsService.cancelMyAppointment(appointmentId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ['appointments', 'my'] })
+		}
+	})
+
+	return { cancelAppointment, isCancelling }
+}
