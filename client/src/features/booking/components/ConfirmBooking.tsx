@@ -161,10 +161,12 @@ export const ConfirmBooking = () => {
 								<FaUser className='mt-1 text-base/70' />
 								<span className='text-[18px]'>{draft.name}</span>
 							</div>
-							<div className='flex items-center gap-1'>
-								<AiOutlineMail className='mt-1 text-base/70' />
-								<span className='text-[18px]'>{draft.guestEmail}</span>
-							</div>
+							{draft.guestEmail && (
+								<div className='flex items-center gap-1'>
+									<AiOutlineMail className='mt-1 text-base/70' />
+									<span className='text-[18px]'>{draft.guestEmail}</span>
+								</div>
+							)}
 							<div className='flex items-center gap-1'>
 								<FaPhoneAlt className='mt-1 text-base/70' />
 								<span className='text-[18px]'>{draft.phone}</span>

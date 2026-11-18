@@ -1,4 +1,4 @@
-import { MailOutlined, UserOutlined } from '@ant-design/icons'
+import { MailOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, Input } from 'antd'
 import { useEffect } from 'react'
@@ -34,14 +34,16 @@ export const SettingsForm = ({
 		resolver: zodResolver(SettingsSchema),
 		defaultValues: {
 			name: user.displayName || '',
-			email: user.email || ''
+			email: user.email || '',
+			phoneNumber: user.phoneNumber || ''
 		}
 	})
 
 	useEffect(() => {
 		reset({
 			name: user.displayName || '',
-			email: user.email || ''
+			email: user.email || '',
+			phoneNumber: user.phoneNumber || ''
 		})
 	}, [user, reset])
 
@@ -96,7 +98,7 @@ export const SettingsForm = ({
 					label='Email'
 					validateStatus={errors.email ? 'error' : undefined}
 					help={errors.email?.message}
-					style={{ marginBottom: 34 }}
+					style={{ marginBottom: 16 }}
 				>
 					<Controller
 						control={control}
@@ -118,8 +120,34 @@ export const SettingsForm = ({
 					/>
 				</Form.Item>
 
+				<Form.Item
+					label='Номер телефона'
+					validateStatus={errors.phoneNumber ? 'error' : undefined}
+					help={errors.phoneNumber?.message}
+					style={{ marginBottom: 34 }}
+				>
+					<Controller
+						control={control}
+						name='phoneNumber'
+						render={({ field }) => (
+							<Input
+								{...field}
+								prefix={
+									<PhoneOutlined style={{ color: '#bfbfbf', marginRight: 8 }} />
+								}
+								placeholder='+7 (900) 000-00-00'
+								type='tel'
+								autoComplete='tel'
+								size='large'
+								disabled={!isEditing || isSubmitting}
+								className='bg-transparent p-2 pl-3 -mt-2 text-[16px] border border-button/30 cursor-default! disabled:bg-transparent text-copy/75 disabled:cursor-default!'
+							/>
+						)}
+					/>
+				</Form.Item>
+
 				{isEditing && (
-					<div className='flex gap-3'>
+					<div className='flex gap-3 -mt-2'>
 						<Form.Item style={{ marginBottom: 0, flex: 1 }}>
 							<AppButton
 								appVariant='primary'

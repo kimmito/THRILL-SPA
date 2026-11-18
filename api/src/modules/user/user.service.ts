@@ -107,11 +107,19 @@ export class UserService {
       data: {
         email: dto.email,
         displayName: dto.name,
+        ...(dto.phoneNumber !== undefined
+          ? { phoneNumber: this.normalizePhone(dto.phoneNumber) }
+          : {}),
       },
       include: {
         accounts: true,
       },
     });
     return this.toPublicUser(updatedUser);
+  }
+
+  private normalizePhone(phone: string): string | null {
+    const digits = phone.replace(/\D/g, '');
+    return digits.length === 11 ? `+${digits}` : null;
   }
 }

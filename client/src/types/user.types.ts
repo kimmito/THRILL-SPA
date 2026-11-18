@@ -27,6 +27,7 @@ export interface IUser {
 	email: string
 	displayName: string
 	picture: string
+	phoneNumber: string | null
 	role: UserRole
 	isVerified: boolean
 	method: AuthMethod

@@ -21,7 +21,7 @@ export const ContactForm = () => {
 		resolver: zodResolver(contactSchema),
 		defaultValues: {
 			name: user?.displayName ?? '',
-			phone: '',
+			phone: user?.phoneNumber ?? '',
 			email: user?.email ?? '',
 			comment: ''
 		}
@@ -71,21 +71,23 @@ export const ContactForm = () => {
 						</p>
 					)}
 				</div>
-				<div className='mb-5'>
-					<label htmlFor='email' className='text-xl text-base block'>
-						Почта
-					</label>
-					<input
-						{...register('email')}
-						id='email'
-						className='border border-base p-2 text-base/80 w-full'
-					/>
-					{errors.email && (
-						<p className='text-red-500 text-[16px] mt-1'>
-							{errors.email.message}
-						</p>
-					)}
-				</div>
+				{!user && (
+					<div className='mb-5'>
+						<label htmlFor='email' className='text-xl text-base block'>
+							Почта
+						</label>
+						<input
+							{...register('email')}
+							id='email'
+							className='border border-base p-2 text-base/80 w-full'
+						/>
+						{errors.email && (
+							<p className='text-red-500 text-[16px] mt-1'>
+								{errors.email.message}
+							</p>
+						)}
+					</div>
+				)}
 				<div className='mb-5'>
 					<label htmlFor='comment' className='text-xl text-base block'>
 						Комментарий
