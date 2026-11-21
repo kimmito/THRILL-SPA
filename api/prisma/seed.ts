@@ -304,6 +304,23 @@ async function main() {
     const staffByName = new Map(staff.map((item) => [item.name, item.id]));
     const serviceBySlug = new Map(services.map((item) => [item.slug, item.id]));
 
+    await prisma.review.updateMany({
+      where: { author: 'Иван Иванов' },
+      data: { staffId: staffByName.get('Анна Петрова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Мария Петрова' },
+      data: { staffId: staffByName.get('Светлана Иванова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Алексей Смирнов' },
+      data: { staffId: staffByName.get('Екатерина Смирнова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Елена Кузнецова' },
+      data: { staffId: staffByName.get('Мария Кузнецова')! },
+    });
+
     const staffServiceLinks = [
       ['Анна Петрова', 'manicure-basic'],
       ['Анна Петрова', 'manicure-coating'],
@@ -372,8 +389,7 @@ async function main() {
       data: {
         title: 'Скидки на повторные посещения',
         slug: 'repeat-visits',
-        description1: null,
-        description2: null,
+        description: null,
         offerItems: {
           create: [
             {
@@ -400,9 +416,10 @@ async function main() {
       data: {
         title: 'Подарочные сертификаты',
         slug: 'certificates',
-        description1:
+        description: [
           'Электронный сертификат - универсальный подарок для близких, который не будет пылиться на полке.',
-        description2: 'Действует на все услуги и товары. Отображается в личном кабинете.',
+          'Действует на все услуги и товары. Отображается в личном кабинете.',
+        ],
         offerItems: {
           create: [
             {

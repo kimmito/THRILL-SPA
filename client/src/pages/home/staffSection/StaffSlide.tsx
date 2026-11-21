@@ -62,6 +62,19 @@ export const StaffSlide = ({
 					<div className='text-head text-[14px] lg:text-[20px]'>
 						{activePerson.role}
 					</div>
+					{activePerson.reviewCount > 0 ? (
+						<>
+							<div className='mt-1 text-[14px] text-head lg:text-[18px]'>
+								★ {activePerson.rating?.toFixed(1)} · {activePerson.reviewCount}{' '}
+								{activePerson.reviewCount === 1 ? 'отзыв' : 'отзывов'}
+							</div>
+							{activePerson.reviews[0] ? (
+								<div className='mx-auto mt-2 max-w-150 line-clamp-2 text-[13px] text-copy lg:text-[16px]'>
+									«{activePerson.reviews[0].text}»
+								</div>
+							) : null}
+						</>
+					) : null}
 				</div>
 				<AppButton
 					aria-label='Следующий мастер'

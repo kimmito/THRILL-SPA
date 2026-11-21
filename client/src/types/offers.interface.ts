@@ -1,7 +1,6 @@
 export interface Offer {
 	id: number
-	description1: string
-	description2: string
+	description: string[] | null
 	slug: string
 	title: string
 	offerItems: OfferItem[]

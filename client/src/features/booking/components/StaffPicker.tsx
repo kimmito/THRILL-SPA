@@ -72,6 +72,13 @@ export const StaffPicker = () => {
 						<div className='ml-8 text-black text-start flex-1'>
 							<h2 className='text-2xl'>{currentStaff.name}</h2>
 							<p>{currentStaff.role}</p>
+							<p className='mt-1 text-base text-head'>
+								{currentStaff.reviewCount > 0
+									? `★ ${currentStaff.rating?.toFixed(1)} · ${currentStaff.reviewCount} ${
+											currentStaff.reviewCount === 1 ? 'отзыв' : 'отзывов'
+										}`
+									: 'Пока нет отзывов'}
+							</p>
 						</div>
 						<div>
 							<FaChevronRight className='w-20 h-8 text-base/30 group-hover:text-base' />

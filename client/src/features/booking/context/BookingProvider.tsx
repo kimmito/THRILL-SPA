@@ -1,8 +1,12 @@
 import { type ReactNode, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
 
 import type { BookingDraft, BookingStep } from '../types/booking.types'
 
 import { BookingContext, type BookingContextValue } from './BookingContext'
+import { REQUIRE_AUTH_FOR_BOOKING } from '@/config/booking.config'
+import { useAuth } from '@/hooks/useAuth'
 
 const initialDraft: BookingDraft = {
 	serviceId: null,
@@ -23,8 +27,21 @@ export const BookingProvider = ({ children }: BookingProviderProps) => {
 	const [open, setOpen] = useState(false)
 	const [step, setStep] = useState<BookingStep>('service')
 	const [draft, setDraft] = useState<BookingDraft>(initialDraft)
+	const navigate = useNavigate()
+	const location = useLocation()
+	const { authenticated, isLoading: isAuthLoading } = useAuth()
 
 	const openBooking = () => {
+		if (REQUIRE_AUTH_FOR_BOOKING && isAuthLoading) {
+			return
+		}
+		if (REQUIRE_AUTH_FOR_BOOKING && !authenticated) {
+			toast.error('Для записи необходимо войти в аккаунт')
+			navigate('/auth/login', {
+				state: { from: { pathname: location.pathname } }
+			})
+			return
+		}
 		setOpen(true)
 	}
 

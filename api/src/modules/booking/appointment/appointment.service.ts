@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { createHash, randomBytes } from 'node:crypto';
 import { User } from '../../../../generated/prisma/client';
@@ -11,6 +12,7 @@ import { PrismaService } from '@src/prisma/prisma.service';
 import { AvailabilityService } from '../availability/availability.service';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 import { RescheduleAppointmentDto } from './dto/reschedule-appointment.dto';
+import { REQUIRE_AUTH_FOR_BOOKING } from '@src/config/booking.config';
 
 const ACTIVE_STATUSES: AppointmentStatus[] = [
   AppointmentStatus.PENDING,
@@ -134,6 +136,10 @@ export class AppointmentsService {
   }
 
   async createAppointment(dto: CreateAppointmentDto, user?: User) {
+    if (REQUIRE_AUTH_FOR_BOOKING && !user?.id) {
+      throw new UnauthorizedException('Для записи необходимо войти в аккаунт');
+    }
+
     if (!user?.id && !dto.guestEmail) {
       throw new BadRequestException('Для гостевой записи необходимо указать email');
     }

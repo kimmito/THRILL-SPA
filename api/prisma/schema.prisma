@@ -45,7 +45,10 @@ model Review {
   author    String
   text      String
   sortOrder Int      @default(0) @map("sort_order")
+  staffId   Int?     @map("staff_id")
+  staff     Staff?   @relation(fields: [staffId], references: [id], onDelete: SetNull)
 
+  @@index([staffId, sortOrder])
   @@map("reviews")
 }
 
@@ -61,6 +64,7 @@ model Staff {
   staffSchedules StaffSchedule[]
   staffServices  StaffService[]
   timeOffs       StaffTimeOff[]
+  reviews        Review[]
 
   @@map("staff")
 }
@@ -80,8 +84,7 @@ model Offer {
   id           Int         @id @default(autoincrement())
   title        String
   slug         String      @unique
-  description1 String?     @map("description_1")
-  description2 String?     @map("description_2")
+  description  Json?       @map("description")
   offerItems   OfferItem[]
 
   @@map("offers")

@@ -25,12 +25,14 @@ const GiftCertificateSlide = ({offer}: {offer: Offer}) => {
 			</div>
 			<div className='relative -top-3'>
 				<div className='mx-auto max-w-150 text-center'>
-					{offer.description1 && (
-						<p className='mt-20 text-xl'>{offer.description1}</p>
-					)}
-					{offer.description2 && (
-						<p className='mt-4 text-xl'>{offer.description2}</p>
-					)}
+					{offer.description?.map((text, index) => (
+						<p
+							key={`${index}-${text}`}
+							className={index === 0 ? 'mt-20 text-xl' : 'mt-4 text-xl'}
+						>
+							{text}
+						</p>
+					))}
 				</div>
 
 				<div className='mx-auto mt-15 w-max'>
