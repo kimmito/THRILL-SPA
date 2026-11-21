@@ -372,8 +372,7 @@ async function main() {
       data: {
         title: 'Скидки на повторные посещения',
         slug: 'repeat-visits',
-        description1: null,
-        description2: null,
+        description: null,
         offerItems: {
           create: [
             {
@@ -400,9 +399,10 @@ async function main() {
       data: {
         title: 'Подарочные сертификаты',
         slug: 'certificates',
-        description1:
+        description: [
           'Электронный сертификат - универсальный подарок для близких, который не будет пылиться на полке.',
-        description2: 'Действует на все услуги и товары. Отображается в личном кабинете.',
+          'Действует на все услуги и товары. Отображается в личном кабинете.',
+        ],
         offerItems: {
           create: [
             {
