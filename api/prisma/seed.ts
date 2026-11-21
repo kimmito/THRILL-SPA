@@ -304,6 +304,23 @@ async function main() {
     const staffByName = new Map(staff.map((item) => [item.name, item.id]));
     const serviceBySlug = new Map(services.map((item) => [item.slug, item.id]));
 
+    await prisma.review.updateMany({
+      where: { author: 'Иван Иванов' },
+      data: { staffId: staffByName.get('Анна Петрова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Мария Петрова' },
+      data: { staffId: staffByName.get('Светлана Иванова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Алексей Смирнов' },
+      data: { staffId: staffByName.get('Екатерина Смирнова')! },
+    });
+    await prisma.review.updateMany({
+      where: { author: 'Елена Кузнецова' },
+      data: { staffId: staffByName.get('Мария Кузнецова')! },
+    });
+
     const staffServiceLinks = [
       ['Анна Петрова', 'manicure-basic'],
       ['Анна Петрова', 'manicure-coating'],

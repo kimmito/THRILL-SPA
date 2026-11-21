@@ -30,6 +30,19 @@ export const StaffCard = ({
 					<p className='text-copy mt-1 text-[16px] leading-tight lg:text-[20px]'>
 						{member.role}
 					</p>
+					{member.reviewCount > 0 ? (
+						<p className='mt-2 text-[12px] text-head'>
+							★ {member.rating?.toFixed(1)} · {member.reviewCount}{' '}
+							{member.reviewCount === 1 ? 'отзыв' : 'отзывов'}
+						</p>
+					) : (
+						<p className='mt-2 text-[14px] text-copy'>Пока нет отзывов</p>
+					)}
+					{showCaption && member.reviews[0] ? (
+						<p className='mt-2 mx-auto max-w-100 line-clamp-2 text-[14px] text-copy'>
+							«{member.reviews[0].text}»
+						</p>
+					) : null}
 				</div>
 			) : null}
 		</article>
