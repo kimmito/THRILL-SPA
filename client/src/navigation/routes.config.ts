@@ -2,6 +2,7 @@ import type { ComponentType } from 'react'
 
 import type { UserRole } from '@/types/user.types'
 
+import { AdminPanel } from '@/pages/admin-panel/AdminPanel'
 import { Login } from '@/pages/auth/Login'
 import { Register } from '@/pages/auth/Register'
 import Cart from '@/pages/cart/Cart'
@@ -55,5 +56,13 @@ export const appRoutes: IRoute[] = [
 	{ path: '/shop/:slug', title: 'Товар', component: ShopItemPage },
 
 	{ path: '/cart', title: 'Корзина', component: Cart, protected: true },
-	{ path: '/forbidden', title: 'Доступ запрещен', component: Forbidden }
+	{ path: '/forbidden', title: 'Доступ запрещен', component: Forbidden },
+
+	{
+		path: '/admin',
+		title: 'Админ-панель',
+		component: AdminPanel,
+		protected: true,
+		roles: ['ADMIN']
+	}
 ]
